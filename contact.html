@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>🤖</text></svg>" type="image/svg+xml">
+  <title>संपर्क — Ads4you Maharashtra Government AI</title>
+  <meta name="description" content="Contact Ads4you to begin a Maharashtra Government AI pilot.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #FAF7F2;
+      --bg-card: #F0EBE3;
+      --ink: #12141A;
+      --saffron: #FF6B00;
+      --saffron-deep: #E45E00;
+      --gold: #C9A84C;
+      --mist: #6B7280;
+      --border: rgba(201,168,76,0.2);
+    }
+    [data-theme="dark"] {
+      --bg: #0B0C10;
+      --bg-card: #12141A;
+      --ink: #F5F3EE;
+      --saffron: #FF6B00;
+      --saffron-deep: #FF5A00;
+      --gold: #C9A84C;
+      --mist: #8A8FA8;
+      --border: rgba(201,168,76,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'Manrope', sans-serif;
+      background: linear-gradient(180deg, #FFF7EC 0%, #FAF7F2 35%, #F7EFE0 100%);
+      color: var(--ink);
+      overflow-x: hidden;
+      cursor: auto;
+    }
+    [data-theme="dark"] body {
+      background: linear-gradient(180deg, #14161C 0%, #0B0C10 35%, #11141B 100%);
+    }
+    [lang="mr"] {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 1.08em;
+      line-height: 1.65;
+    }
+
+    .cursor {
+      width: 12px; height: 12px; background: var(--saffron); border-radius: 50%; position: fixed;
+      pointer-events: none; z-index: 9999; mix-blend-mode: difference; transition: transform .2s ease;
+    }
+    .cursor-ring {
+      width: 40px; height: 40px; border: 1px solid var(--saffron); border-radius: 50%; position: fixed;
+      pointer-events: none; z-index: 9998; transition: transform .3s ease;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center;
+      background: rgba(250,247,242,0.84); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] nav {
+      background: rgba(11,12,16,0.9); border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
+    .logo-ads, .logo-you { color: #FF6B00; }
+    .logo-four { color: #C9A84C; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--mist); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--saffron); }
+    .nav-controls { display: flex; gap: 1rem; }
+    .toggle-btn {
+      background: var(--bg-card); border: 1px solid var(--border); padding: .5rem 1rem; border-radius: 20px;
+      cursor: pointer; font-size: .85rem; color: var(--ink); transition: all .3s;
+    }
+    .toggle-btn:hover { background: var(--saffron); color: #fff; border-color: var(--saffron); }
+
+    .hero {
+      min-height: 92vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 8rem 3rem 4rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .particle { position: absolute; width: 2px; height: 2px; background: var(--gold); border-radius: 50%; opacity: .35; }
+    .hero-content { position: relative; z-index: 1; max-width: 1050px; }
+    .section-label { font-size: .75rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 1.8rem; opacity: .8; }
+    .hero-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 900; line-height: 1.05;
+      margin-bottom: 1.3rem; color: var(--ink);
+    }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(1.2rem, 2.4vw, 1.85rem); line-height: 1.65;
+      color: var(--mist); max-width: 900px; margin: 0 auto;
+    }
+
+    .section { padding: 4rem 3rem; }
+    .section-heading {
+      font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+      text-align: center; color: var(--ink); margin-bottom: 2.5rem;
+    }
+
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+    .step-card {
+      background: rgba(255,255,255,.55); border: 1px solid var(--border); border-radius: 26px; padding: 2rem;
+      backdrop-filter: blur(12px);
+    }
+    [data-theme="dark"] .step-card { background: rgba(255,255,255,.03); }
+    .step-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .step-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: .6rem; color: var(--ink); }
+    .step-text { font-size: .98rem; color: var(--mist); line-height: 1.75; }
+
+    .contact-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 1.5rem; max-width: 1300px; margin: 0 auto; }
+    .contact-card {
+      background: rgba(255,255,255,.6); border: 1px solid var(--border); border-radius: 28px; padding: 2rem;
+      backdrop-filter: blur(12px); transition: transform .35s, box-shadow .35s, border-color .35s;
+    }
+    [data-theme="dark"] .contact-card { background: rgba(255,255,255,.03); }
+    .contact-card:hover { transform: translateY(-4px); box-shadow: 0 18px 45px rgba(0,0,0,.08); }
+    .email-card {
+      background: linear-gradient(135deg, var(--saffron), var(--saffron-deep)); color: #fff; border-color: transparent;
+      box-shadow: 0 0 0 rgba(255,107,0,0.35); animation: pulseGlow 2.4s ease-in-out infinite;
+    }
+    .email-card .contact-label, .email-card .contact-detail, .email-card .contact-link-inline { color: rgba(255,255,255,.9); }
+    .email-card .contact-value { color: #fff; }
+    .email-card:hover { transform: translateY(-6px) scale(1.05); box-shadow: 0 18px 55px rgba(255,107,0,.28); }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 0 rgba(255,107,0,0.18); }
+      50% { box-shadow: 0 0 32px rgba(255,107,0,0.28); }
+    }
+    .contact-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+    .contact-label { font-size: .78rem; text-transform: uppercase; letter-spacing: 1.6px; color: var(--gold); margin-bottom: .55rem; }
+    .contact-value { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--ink); line-height: 1.35; margin-bottom: .7rem; word-break: break-word; }
+    .contact-detail { font-size: .95rem; color: var(--mist); line-height: 1.7; }
+    .contact-link-inline { display: inline-block; margin-top: 1rem; font-weight: 700; color: var(--ink); text-decoration: none; }
+    .email-btn {
+      display: inline-block; margin-top: 1.2rem; padding: 1rem 1.4rem; background: rgba(255,255,255,.18); color: #fff;
+      text-decoration: none; border-radius: 18px; font-weight: 800; transition: all .3s;
+    }
+    .email-btn:hover { background: rgba(255,255,255,.28); }
+
+    .pill-row { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; max-width: 1100px; margin: 0 auto; }
+    .credential-pill {
+      padding: .9rem 1.2rem; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--ink);
+      font-weight: 700; box-shadow: 0 8px 24px rgba(0,0,0,.04);
+    }
+    [data-theme="dark"] .credential-pill { background: #10131A; }
+
+    .momentum-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+    .momentum-card {
+      background: rgba(255,255,255,.55); border: 1px solid var(--border); border-radius: 26px; padding: 2rem; backdrop-filter: blur(10px);
+    }
+    [data-theme="dark"] .momentum-card { background: rgba(255,255,255,.03); }
+    .momentum-card h3 { font-family: 'Playfair Display', serif; font-size: 1.45rem; margin-bottom: .8rem; color: var(--ink); }
+    .momentum-card p { font-size: 1rem; line-height: 1.75; color: var(--mist); }
+    .source-tag { margin-top: 1rem; display: inline-block; font-size: .78rem; color: var(--gold); letter-spacing: 1.2px; text-transform: uppercase; }
+
+    .quote-section {
+      width: 100%; background: #FF6B00; color: #fff; padding: 5rem 3rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .quote-text {
+      font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(2.1rem, 4.5vw, 4rem); line-height: 1.45;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    footer {
+      padding: 3rem; background: var(--bg-card); border-top: 1px solid var(--border);
+    }
+    [data-theme="dark"] footer { background: #10131A; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr; gap: 2rem; align-items: start; }
+    .footer-brand { color: var(--ink); }
+    .footer-brand p { color: var(--mist); line-height: 1.8; margin-top: .8rem; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: .8rem 1.2rem; justify-content: flex-end; }
+    .footer-links a { color: var(--mist); text-decoration: none; }
+    .footer-meta { max-width: 1200px; margin: 1.8rem auto 0; padding-top: 1.4rem; border-top: 1px solid var(--border); color: var(--mist); font-size: .92rem; line-height: 1.8; }
+
+    .fade-in { opacity: 0; transform: translateY(28px); }
+
+    @media (max-width: 1080px) {
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid, .momentum-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero, .section, .quote-section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+      .footer-links { justify-content: flex-start; }
+      .cursor, .cursor-ring { display: none; }
+      body { cursor: auto; }
+    }
+  </style>
+    <link rel="stylesheet" href="shared.css">
+    <script>
+      (function(){
+        var theme=localStorage.getItem('theme')||'light';
+        var lang=localStorage.getItem('lang')||'marathi';
+        document.documentElement.classList.add('preflight');
+        document.documentElement.lang=lang==='marathi'?'mr':'en';
+      })();
+    </script>
+</head>
+<body data-theme="light" data-lang="mr">
+    <div class="mesh-bg"></div>
+    <div class="page-curtain"></div>
+      <div class="grain"></div>
+
+  <nav>
+    <a href="index.html" style="text-decoration:none;">
+      <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a></li>
+      <li><a href="problem.html" data-mr="समस्या" data-en="Problem">समस्या</a></li>
+      <li><a href="solution.html" data-mr="उपाय" data-en="Solution">उपाय</a></li>
+      <li><a href="usecases.html" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a></li>
+      <li><a href="memory.html" data-mr="विज्ञान" data-en="Science">विज्ञान</a></li>
+      <li><a href="credentials.html" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a></li>
+      <li><a href="contact.html" class="active" data-mr="संवाद" data-en="Contact">संवाद</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="toggle-btn" id="themeToggle">🌙</button>
+      <button class="toggle-btn" id="langToggle">EN</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg" id="particleCanvas"></div>
+    <div class="hero-content fade-in">
+      <div class="section-label" id="sectionLabel">संपर्क / Contact</div>
+      <h1 class="hero-title" id="heroTitle">पुढचे पाऊल उचला —<br>महाराष्ट्राच्या डिजिटल भविष्यासाठी</h1>
+      <p class="hero-subtitle" id="heroSubtitle">IBM, Microsoft आणि Meta यांसारख्या जागतिक कंपन्यांनी महाराष्ट्र शासनासोबत भागीदारी केली आहे. Ads4you द्वारे ही शक्ती आता तुमच्या विभागापर्यंत पोहोचवा — अवघ्या ३० दिवसांत, सिद्ध परिणामांसह.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-heading" id="stepsHeading">पुढील प्रक्रिया कशी असेल?</h2>
+    <div class="steps-grid">
+      <article class="step-card fade-in">
+        <span class="step-icon">📧</span>
+        <h3 class="step-title" id="st1Title">तुम्ही आम्हाला Email करा</h3>
+        <p class="step-text" id="st1Text">तुमचा विभाग, तुमच्या गरजा आणि संवादासाठी सोयीची वेळ कळवा.</p>
+      </article>
+      <article class="step-card fade-in">
+        <span class="step-icon">🤝</span>
+        <h3 class="step-title" id="st2Title">आम्ही २४ तासांत प्रतिसाद देऊ</h3>
+        <p class="step-text" id="st2Text">तुमच्या विभागासाठी योग्य AI साधन आणि ३० दिवसांचा कृती आराखडा सादर करू.</p>
+      </article>
+      <article class="step-card fade-in">
+        <span class="step-icon">🚀</span>
+        <h3 class="step-title" id="st3Title">३० दिवसांत AI कार्यान्वित</h3>
+        <p class="step-text" id="st3Text">'पायलट प्रोजेक्ट' सुरू होईल आणि महाराष्ट्राच्या डिजिटल प्रवासात तुमचा विभाग अग्रेसर बनेल.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-heading" id="reachHeading">आमच्याशी संपर्क साधा</h2>
+    <div class="contact-grid">
+      <article class="contact-card email-card fade-in">
+        <span class="contact-icon">📧</span>
+        <div class="contact-label" id="emailLabel">Email</div>
+        <div class="contact-value">Ads4you@zohomail.com</div>
+        <p class="contact-detail" id="emailDetail">Ads4you@zohomail.com — शासकीय AI पायलट उपक्रमांच्या चौकशीसाठी.</p>
+        <a class="email-btn" id="emailBtn" href="mailto:Ads4you@zohomail.com?subject=Maharashtra Government AI Pilot Inquiry&body=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%95%E0%A4%BE%E0%A4%B0%20Ads4you%20%E0%A4%9F%E0%A5%80%E0%A4%AE,%0A%0A%E0%A4%AE%E0%A4%B2%E0%A4%BE%20%E0%A4%AE%E0%A4%BE%E0%A4%9D%E0%A5%8D%E0%A4%AF%E0%A4%BE%20%E0%A4%B5%E0%A4%BF%E0%A4%AD%E0%A4%BE%E0%A4%97%E0%A4%BE%E0%A4%B8%E0%A4%BE%E0%A4%A0%E0%A5%80%20AI%20%E0%A4%AA%E0%A4%BE%E0%A4%AF%E0%A4%B2%E0%A4%9F%E0%A4%AC%E0%A4%A6%E0%A5%8D%E0%A4%A6%E0%A4%B2%20%E0%A4%85%E0%A4%A7%E0%A4%BF%E0%A4%95%20%E0%A4%9C%E0%A4%BE%E0%A4%A3%E0%A5%82%E0%A4%A8%20%E0%A4%98%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%AF%E0%A4%9A%E0%A5%87%20%E0%A4%86%E0%A4%B9%E0%A5%87.%0A%0A%E0%A4%B5%E0%A4%BF%E0%A4%AD%E0%A4%BE%E0%A4%97:%0A%E0%A4%B8%E0%A4%82%E0%A4%AA%E0%A4%B0%E0%A5%8D%E0%A4%95:%0A%E0%A4%B8%E0%A5%8B%E0%A4%AF%E0%A5%80%E0%A4%9A%E0%A5%80%20%E0%A4%B5%E0%A5%87%E0%A4%B3:">आत्ता Email करा →</a>
+      </article>
+
+      <article class="contact-card fade-in">
+        <span class="contact-icon">🌐</span>
+        <div class="contact-label" id="webLabel">वेबसाइट</div>
+        <div class="contact-value">hshant966.github.io/Ads4you</div>
+        <p class="contact-detail" id="webDetail">आमच्या इतर सेवा आणि प्रकल्पांची सविस्तर माहिती पाहा.</p>
+        <a class="contact-link-inline" id="webCta" href="https://hshant966.github.io/Ads4you" target="_blank" rel="noreferrer">अधिकृत वेबसाइट पाहा →</a>
+      </article>
+
+      <article class="contact-card fade-in">
+        <span class="contact-icon">🛒</span>
+        <div class="contact-label" id="gemLabel">GeM पोर्टल</div>
+        <div class="contact-value" id="gemValue">GeM वर 'Ads4you' शोधा</div>
+        <p class="contact-detail" id="gemDetail">gem.gov.in पोर्टलवर थेट खरेदीसाठी उपलब्ध.</p>
+        <a class="contact-link-inline" id="gemCta" href="https://gem.gov.in" target="_blank" rel="noreferrer">थेट शासकीय खरेदी →</a>
+      </article>
+
+      <article class="contact-card fade-in">
+        <span class="contact-icon">📍</span>
+        <div class="contact-label" id="locLabel">स्थान</div>
+        <div class="contact-value" id="locValue">वकाड, पुणे, महाराष्ट्र</div>
+        <p class="contact-detail" id="locDetail">महाराष्ट्रातून, महाराष्ट्राच्या सेवेसाठी.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-heading" id="trustHeading">आमच्यावर विश्वास का ठेवावा?</h2>
+    <div class="pill-row fade-in">
+      <div class="credential-pill" id="pill1">🏛️ Udyam: UDYAM-MH-26-1092780</div>
+      <div class="credential-pill" id="pill2">🛒 GeM नोंदणीकृत</div>
+      <div class="credential-pill" id="pill3">🏭 NSIC B2B पात्र</div>
+      <div class="credential-pill" id="pill4">📚 Skill India संलग्न</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-heading" id="momentumHeading">महाराष्ट्र: प्रगतीपथावर</h2>
+    <div class="momentum-grid">
+      <article class="momentum-card fade-in">
+        <h3 id="mom1Title">Aaple Sarkar WhatsApp</h3>
+        <p id="mom1Text">'मुंबई टेक वीक २०२५' मध्ये 'आपले सरकार' WhatsApp चॅटबॉटचे लोकार्पण करण्यात आले.</p>
+        <div class="source-tag" id="mom1Source">Source: Mumbai Tech Week 2025</div>
+      </article>
+      <article class="momentum-card fade-in">
+        <h3 id="mom2Title">५००+ सेवा — एका क्लिकवर</h3>
+        <p id="mom2Text">१२.५ कोटी नागरिकांसाठी ५०० हून अधिक सेवा एकाच WhatsApp क्रमांकावर उपलब्ध होत आहेत.</p>
+        <div class="source-tag" id="mom2Source">Source: Maharashtra + Meta MoU 2025</div>
+      </article>
+      <article class="momentum-card fade-in">
+        <h3 id="mom3Title">IBM, Microsoft आणि Meta</h3>
+        <p id="mom3Text">या जागतिक स्तरावरील तिन्ही कंपन्यांनी महाराष्ट्र शासनाशी AI भागीदारी केली आहे. आम्ही ही भागीदारी तुमच्या विभागापर्यंत पोहोचवतो.</p>
+        <div class="source-tag" id="mom3Source">Source: Elets eGov, April 2025</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <div class="quote-text" id="quoteText">छत्रपती शिवाजी महाराजांनी स्वराज्याचे स्वप्न पाहिले<br>आणि मोजक्या, निश्चयी मावळ्यांच्या सोबतीने ते सत्यात आणले.<br>महाराष्ट्राचे 'डिजिटल स्वराज्य'<br>आपण मिळून साकार करूया.</div>
+  </section>
+
+  <section class="cta-section">
+    <h2 class="cta-heading" id="ctaHeading">आजच संपर्क करा — महाराष्ट्राच्या AI क्रांतीचे साक्षीदार व्हा</h2>
+    <a href="mailto:Ads4you@zohomail.com?subject=Maharashtra Government AI Pilot Inquiry&body=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%95%E0%A4%BE%E0%A4%B0%20Ads4you%20%E0%A4%9F%E0%A5%80%E0%A4%AE,%0A%0A%E0%A4%AE%E0%A4%B2%E0%A4%BE%20%E0%A4%AE%E0%A4%BE%E0%A4%9D%E0%A5%8D%E0%A4%AF%E0%A4%BE%20%E0%A4%B5%E0%A4%BF%E0%A4%AD%E0%A4%BE%E0%A4%97%E0%A4%BE%E0%A4%B8%E0%A4%BE%E0%A4%A0%E0%A5%80%20AI%20%E0%A4%AA%E0%A4%BE%E0%A4%AF%E0%A4%B2%E0%A4%9F%E0%A4%AC%E0%A4%A6%E0%A5%8D%E0%A4%A6%E0%A4%B2%20%E0%A4%85%E0%A4%A7%E0%A4%BF%E0%A4%95%20%E0%A4%9C%E0%A4%BE%E0%A4%A3%E0%A5%82%E0%A4%A8%20%E0%A4%98%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%AF%E0%A4%9A%E0%A5%87%20%E0%A4%86%E0%A4%B9%E0%A5%87.%0A%0A%E0%A4%B5%E0%A4%BF%E0%A4%AD%E0%A4%BE%E0%A4%97:%0A%E0%A4%B8%E0%A4%82%E0%A4%AA%E0%A4%B0%E0%A5%8D%E0%A4%95:%0A%E0%A4%B8%E0%A5%8B%E0%A4%AF%E0%A5%80%E0%A4%9A%E0%A5%80%20%E0%A4%B5%E0%A5%87%E0%A4%B3:" class="cta-btn" id="ctaBtn">आत्ता Email करा →</a>
+  </section>
+
+  <footer class="fade-in">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+        <p id="footerBrand">Ads4you — AI Automation Studio | पुणे, महाराष्ट्र<br>Ads4you@zohomail.com<br>hshant966.github.io/Ads4you<br>UDYAM-MH-26-1092780</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a>
+        <a href="problem.html" data-mr="समस्या" data-en="Problem">समस्या</a>
+        <a href="solution.html" data-mr="उपाय" data-en="Solution">उपाय</a>
+        <a href="usecases.html" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a>
+        <a href="memory.html" data-mr="विज्ञान" data-en="Science">विज्ञान</a>
+        <a href="credentials.html" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a>
+        <a href="contact.html" data-mr="संवाद" data-en="Contact">संवाद</a>
+      </div>
+    </div>
+    <div class="footer-meta" id="footerMeta">© २०२६ Ads4you. महाराष्ट्रासाठी समर्पित.</div>
+  </footer>
+
+  <script>
+    const content = {
+      marathi: {
+        sectionLabel: 'संपर्क / Contact',
+        heroTitle: 'पुढचे पाऊल उचला —\nमहाराष्ट्राच्या डिजिटल भविष्यासाठी',
+        heroSubtitle: 'IBM, Microsoft आणि Meta यांसारख्या जागतिक कंपन्यांनी महाराष्ट्र शासनासोबत भागीदारी केली आहे. Ads4you द्वारे ही शक्ती आता तुमच्या विभागापर्यंत पोहोचवा — अवघ्या ३० दिवसांत, सिद्ध परिणामांसह.',
+        stepsHeading: 'पुढील प्रक्रिया कशी असेल?',
+        st1Title: 'तुम्ही आम्हाला Email करा',
+        st1Text: 'तुमचा विभाग, तुमच्या गरजा आणि संवादासाठी सोयीची वेळ कळवा.',
+        st2Title: 'आम्ही २४ तासांत प्रतिसाद देऊ',
+        st2Text: 'तुमच्या विभागासाठी योग्य AI साधन आणि ३० दिवसांचा कृती आराखडा सादर करू.',
+        st3Title: '३० दिवसांत AI कार्यान्वित',
+        st3Text: "'पायलट प्रोजेक्ट' सुरू होईल आणि महाराष्ट्राच्या डिजिटल प्रवासात तुमचा विभाग अग्रेसर बनेल.",
+        reachHeading: 'आमच्याशी संपर्क साधा',
+        emailLabel: 'Email',
+        emailDetail: 'Ads4you@zohomail.com — शासकीय AI पायलट उपक्रमांच्या चौकशीसाठी.',
+        emailBtn: 'आत्ता Email करा →',
+        webLabel: 'वेबसाइट',
+        webDetail: 'आमच्या इतर सेवा आणि प्रकल्पांची सविस्तर माहिती पाहा.',
+        webCta: 'अधिकृत वेबसाइट पाहा →',
+        gemLabel: 'GeM पोर्टल',
+        gemValue: "GeM वर 'Ads4you' शोधा",
+        gemDetail: "gem.gov.in पोर्टलवर थेट खरेदीसाठी उपलब्ध.",
+        gemCta: 'थेट शासकीय खरेदी →',
+        locLabel: 'स्थान',
+        locValue: 'वकाड, पुणे, महाराष्ट्र',
+        locDetail: 'महाराष्ट्रातून, महाराष्ट्राच्या सेवेसाठी.',
+        trustHeading: 'आमच्यावर विश्वास का ठेवावा?',
+        pill1: '🏛️ Udyam: UDYAM-MH-26-1092780',
+        pill2: '🛒 GeM नोंदणीकृत',
+        pill3: '🏭 NSIC B2B पात्र',
+        pill4: '📚 Skill India संलग्न',
+        momentumHeading: 'महाराष्ट्र: प्रगतीपथावर',
+        mom1Title: 'Aaple Sarkar WhatsApp',
+        mom1Text: "'मुंबई टेक वीक २०२५' मध्ये 'आपले सरकार' WhatsApp चॅटबॉटचे लोकार्पण करण्यात आले.",
+        mom1Source: 'Source: Mumbai Tech Week 2025',
+        mom2Title: '५००+ सेवा — एका क्लिकवर',
+        mom2Text: '१२.५ कोटी नागरिकांसाठी ५०० हून अधिक सेवा एकाच WhatsApp क्रमांकावर उपलब्ध होत आहेत.',
+        mom2Source: 'Source: Maharashtra + Meta MoU 2025',
+        mom3Title: 'IBM, Microsoft आणि Meta',
+        mom3Text: 'या जागतिक स्तरावरील तिन्ही कंपन्यांनी महाराष्ट्र शासनाशी AI भागीदारी केली आहे. आम्ही ही भागीदारी तुमच्या विभागापर्यंत पोहोचवतो.',
+        mom3Source: 'Source: Elets eGov, April 2025',
+        quoteText: 'छत्रपती शिवाजी महाराजांनी स्वराज्याचे स्वप्न पाहिले\nआणि मोजक्या, निश्चयी मावळ्यांच्या सोबतीने ते सत्यात आणले.\nमहाराष्ट्राचे \'डिजिटल स्वराज्य\'\nआपण मिळून साकार करूया.',
+        ctaHeading: 'आजच संपर्क करा — महाराष्ट्राच्या AI क्रांतीचे साक्षीदार व्हा',
+        ctaBtn: 'आत्ता Email करा →',
+        footerBrand: 'Ads4you — AI Automation Studio | पुणे, महाराष्ट्र\nAds4you@zohomail.com\nhshant966.github.io/Ads4you\nUDYAM-MH-26-1092780',
+        footerMeta: '© २०२६ Ads4you. महाराष्ट्रासाठी समर्पित.'
+      },
+      english: {
+        sectionLabel: 'Contact',
+        heroTitle: 'Take the Next Step —\nToward Maharashtra\'s Digital Future',
+        heroSubtitle: 'IBM, Microsoft, and Meta have already partnered with the Maharashtra Government. Bring that power to your department through Ads4you — in 30 days, with proven results.',
+        stepsHeading: 'What Happens Next?',
+        st1Title: 'You email us',
+        st1Text: 'Your department, your need, your preferred time — that is all',
+        st2Title: 'We respond within 24 hours',
+        st2Text: 'We present the right AI tool for your department and a 30-day plan',
+        st3Title: 'AI operational in 30 days',
+        st3Text: 'Pilot begins, metrics proven, Maharashtra AI journey starts',
+        reachHeading: 'Reach Us',
+        emailLabel: 'Email',
+        emailDetail: 'Ads4you@zohomail.com — contact us for a Maharashtra Government AI pilot.',
+        emailBtn: 'Email us now →',
+        webLabel: 'Website',
+        webDetail: 'Visit the main Ads4you website and review our core capabilities.',
+        webCta: 'Visit Ads4you main website →',
+        gemLabel: 'GeM Portal',
+        gemValue: 'Search Ads4you on GeM',
+        gemDetail: "Search 'Ads4you' on gem.gov.in",
+        gemCta: 'Direct government purchase possible →',
+        locLabel: 'Location',
+        locValue: 'Wakad, Pune, Maharashtra',
+        locDetail: 'From Maharashtra — for Maharashtra',
+        trustHeading: 'Why Trust Us?',
+        pill1: '🏛️ Udyam UDYAM-MH-26-1092780',
+        pill2: '🛒 GeM Registered',
+        pill3: '🏭 NSIC B2B',
+        pill4: '📚 Skill India',
+        momentumHeading: 'You Are Not Alone — Maharashtra Is Already on This Path',
+        mom1Title: 'Aaple Sarkar WhatsApp',
+        mom1Text: 'CM Devendra Fadnavis personally launched Aaple Sarkar WhatsApp chatbot — Mumbai Tech Week 2025',
+        mom1Source: 'Source: NewsBytesApp, February 2025',
+        mom2Title: '500 Services — One WhatsApp Number',
+        mom2Text: '500 services for 12.5 crore citizens — on one WhatsApp number — this is not a dream, it has already begun',
+        mom2Source: 'Source: Maharashtra + Meta MoU 2025',
+        mom3Title: 'IBM, Microsoft, Meta',
+        mom3Text: 'IBM, Microsoft, Meta — all three have AI partnerships with Maharashtra Government. Ads4you brings this partnership to your department.',
+        mom3Source: 'Source: Elets eGov, April 2025',
+        quoteText: 'Shivaji Maharaj dreamed of Swarajya\nand made it real —\nwith a small, determined force.\nLet us together build\nMaharashtra\'s Digital Swarajya.',
+        ctaHeading: 'Contact us today — be part of Maharashtra\'s AI future',
+        ctaBtn: 'Email us now →',
+        footerBrand: 'Ads4you — AI Automation Studio | Pune, Maharashtra\nAds4you@zohomail.com\nhshant966.github.io/Ads4you\nUDYAM-MH-26-1092780',
+        footerMeta: '© 2026 Ads4you. Built for Maharashtra.'
+      }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'marathi';
+    let currentTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', currentTheme);
+    document.documentElement.lang = currentLang === 'marathi' ? 'mr' : 'en';
+
+    // Cursor removed — using default browser cursor
+
+    function setBreakText(id, text) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = text.replace(/\n/g, '<br>');
+    }
+
+    function updateLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang === 'marathi' ? 'mr' : 'en';
+      const d = content[lang];
+      Object.keys(d).forEach(id => {
+        if (['heroTitle','quoteText','footerBrand'].includes(id)) setBreakText(id, d[id]);
+        else {
+          const el = document.getElementById(id);
+          if (el) el.textContent = d[id];
+        }
+      });
+      document.querySelectorAll('.nav-links a, .footer-links a').forEach(a => {
+        a.textContent = lang === 'marathi' ? a.dataset.mr : a.dataset.en;
+      });
+      document.getElementById('langToggle').textContent = lang === 'marathi' ? 'EN' : 'मराठी';
+    }
+
+    function updateTheme(theme) {
+      currentTheme = theme;
+      localStorage.setItem('theme', theme);
+      document.body.setAttribute('data-theme', theme);
+      document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
+    }
+
+    document.getElementById('langToggle').addEventListener('click', () => updateLanguage(currentLang === 'marathi' ? 'english' : 'marathi'));
+    document.getElementById('themeToggle').addEventListener('click', () => updateTheme(currentTheme === 'light' ? 'dark' : 'light'));
+
+    const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    function createParticles() {
+      const canvas = document.getElementById('particleCanvas');
+      for (let i = 0; i < 60; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        canvas.appendChild(p);
+        gsap.to(p, {
+          y: Math.random() * 120 - 60,
+          x: Math.random() * 120 - 60,
+          duration: Math.random() * 12 + 10,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut'
+        });
+      }
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+    window.addEventListener('load', () => {
+      updateLanguage(currentLang);
+      updateTheme(currentTheme);
+      createParticles();
+
+      gsap.to('.hero-content, .hero', { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out' });
+      gsap.utils.toArray('.fade-in').forEach((el, i) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: .85,
+          delay: i * 0.03,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 85%' }
+        });
+      });
+
+      gsap.to('.email-card', {
+        boxShadow: '0 0 38px rgba(255,107,0,0.28)',
+        duration: 1.8,
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut'
+      });
+
+      gsap.to('.quote-text', {
+        y: -24,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.quote-section',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    });
+  </script>
+    <script src="shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>🤖</text></svg>" type="image/svg+xml">
+    <title>स्मरणशक्ती आणि स्वीकार — Ads4you Maharashtra Government AI</title>
+    <meta name="description" content="Why AI adoption sticks in institutions - memory science for Maharashtra government">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #FAF7F2;
+            --bg-card: #F0EBE3;
+            --ink: #12141A;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #6B7280;
+            --border: rgba(201,168,76,0.2);
+            --midnight: #0F1830;
+            --dawn: #FFEDD2;
+            --amber: #E5A93D;
+        }
+        [data-theme="dark"] {
+            --bg: #0B0C10;
+            --bg-card: #12141A;
+            --ink: #F5F3EE;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #8A8FA8;
+            --border: rgba(201,168,76,0.15);
+            --midnight: #05070F;
+            --dawn: #1A1511;
+            --amber: #D8A13B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: linear-gradient(180deg, var(--midnight) 0%, #172341 22%, #273659 40%, var(--dawn) 72%, var(--bg) 100%);
+            color: var(--ink);
+            overflow-x: hidden;
+            cursor: auto;
+        }
+        [lang="mr"] {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.08em;
+            line-height: 1.65;
+        }
+
+        .cursor {
+            width: 12px; height: 12px; background: var(--saffron); border-radius: 50%; position: fixed;
+            pointer-events: none; z-index: 9999; mix-blend-mode: difference; transition: transform .2s ease;
+        }
+        .cursor-ring {
+            width: 40px; height: 40px; border: 1px solid var(--saffron); border-radius: 50%; position: fixed;
+            pointer-events: none; z-index: 9998; transition: transform .3s ease;
+        }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(250,247,242,0.82); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+        }
+        [data-theme="dark"] nav {
+            background: rgba(11,12,16,0.9); border-bottom: 1px solid rgba(201,168,76,0.1);
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
+        .logo-ads, .logo-you { color: #FF6B00; }
+        .logo-four { color: #C9A84C; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--mist); text-decoration: none; font-size: .9rem; font-weight: 500; transition: color .3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--saffron); }
+        .nav-controls { display: flex; gap: 1rem; }
+        .toggle-btn {
+            background: var(--bg-card); border: 1px solid var(--border); padding: .5rem 1rem; border-radius: 20px;
+            cursor: pointer; font-size: .85rem; color: var(--ink); transition: all .3s;
+        }
+        .toggle-btn:hover { background: var(--saffron); color: white; border-color: var(--saffron); }
+
+        .hero {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            padding: 8rem 3rem 4rem; text-align: center; position: relative;
+        }
+        .section-label {
+            font-size: .75rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 2rem; opacity: .8;
+        }
+        .hero-title {
+            font-family: 'Playfair Display', serif; font-size: clamp(3rem, 7vw, 6rem); font-weight: 900; line-height: 1.05;
+            max-width: 1100px; margin-bottom: 1.5rem; color: #F5F3EE;
+        }
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif; font-size: clamp(1.2rem, 2.3vw, 1.8rem); max-width: 920px;
+            color: rgba(245,243,238,.82); line-height: 1.6;
+        }
+
+        .science-section { padding: 4rem 3rem 2rem; }
+        .science-wrap { max-width: 1100px; margin: 0 auto; }
+        .science-label { font-size: .8rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+        .science-opening {
+            font-size: 1.15rem; line-height: 1.9; color: var(--ink); background: rgba(255,255,255,.45); border: 1px solid var(--border);
+            border-radius: 28px; padding: 2rem; backdrop-filter: blur(10px);
+        }
+        [data-theme="dark"] .science-opening { background: rgba(255,255,255,.03); }
+
+        .pillars-section { min-height: 540vh; position: relative; padding: 0 3rem; }
+        .pillars-sticky {
+            position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
+        .pillars-stage {
+            position: relative; width: 100%; max-width: 1080px; min-height: 540px;
+        }
+        .pillar-card {
+            position: absolute; inset: 0; background: rgba(255,255,255,.52); border: 1px solid var(--border); border-radius: 32px;
+            padding: 3rem; backdrop-filter: blur(14px); display: flex; flex-direction: column; justify-content: center;
+            opacity: 0; transform: translateY(40px) scale(.98);
+        }
+        [data-theme="dark"] .pillar-card { background: rgba(255,255,255,.03); }
+        .pillar-icon { font-size: 3rem; margin-bottom: 1.2rem; display: block; }
+        .pillar-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-bottom: 1rem; color: var(--ink); }
+        .pillar-body { font-size: 1.08rem; line-height: 1.85; color: var(--mist); max-width: 860px; }
+        .pillar-stat {
+            margin-top: 1.4rem; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--saffron);
+        }
+        .pillar-source {
+            margin-top: 1rem; display: inline-block; font-size: .78rem; letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--gold); border: 1px solid var(--border); padding: .65rem .95rem; border-radius: 999px;
+        }
+
+        .timeline-section { padding: 6rem 3rem; }
+        .timeline-heading {
+            font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; text-align: center;
+            color: var(--ink); margin-bottom: 3rem;
+        }
+        .timeline-track {
+            display: flex; gap: 1.5rem; max-width: 1300px; margin: 0 auto; overflow-x: auto; padding-bottom: 1rem;
+            scroll-snap-type: x mandatory;
+        }
+        .timeline-item {
+            min-width: 290px; scroll-snap-align: start; background: rgba(255,255,255,.5); border: 1px solid var(--border); border-radius: 24px;
+            padding: 2rem; backdrop-filter: blur(10px);
+        }
+        [data-theme="dark"] .timeline-item { background: rgba(255,255,255,.03); }
+        .timeline-week { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; color: var(--saffron); margin-bottom: .7rem; }
+        .timeline-text { font-size: 1rem; line-height: 1.75; color: var(--ink); }
+
+        .proof-section { padding: 6rem 3rem; }
+        .proof-heading {
+            font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.3rem); font-weight: 700; text-align: center;
+            max-width: 900px; margin: 0 auto 3rem; color: var(--ink);
+        }
+        .proof-scroller {
+            display: grid; grid-auto-flow: column; grid-auto-columns: minmax(300px, 340px); gap: 1.5rem;
+            overflow-x: auto; max-width: 1300px; margin: 0 auto; padding-bottom: 1rem; cursor: grab;
+        }
+        .proof-card {
+            background: rgba(255,255,255,.52); border: 1px solid var(--border); border-radius: 26px; padding: 2rem; backdrop-filter: blur(10px);
+        }
+        [data-theme="dark"] .proof-card { background: rgba(255,255,255,.03); }
+        .proof-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: 1rem; color: var(--ink); }
+        .proof-card p { font-size: .98rem; color: var(--mist); line-height: 1.75; }
+        .proof-source {
+            margin-top: 1rem; font-size: .78rem; color: var(--gold); letter-spacing: 1.2px; text-transform: uppercase;
+        }
+
+        .closing-section {
+            min-height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 4rem 3rem 6rem;
+        }
+        .closing-quote {
+            font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1.35;
+            max-width: 1100px; color: var(--ink); margin-bottom: 2rem;
+        }
+        .cta-btn {
+            display: inline-block; padding: 1.2rem 2.8rem; background: var(--saffron); color: #fff; text-decoration: none;
+            border-radius: 50px; font-weight: 700; font-size: 1.05rem; transition: all .35s;
+        }
+        .cta-btn:hover { background: var(--gold); transform: translateY(-2px); }
+
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: .03; z-index: 9997;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+        .fade-in { opacity: 0; transform: translateY(30px); }
+
+        @media (max-width: 900px) {
+            .timeline-track { display: grid; grid-template-columns: 1fr; overflow: visible; }
+            .timeline-item { min-width: 0; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero, .science-section, .pillars-section, .timeline-section, .proof-section, .closing-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .pillar-card { padding: 2rem; }
+            .cursor, .cursor-ring { display: none; }
+            body { cursor: auto; }
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+    <script>
+      (function(){
+        var theme=localStorage.getItem('theme')||'light';
+        var lang=localStorage.getItem('lang')||'marathi';
+        document.documentElement.classList.add('preflight');
+        document.documentElement.lang=lang==='marathi'?'mr':'en';
+      })();
+    </script>
+</head>
+<body data-theme="light" data-lang="mr">
+    <div class="mesh-bg"></div>
+    <div class="page-curtain"></div>
+            <div class="grain"></div>
+
+    <nav>
+        <a href="index.html" style="text-decoration:none;">
+            <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a></li>
+            <li><a href="problem.html" data-mr="समस्या" data-en="Problem">समस्या</a></li>
+            <li><a href="solution.html" data-mr="उपाय" data-en="Solution">उपाय</a></li>
+            <li><a href="usecases.html" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a></li>
+            <li><a href="memory.html" class="active" data-mr="विज्ञान" data-en="Science">विज्ञान</a></li>
+            <li><a href="credentials.html" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a></li>
+            <li><a href="contact.html" data-mr="संवाद" data-en="Contact">संवाद</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="toggle-btn" id="themeToggle">🌙</button>
+            <button class="toggle-btn" id="langToggle">EN</button>
+        </div>
+    </nav>
+
+    <section class="hero fade-in">
+        <div class="section-label" id="sectionLabel">स्मृती आणि स्वीकार</div>
+        <h1 class="hero-title" id="heroTitle">AI जे एकदा आत्मसात करते —<br>ते कधीच विसरत नाही</h1>
+        <p class="hero-subtitle" id="heroSubtitle">मानवी स्मरणशक्तीला मर्यादा असू शकतात, परंतु AI अमर्याद आहे. मात्र, प्रशासकीय व्यवस्थेत AI रुजवण्यासाठी मानवी दृष्टिकोनाची जोड आवश्यक असते — आणि आम्ही नेमके तेच करतो.</p>
+    </section>
+
+    <section class="science-section fade-in">
+        <div class="science-wrap">
+            <div class="science-label" id="scienceLabel">स्मृतिशास्त्र / Memory Science</div>
+            <div class="science-opening" id="scienceOpening">मानसशास्त्रानुसार, आपण ज्या गोष्टींचा दैनंदिन वापर करतो, ज्यांच्याशी आपले भावनिक नाते जुळते आणि ज्या आपल्या परिचयाच्या असतात, त्या आपण लवकर आत्मसात करतो. 'Ads4you' ची AI प्रणाली याच मूलभूत तत्त्वांवर आधारित आहे.</div>
+        </div>
+    </section>
+
+    <section class="pillars-section">
+        <div class="pillars-sticky">
+            <div class="pillars-stage">
+                <article class="pillar-card" data-pillar="1">
+                    <span class="pillar-icon">🔁</span>
+                    <h2 class="pillar-title" id="p1Title">दैनंदिन वापर — प्रशासकीय सवय</h2>
+                    <p class="pillar-body" id="p1Body">महाराष्ट्राच्या 'Aaple Sarkar Bot' ने १,४००+ सेवांची माहिती देण्यास सुरुवात केली — आज तो प्रशासकीय कार्यपद्धतीचा अविभाज्य भाग आहे. नियमित वापरली जाणारी साधने ही केवळ तंत्रज्ञान नसून ती एक सवय बनतात.</p>
+                    <div class="pillar-source" id="p1Source">Source: IndiaAI.gov — Aaple Sarkar Bot, Maharashtra</div>
+                </article>
+
+                <article class="pillar-card" data-pillar="2">
+                    <span class="pillar-icon">❤️</span>
+                    <h2 class="pillar-title" id="p2Title">लोकसंवाद — विश्वासाचे नाते</h2>
+                    <p class="pillar-body" id="p2Body">विदर्भातील शेतकऱ्याला मध्यरात्री पीक विम्याची माहिती मिळाली, तर त्यातून निर्माण होणारा विश्वास कोणत्याही औपचारिक प्रशिक्षणापेक्षा श्रेष्ठ आहे. हीच भावना AI ला प्रशासनात खोलवर रुजवते.</p>
+                    <div class="pillar-stat" id="p2Stat">४४ लाख शेतकरी 'बळीराजा वीज सवलत' योजनेअंतर्गत समाविष्ट</div>
+                    <div class="pillar-source" id="p2Source">Source: Maharashtra Budget 2024-25</div>
+                </article>
+
+                <article class="pillar-card" data-pillar="3">
+                    <span class="pillar-icon">🔗</span>
+                    <h2 class="pillar-title" id="p3Title">परिचित साधनांशी जोडणी</h2>
+                    <p class="pillar-body" id="p3Body">महाराष्ट्र शासनाने Meta सोबत भागीदारी केली आहे, कारण WhatsApp हे राज्यातील १२.५ कोटी नागरिकांच्या परिचयाचे साधन आहे. कोणत्याही नवीन ॲपची गरज नाही — फक्त एक WhatsApp क्रमांक पुरेसा आहे.</p>
+                    <div class="pillar-stat" id="p3Stat">एकाच WhatsApp क्रमांकावर ५००+ सेवा</div>
+                    <div class="pillar-source" id="p3Source">Source: NewsBytesApp, February 2025</div>
+                </article>
+
+                <article class="pillar-card" data-pillar="4">
+                    <span class="pillar-icon">🎯</span>
+                    <h2 class="pillar-title" id="p4Title">एक विभाग. एक साधन. ३० दिवस.</h2>
+                    <p class="pillar-body" id="p4Body">आंध्र प्रदेशने टप्प्याटप्प्याने ३६ विभाग जोडून ५१ लाख व्यवहार साध्य केले. महाराष्ट्र देखील याच मार्गावर आहे. आम्ही तुमच्या एका विभागापासून या बदलाची सुरुवात करतो.</p>
+                    <div class="pillar-stat" id="p4Stat">५.१ दशलक्ष व्यवहार | २.५ दशलक्ष नागरिक | ३६ विभाग</div>
+                    <div class="pillar-source" id="p4Source">Source: UCCIndia.org — Mana Mitra Platform Data</div>
+                </article>
+
+                <article class="pillar-card" data-pillar="5">
+                    <span class="pillar-icon">👁️</span>
+                    <h2 class="pillar-title" id="p5Title">पारदर्शक माहिती आणि निर्णय</h2>
+                    <p class="pillar-body" id="p5Body">'विकसित महाराष्ट्र' उपक्रमांतर्गत ३,८८,८३५ नागरिकांनी WhatsApp वर प्रतिसाद दिला — त्यातील ८४% प्रतिसाद मराठीत होते. ही माहिती आता धोरण निश्चितीसाठी महत्त्वपूर्ण ठरत आहे.</p>
+                    <div class="pillar-stat" id="p5Stat">३,८८,८३५ प्रतिसाद | ८४% मराठी | ३६ जिल्हे</div>
+                    <div class="pillar-source" id="p5Source">Source: Maharashtra Government, Vikasit Maharashtra 2025</div>
+                </article>
+
+                <article class="pillar-card" data-pillar="6">
+                    <span class="pillar-icon">🏆</span>
+                    <h2 class="pillar-title" id="p6Title">यशाची अधिकृत मोहोर</h2>
+                    <p class="pillar-body" id="p6Body">WhatsApp AI उपक्रमाला 'नॅशनल ई-गव्हर्नन्स गोल्ड अवॉर्ड २०२४' मिळाला आहे. महाराष्ट्र सरकार आणि भारत सरकार या तंत्रज्ञानाला अधिकृत मान्यता देत आहेत.</p>
+                    <div class="pillar-stat" id="p6Stat">सुवर्ण पुरस्कार — २७ वी राष्ट्रीय ई-गव्हर्नन्स परिषद</div>
+                    <div class="pillar-source" id="p6Source">Source: Elets eGov, September 2024</div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-section">
+        <h2 class="timeline-heading" id="timelineHeading">३० दिवसांचा प्रवास — एका विभागापासून संपूर्ण महाराष्ट्रापर्यंत</h2>
+        <div class="timeline-track">
+            <div class="timeline-item fade-in">
+                <div class="timeline-week" id="t1Week">दिवस १-७</div>
+                <p class="timeline-text" id="t1Text">विभागाच्या गरजांचे विश्लेषण — दैनंदिन समस्या आणि प्रश्नांचा आढावा घेणे.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-week" id="t2Week">दिवस ८-१४</div>
+                <p class="timeline-text" id="t2Text">AI प्रणालीची रचना आणि एकत्रीकरण — सुलभ सराव सत्राद्वारे कर्मचाऱ्यांना अवगत करणे.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-week" id="t3Week">दिवस १५-२१</div>
+                <p class="timeline-text" id="t3Text">प्रत्यक्ष अंमलबजावणी (Live Pilot) — नागरिकांच्या खऱ्या प्रश्नांवर AI द्वारे तत्काळ तोडगा.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-week" id="t4Week">दिवस २२-३०</div>
+                <p class="timeline-text" id="t4Text">कार्यक्षमता मोजमाप — वाचलेला वेळ आणि लाभार्थ्यांच्या संख्येचे अचूक दस्तऐवजीकरण.</p>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-week" id="t5Week">दिवस ३०+</div>
+                <p class="timeline-text" id="t5Text">पुढचा टप्पा — इतर विभागांचा समावेश किंवा विद्यमान प्रणालीचा विस्तार.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="proof-section">
+        <h2 class="proof-heading" id="proofHeading">महाराष्ट्र: AI क्रांतीमध्ये अग्रेसर</h2>
+        <div class="proof-scroller" id="proofScroller">
+            <div class="proof-card fade-in">
+                <h3 id="proof1Title">Aaple Sarkar Bot</h3>
+                <p id="proof1Body">१,४००+ सेवा — २०१९ पासून कार्यरत</p>
+                <div class="proof-source" id="proof1Source">Source: IndiaAI.gov</div>
+            </div>
+            <div class="proof-card fade-in">
+                <h3 id="proof2Title">Aaple Sarkar WhatsApp</h3>
+                <p id="proof2Body">५००+ सेवा — Meta सोबत भागीदारी — २०२५</p>
+                <div class="proof-source" id="proof2Source">Source: NewsBytesApp</div>
+            </div>
+            <div class="proof-card fade-in">
+                <h3 id="proof3Title">IBM आणि महाराष्ट्र शासन</h3>
+                <p id="proof3Body">AI-आधारित नागरिक सेवा — एप्रिल २०२५</p>
+                <div class="proof-source" id="proof3Source">Source: Elets eGov</div>
+            </div>
+            <div class="proof-card fade-in">
+                <h3 id="proof4Title">MARVEL AI</h3>
+                <p id="proof4Body">पोलीस विभागात यशस्वी अंमलबजावणी — २०२४</p>
+                <div class="proof-source" id="proof4Source">Source: Elets eGov</div>
+            </div>
+            <div class="proof-card fade-in">
+                <h3 id="proof5Title">विकसित महाराष्ट्र</h3>
+                <p id="proof5Body">३.८८ लाख प्रतिसाद — ८४% मराठीत</p>
+                <div class="proof-source" id="proof5Source">Source: Maharashtra Govt 2025</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="closing-section">
+        <blockquote class="closing-quote" id="closingQuote">छत्रपती शिवाजी महाराजांनी मोजक्या पण सक्षम मावळ्यांच्या बळावर आणि गनिमी काव्याने बलाढ्य शत्रूंना पराभूत केले. आजच्या डिजिटल युगात AI हे एक 'गनिमी काव्य'च आहे — जे कमी संसाधनांतून असाधारण परिणाम साध्य करते.</blockquote>
+        <a href="credentials.html" class="cta-btn" id="ctaBtn">तुमच्या विभागाची पात्रता तपासा →</a>
+    </section>
+
+    <script>
+        const content = {
+            marathi: {
+                sectionLabel: 'स्मृती आणि स्वीकार',
+                heroTitle: 'AI जे एकदा आत्मसात करते —\nते कधीच विसरत नाही',
+                heroSubtitle: 'मानवी स्मरणशक्तीला मर्यादा असू शकतात, परंतु AI अमर्याद आहे. मात्र, प्रशासकीय व्यवस्थेत AI रुजवण्यासाठी मानवी दृष्टिकोनाची जोड आवश्यक असते — आणि आम्ही नेमके तेच करतो.',
+                scienceLabel: 'स्मृतिशास्त्र / Memory Science',
+                scienceOpening: "मानसशास्त्रानुसार, आपण ज्या गोष्टींचा दैनंदिन वापर करतो, ज्यांच्याशी आपले भावनिक नाते जुळते आणि ज्या आपल्या परिचयाच्या असतात, त्या आपण लवकर आत्मसात करतो. 'Ads4you' ची AI प्रणाली याच मूलभूत तत्त्वांवर आधारित आहे.",
+                p1Title: 'दैनंदिन वापर — प्रशासकीय सवय',
+                p1Body: "महाराष्ट्राच्या 'Aaple Sarkar Bot' ने १,४००+ सेवांची माहिती देण्यास सुरुवात केली — आज तो प्रशासकीय कार्यपद्धतीचा अविभाज्य भाग आहे. नियमित वापरली जाणारी साधने ही केवळ तंत्रज्ञान नसून ती एक सवय बनतात.",
+                p1Source: 'Source: IndiaAI.gov — Aaple Sarkar Bot, Maharashtra',
+                p2Title: 'लोकसंवाद — विश्वासाचे नाते',
+                p2Body: 'विदर्भातील शेतकऱ्याला मध्यरात्री पीक विम्याची माहिती मिळाली, तर त्यातून निर्माण होणारा विश्वास कोणत्याही औपचारिक प्रशिक्षणापेक्षा श्रेष्ठ आहे. हीच भावना AI ला प्रशासनात खोलवर रुजवते.',
+                p2Stat: '४४ लाख शेतकरी \'बळीराजा वीज सवलत\' योजनेअंतर्गत समाविष्ट',
+                p2Source: 'Source: Maharashtra Budget 2024-25',
+                p3Title: 'परिचित साधनांशी जोडणी',
+                p3Body: 'महाराष्ट्र शासनाने Meta सोबत भागीदारी केली आहे, कारण WhatsApp हे राज्यातील १२.५ कोटी नागरिकांच्या परिचयाचे साधन आहे. कोणत्याही नवीन ॲपची गरज नाही — फक्त एक WhatsApp क्रमांक पुरेसा आहे.',
+                p3Stat: 'एकाच WhatsApp क्रमांकावर ५००+ सेवा',
+                p3Source: 'Source: NewsBytesApp, February 2025',
+                p4Title: 'एक विभाग. एक साधन. ३० दिवस.',
+                p4Body: 'आंध्र प्रदेशने टप्प्याटप्प्याने ३६ विभाग जोडून ५१ लाख व्यवहार साध्य केले. महाराष्ट्र देखील याच मार्गावर आहे. आम्ही तुमच्या एका विभागापासून या बदलाची सुरुवात करतो.',
+                p4Stat: '५.१ दशलक्ष व्यवहार | २.५ दशलक्ष नागरिक | ३६ विभाग',
+                p4Source: 'Source: UCCIndia.org — Mana Mitra Platform Data',
+                p5Title: 'पारदर्शक माहिती आणि निर्णय',
+                p5Body: '\'विकसित महाराष्ट्र\' उपक्रमांतर्गत ३,८८,८३५ नागरिकांनी WhatsApp वर प्रतिसाद दिला — त्यातील ८४% प्रतिसाद मराठीत होते. ही माहिती आता धोरण निश्चितीसाठी महत्त्वपूर्ण ठरत आहे.',
+                p5Stat: '३,८८,८३५ प्रतिसाद | ८४% मराठी | ३६ जिल्हे',
+                p5Source: 'Source: Maharashtra Government, Vikasit Maharashtra 2025',
+                p6Title: 'यशाची अधिकृत मोहोर',
+                p6Body: 'WhatsApp AI उपक्रमाला \'नॅशनल ई-गव्हर्नन्स गोल्ड अवॉर्ड २०२४\' मिळाला आहे. महाराष्ट्र सरकार आणि भारत सरकार या तंत्रज्ञानाला अधिकृत मान्यता देत आहेत.',
+                p6Stat: 'सुवर्ण पुरस्कार — २७ वी राष्ट्रीय ई-गव्हर्नन्स परिषद',
+                p6Source: 'Source: Elets eGov, September 2024',
+                timelineHeading: '३० दिवसांचा प्रवास — एका विभागापासून संपूर्ण महाराष्ट्रापर्यंत',
+                t1Week: 'दिवस १-७',
+                t1Text: 'विभागाच्या गरजांचे विश्लेषण — दैनंदिन समस्या आणि प्रश्नांचा आढावा घेणे.',
+                t2Week: 'दिवस ८-१४',
+                t2Text: 'AI प्रणालीची रचना आणि एकत्रीकरण — सुलभ सराव सत्राद्वारे कर्मचाऱ्यांना अवगत करणे.',
+                t3Week: 'दिवस १५-२१',
+                t3Text: 'प्रत्यक्ष अंमलबजावणी (Live Pilot) — नागरिकांच्या खऱ्या प्रश्नांवर AI द्वारे तत्काळ तोडगा.',
+                t4Week: 'दिवस २२-३०',
+                t4Text: 'कार्यक्षमता मोजमाप — वाचलेला वेळ आणि लाभार्थ्यांच्या संख्येचे अचूक दस्तऐवजीकरण.',
+                t5Week: 'दिवस ३०+',
+                t5Text: 'पुढचा टप्पा — इतर विभागांचा समावेश किंवा विद्यमान प्रणालीचा विस्तार.',
+                proofHeading: 'महाराष्ट्र: AI क्रांतीमध्ये अग्रेसर',
+                proof1Title: 'Aaple Sarkar Bot',
+                proof1Body: '१,४००+ सेवा — २०१९ पासून कार्यरत',
+                proof1Source: 'Source: IndiaAI.gov',
+                proof2Title: 'Aaple Sarkar WhatsApp',
+                proof2Body: '५००+ सेवा — Meta सोबत भागीदारी — २०२५',
+                proof2Source: 'Source: NewsBytesApp',
+                proof3Title: 'IBM आणि महाराष्ट्र शासन',
+                proof3Body: 'AI-आधारित नागरिक सेवा — एप्रिल २०२५',
+                proof3Source: 'Source: Elets eGov',
+                proof4Title: 'MARVEL AI',
+                proof4Body: 'पोलीस विभागात यशस्वी अंमलबजावणी — २०२४',
+                proof4Source: 'Source: Elets eGov',
+                proof5Title: 'विकसित महाराष्ट्र',
+                proof5Body: '३.८८ लाख प्रतिसाद — ८४% मराठीत',
+                proof5Source: 'Source: Maharashtra Govt 2025',
+                closingQuote: 'छत्रपती शिवाजी महाराजांनी मोजक्या पण सक्षम मावळ्यांच्या बळावर आणि गनिमी काव्याने बलाढ्य शत्रूंना पराभूत केले. आजच्या डिजिटल युगात AI हे एक \'गनिमी काव्य\'च आहे — जे कमी संसाधनांतून असाधारण परिणाम साध्य करते.',
+                ctaBtn: 'तुमच्या विभागाची पात्रता तपासा →'
+            },
+            english: {
+                sectionLabel: 'Memory and Adoption',
+                heroTitle: 'What AI Learns Once —\nIt Never Forgets',
+                heroSubtitle: 'While human memory has limits, AI is limitless. However, rooting AI in administration requires a human perspective — and that is exactly what we provide.',
+                scienceLabel: 'Memory Science',
+                scienceOpening: "Psychology tells us we internalize things we use daily, things we connect with emotionally, and things that are familiar to us. Ads4you's AI system is built on these core principles.",
+                p1Title: 'Daily Use — Institutional Habit',
+                p1Body: "Maharashtra's 'Aaple Sarkar Bot' started with 1,400+ services — today it is an integral part of administrative workflows. Tools used regularly are not just technology; they become a habit.",
+                p1Source: 'Source: IndiaAI.gov — Aaple Sarkar Bot, Maharashtra',
+                p2Title: 'Emotion — The Most Powerful Teacher',
+                p2Body: 'A Vidarbha farmer got his crop insurance info at 9 PM on WhatsApp — that trust created is superior to any formal training. This sentiment roots AI deeply in administration.',
+                p2Stat: '44 lakh farmers covered under Baliraja Vij Savlat Yojana',
+                p2Source: 'Source: Maharashtra Budget 2024-25',
+                p3Title: 'Connect to the Familiar',
+                p3Body: 'Maharashtra Government has partnered with Meta because WhatsApp is familiar to 12.5 crore citizens in the state. No new app needed — just a WhatsApp number is enough.',
+                p3Stat: '500+ services on one WhatsApp number',
+                p3Source: 'Source: NewsBytesApp, February 2025',
+                p4Title: 'One Department. One Tool. 30 Days.',
+                p4Body: 'Andhra Pradesh integrated 36 departments achieving 5.1 million transactions. Maharashtra is on the same path. We start this change with one of your departments.',
+                p4Stat: '5.1 million transactions | 2.5 million citizens | 36 departments',
+                p4Source: 'Source: UCCIndia.org — Mana Mitra Platform Data',
+                p5Title: 'Transparent Info and Decisions',
+                p5Body: "In 'Vikasit Maharashtra' consultations, 3,88,835 citizens responded via WhatsApp — 84% in Marathi. This data is now shaping policy.",
+                p5Stat: '3,88,835 responses | 84% Marathi | 36 districts',
+                p5Source: 'Source: Maharashtra Government, Vikasit Maharashtra 2025',
+                p6Title: 'Official Recognition',
+                p6Body: "The WhatsApp AI initiative won the 'National e-Governance Gold Award 2024'. Both state and central governments officially recognize this technology.",
+                p6Stat: 'Gold Award — 27th National e-Governance Conference',
+                p6Source: 'Source: Elets eGov, September 2024',
+                timelineHeading: '30-Day Journey — From One Department to All of Maharashtra',
+                t1Week: 'Day 1-7',
+                t1Text: 'Analysis of department needs — reviewing daily problems and queries.',
+                t2Week: 'Day 8-14',
+                t2Text: 'Designing and integrating AI system — orienting staff through easy sessions.',
+                t3Week: 'Day 15-21',
+                t3Text: 'Live Pilot — immediate resolution of real citizen queries via AI.',
+                t4Week: 'Day 22-30',
+                t4Text: 'Efficiency metrics — accurate documentation of time saved and beneficiaries reached.',
+                t5Week: 'Day 30+',
+                t5Text: 'Next phase — including other departments or expanding the current system.',
+                proofHeading: 'Maharashtra: Ahead in the AI Revolution',
+                proof1Title: 'Aaple Sarkar Bot',
+                proof1Body: '1,400+ services — operational since 2019',
+                proof1Source: 'Source: IndiaAI.gov',
+                proof2Title: 'Aaple Sarkar WhatsApp',
+                proof2Body: '500+ services — Partnership with Meta — 2025',
+                proof2Source: 'Source: NewsBytesApp',
+                proof3Title: 'IBM and Maharashtra Govt',
+                proof3Body: 'AI-powered citizen services — April 2025',
+                proof3Source: 'Source: Elets eGov',
+                proof4Title: 'MARVEL AI',
+                proof4Body: 'Successful implementation in Police Department — 2024',
+                proof4Source: 'Source: Elets eGov',
+                proof5Title: 'Vikasit Maharashtra',
+                proof5Body: '3.88 lakh responses — 84% in Marathi',
+                proof5Source: 'Source: Maharashtra Govt 2025',
+                closingQuote: 'Shivaji Maharaj defeated greater enemies with a small force and guerrilla warfare. In the digital age, AI is guerrilla warfare — achieving extraordinary results with minimal resources.',
+                ctaBtn: 'Check eligibility for your department →'
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'marathi';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', currentTheme);
+        document.documentElement.lang = currentLang === 'marathi' ? 'mr' : 'en';
+
+        // Cursor removed — using default browser cursor
+
+        function setMultiline(id, text) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.innerHTML = text.replace(/\n/g, '<br>');
+        }
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang === 'marathi' ? 'mr' : 'en';
+            const d = content[lang];
+            Object.keys(d).forEach(id => {
+                if (id === 'heroTitle' || id === 'closingQuote') {
+                    setMultiline(id, d[id]);
+                } else {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = d[id];
+                }
+            });
+            document.querySelectorAll('.nav-links a').forEach(a => {
+                a.textContent = lang === 'marathi' ? a.dataset.mr : a.dataset.en;
+            });
+            document.getElementById('langToggle').textContent = lang === 'marathi' ? 'EN' : 'मराठी';
+        }
+
+        function updateTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => updateLanguage(currentLang === 'marathi' ? 'english' : 'marathi'));
+        document.getElementById('themeToggle').addEventListener('click', () => updateTheme(currentTheme === 'light' ? 'dark' : 'light'));
+
+        const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('load', () => {
+            updateLanguage(currentLang);
+            updateTheme(currentTheme);
+
+            gsap.to('.hero', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' });
+            gsap.utils.toArray('.fade-in').forEach(el => {
+                gsap.to(el, {
+                    opacity: 1,
+                    y: 0,
+                    duration: .85,
+                    ease: 'power2.out',
+                    scrollTrigger: { trigger: el, start: 'top 85%' }
+                });
+            });
+
+            const pillars = gsap.utils.toArray('.pillar-card');
+            pillars.forEach((card, index) => {
+                ScrollTrigger.create({
+                    trigger: '.pillars-section',
+                    start: `top+=${index * 80}% top`,
+                    end: `top+=${(index + 1) * 80}% top`,
+                    onEnter: () => gsap.to(card, { opacity: 1, y: 0, scale: 1, duration: .55, ease: 'power2.out' }),
+                    onLeave: () => gsap.to(card, { opacity: .08, y: -20, duration: .35, ease: 'power2.out' }),
+                    onEnterBack: () => gsap.to(card, { opacity: 1, y: 0, scale: 1, duration: .45, ease: 'power2.out' }),
+                    onLeaveBack: () => gsap.to(card, { opacity: 0, y: 40, scale: .98, duration: .35, ease: 'power2.out' })
+                });
+            });
+
+            const scroller = document.getElementById('proofScroller');
+            let isDown = false, startX = 0, scrollLeft = 0;
+            scroller.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - scroller.offsetLeft; scrollLeft = scroller.scrollLeft; });
+            scroller.addEventListener('mouseleave', () => isDown = false);
+            scroller.addEventListener('mouseup', () => isDown = false);
+            scroller.addEventListener('mousemove', e => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scroller.offsetLeft;
+                const walk = (x - startX) * 1.4;
+                scroller.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
+    <script src="shared.js"></script>
+</body>
+</html>

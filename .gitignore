@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Extraction/review files
+MARATHI_EXTRACTION.md
+MARATHI_TEXT_FOR_REVIEW.txt

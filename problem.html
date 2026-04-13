@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>🤖</text></svg>" type="image/svg+xml">
+    <title>समस्या — Ads4you Maharashtra Government AI</title>
+    <meta name="description" content="Current challenges in Maharashtra Government - The Pain">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg: #FAF7F2;
+            --bg-card: #F0EBE3;
+            --ink: #12141A;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #6B7280;
+            --border: rgba(201,168,76,0.2);
+            --problem-dark: #1A1C24;
+            --problem-heavy: #0D0E12;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0B0C10;
+            --bg-card: #12141A;
+            --ink: #F5F3EE;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #8A8FA8;
+            --border: rgba(201,168,76,0.15);
+            --problem-dark: #0B0C10;
+            --problem-heavy: #060708;
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--problem-heavy);
+            color: var(--ink);
+            overflow-x: hidden;
+            cursor: auto;
+        }
+
+        [lang="mr"] {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 12px;
+            height: 12px;
+            background: var(--saffron);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease;
+        }
+
+        .cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--saffron);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(13, 14, 18, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+        }
+
+        body[data-theme="light"] nav {
+            background: rgba(250, 247, 242, 0.85);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-ads {
+            color: #FF6B00;
+        }
+
+        .logo-four {
+            color: #C9A84C;
+        }
+
+        .logo-you {
+            color: #FF6B00;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--mist);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--saffron);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .toggle-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(201,168,76,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--ink);
+            transition: all 0.3s;
+        }
+
+        body[data-theme="light"] .toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+
+        .toggle-btn:hover {
+            background: var(--saffron);
+            color: white;
+            border-color: var(--saffron);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8rem 3rem 4rem;
+            background: linear-gradient(180deg, var(--problem-heavy) 0%, var(--problem-dark) 100%);
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.2;
+            text-align: center;
+            max-width: 1000px;
+            margin-bottom: 2rem;
+            color: var(--ink);
+        }
+
+        .hero-analogy {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.3rem, 2.5vw, 2rem);
+            color: var(--mist);
+            text-align: center;
+            max-width: 900px;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Pain Cards Section */
+        .pain-section {
+            min-height: 300vh;
+            background: var(--problem-dark);
+            position: relative;
+        }
+
+        .pain-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3rem;
+        }
+
+        .pain-cards {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+        }
+
+        .pain-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(201,168,76,0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+        }
+
+        .pain-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .pain-analogy {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #F5F3EE;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .pain-description {
+            font-size: 1.1rem;
+            color: var(--mist);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .pain-stat {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--saffron);
+            margin-bottom: 0.5rem;
+        }
+
+        .pain-department {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        /* Waste Counter Section */
+        .waste-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 3rem;
+            background: var(--problem-heavy);
+            position: relative;
+        }
+
+        .waste-counter {
+            text-align: center;
+        }
+
+        .waste-amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 700;
+            color: var(--saffron);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .waste-label {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: var(--mist);
+            margin-bottom: 3rem;
+        }
+
+        .next-link {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: var(--saffron);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.4s;
+        }
+
+        .next-link:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* Grain Texture */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.05;
+            z-index: 9997;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .pain-container {
+                padding: 0 1.5rem;
+            }
+
+            .pain-card {
+                padding: 2rem;
+            }
+
+            .pain-analogy {
+                font-size: 1.5rem;
+            }
+
+            .cursor, .cursor-ring { display:none; }
+
+            body { cursor:auto; }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+    <script>
+      (function(){
+        var theme=localStorage.getItem('theme')||'light';
+        var lang=localStorage.getItem('lang')||'marathi';
+        document.documentElement.classList.add('preflight');
+        document.documentElement.lang=lang==='marathi'?'mr':'en';
+      })();
+    </script>
+</head>
+<body data-theme="light" data-lang="mr">
+    <div class="mesh-bg"></div>
+    <div class="page-curtain"></div>
+    <!-- Custom Cursor -->
+        
+    <!-- Grain Texture -->
+    <div class="grain"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" style="text-decoration: none;">
+            <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a></li>
+            <li><a href="problem.html" class="active" data-mr="समस्या" data-en="Problem">समस्या</a></li>
+            <li><a href="solution.html" data-mr="उपाय" data-en="Solution">उपाय</a></li>
+            <li><a href="usecases.html" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a></li>
+            <li><a href="memory.html" data-mr="विज्ञान" data-en="Science">विज्ञान</a></li>
+            <li><a href="credentials.html" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a></li>
+            <li><a href="contact.html" data-mr="संवाद" data-en="Contact">संवाद</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="toggle-btn" id="themeToggle">🌙</button>
+            <button class="toggle-btn" id="langToggle">EN</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero fade-in">
+        <div class="section-label" id="sectionLabel">प्रशासकीय पारदर्शकतेची संधी</div>
+        <h1 class="hero-title" id="heroTitle">महाराष्ट्र प्रशासकीय परिवर्तनासाठी सिद्ध आहे</h1>
+        <p class="hero-analogy" id="heroAnalogy">महाराष्ट्र शासनाने कृत्रिम बुद्धिमत्तेच्या वापरासाठी धोरणात्मक पावले उचलली आहेत. आता ही क्षमता प्रत्येक विभागाच्या लोककल्याणकारी ध्येयपूर्तीसाठी प्रशासकीय स्वरूपात उपलब्ध करून देण्याची वेळ आली आहे.</p>
+    </section>
+
+    <!-- Pain Cards Section -->
+    <section class="pain-section">
+        <div class="pain-container">
+            <div class="pain-cards">
+                <!-- Card 1 -->
+                <div class="pain-card" data-card="1">
+                    <span class="pain-icon">📊</span>
+                    <h2 class="pain-analogy" id="card1Title">प्रशासकीय अभिलेखांचे डिजिटलीकरण — एक महत्त्वपूर्ण संधी</h2>
+                    <p class="pain-description" id="card1Desc">६८% शासकीय प्रक्रिया आजही कागदपत्रांवर आधारित आहेत — आधुनिक AI प्रणालीद्वारे यात आमूलाग्र सुधारणा शक्य आहे.</p>
+                    <div class="pain-stat">68%</div>
+                    <div class="pain-department" id="card1Dept">सर्व विभाग | MSME/MIDC डेटा</div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="pain-card" data-card="2">
+                    <span class="pain-icon">👥</span>
+                    <h2 class="pain-analogy" id="card2Title">नागरिक सेवा — अधिक कार्यक्षम आणि लोकाभिमुख होण्याची संधी</h2>
+                    <p class="pain-description" id="card2Desc">१२ कोटी नागरिक, ३५८ तालुके — प्रत्येकापर्यंत एकाच वेळी पोहोचणे आता शक्य आहे</p>
+                    <div class="pain-stat">१२ कोटी+</div>
+                    <div class="pain-department" id="card2Dept">महसूल | आरोग्य | शिक्षण</div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="pain-card" data-card="3">
+                    <span class="pain-icon">📄</span>
+                    <h2 class="pain-analogy" id="card3Title">अभिलेख व्यवस्थापन — डिजिटल कार्यक्षमतेकडे निर्णायक पाऊल</h2>
+                    <p class="pain-description" id="card3Desc">महत्त्वाची नस्ती (फाईल) शोधण्यासाठी लागणारा वेळ AI मुळे काही सेकंदात वाचवता येतो</p>
+                    <div class="pain-stat">40+ तास</div>
+                    <div class="pain-department" id="card3Dept">महसूल | नगरपालिका</div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="pain-card" data-card="4">
+                    <span class="pain-icon">📋</span>
+                    <h2 class="pain-analogy" id="card4Title">माहितीचा अधिकार (RTI) — त्वरित प्रतिसादासाठी AI तंत्रज्ञान</h2>
+                    <p class="pain-description" id="card4Desc">सरासरी RTI प्रतिसाद वेळ २२.८ दिवस — AI सहाय्याने हे काम ३ दिवसांपेक्षा कमी वेळेत होऊ शकते</p>
+                    <div class="pain-stat">२२.८ दिवस</div>
+                    <div class="pain-department" id="card4Dept">सार्वजनिक प्राधिकरण | अहवाल २०२३</div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="pain-card" data-card="5">
+                    <span class="pain-icon">🎯</span>
+                    <h2 class="pain-analogy" id="card5Title">माहिती-आधारित निर्णय प्रक्रिया — प्रशासकीय परिपक्वतेकडे महाराष्ट्राची वाटचाल</h2>
+                    <p class="pain-description" id="card5Desc">महाराष्ट्र पोलिसांची 'MARVEL' AI प्रणाली यशस्वीरित्या कार्यरत आहे — आता सर्व विभागांसाठी असाच विस्तार शक्य</p>
+                    <div class="pain-stat">40-60%</div>
+                    <div class="pain-department" id="card5Dept">नियोजन | वित्त | सार्वजनिक सेवा</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waste Counter Section -->
+    <section class="waste-section fade-in">
+        <div class="waste-counter">
+            <div class="waste-amount" id="wasteAmount">₹0</div>
+            <p class="waste-label" id="wasteLabel">महाराष्ट्र सरकारचा २०२४-२५ चा अंदाजित खर्च — AI मुळे ४०-६०% कार्यक्षमता वाढ शक्य</p>
+            <a href="solution.html" class="next-link" id="nextLink">महाराष्ट्र प्रशासकीय परिवर्तनासाठी सिद्ध आहे. Ads4you सोबत हे परिवर्तन कसे शक्य आहे ते पाहा →</a>
+        </div>
+    </section>
+
+    <script>
+        // Content Object
+        const content = {
+            marathi: {
+                sectionLabel: "प्रशासकीय पारदर्शकतेची संधी",
+                heroTitle: "महाराष्ट्र प्रशासकीय परिवर्तनासाठी सिद्ध आहे",
+                heroAnalogy: "महाराष्ट्र शासनाने कृत्रिम बुद्धिमत्तेच्या वापरासाठी धोरणात्मक पावले उचलली आहेत. आता ही क्षमता प्रत्येक विभागाच्या लोककल्याणकारी ध्येयपूर्तीसाठी प्रशासकीय स्वरूपात उपलब्ध करून देण्याची वेळ आली आहे.",
+                card1Title: "प्रशासकीय अभिलेखांचे डिजिटलीकरण — एक महत्त्वपूर्ण संधी",
+                card1Desc: "६८% शासकीय प्रक्रिया आजही कागदपत्रांवर आधारित आहेत — आधुनिक AI प्रणालीद्वारे यात आमूलाग्र सुधारणा शक्य आहे.",
+                card1Dept: "सर्व विभाग | MSME/MIDC डेटा",
+                card2Title: "नागरिक सेवा — अधिक कार्यक्षम आणि लोकाभिमुख होण्याची संधी",
+                card2Desc: "१२ कोटी नागरिक, ३५८ तालुके — प्रत्येकापर्यंत एकाच वेळी पोहोचणे आता शक्य आहे",
+                card2Dept: "महसूल | आरोग्य | शिक्षण",
+                card3Title: "अभिलेख व्यवस्थापन — डिजिटल कार्यक्षमतेकडे निर्णायक पाऊल",
+                card3Desc: "महत्त्वाची नस्ती (फाईल) शोधण्यासाठी लागणारा वेळ AI मुळे काही सेकंदात वाचवता येतो",
+                card3Dept: "महसूल | नगरपालिका",
+                card4Title: "माहितीचा अधिकार (RTI) — त्वरित प्रतिसादासाठी AI तंत्रज्ञान",
+                card4Desc: "सरासरी RTI प्रतिसाद वेळ २२.८ दिवस — AI सहाय्याने हे काम ३ दिवसांपेक्षा कमी वेळेत होऊ शकते",
+                card4Dept: "सार्वजनिक प्राधिकरण | अहवाल २०२३",
+                card5Title: "माहिती-आधारित निर्णय प्रक्रिया — प्रशासकीय परिपक्वतेकडे महाराष्ट्राची वाटचाल",
+                card5Desc: "महाराष्ट्र पोलिसांची 'MARVEL' AI प्रणाली यशस्वीरित्या कार्यरत आहे — आता सर्व विभागांसाठी असाच विस्तार शक्य",
+                card5Dept: "नियोजन | वित्त | सार्वजनिक सेवा",
+                wasteLabel: "महाराष्ट्र सरकारचा २०२४-२५ चा अंदाजित खर्च — AI मुळे ४०-६०% कार्यक्षमता वाढ शक्य",
+                nextLink: "महाराष्ट्र प्रशासकीय परिवर्तनासाठी सिद्ध आहे. Ads4you सोबत हे परिवर्तन कसे शक्य आहे ते पाहा →"
+            },
+            english: {
+                sectionLabel: "The Opportunity",
+                heroTitle: "Maharashtra Is Ready",
+                heroAnalogy: "Maharashtra is already moving toward AI — MoUs signed with IBM and Microsoft. Now is the time to bring that momentum to every department.",
+                card1Title: "Manual Data Management — A Major Opportunity",
+                card1Desc: "68% of processes still run on paper — AI can radically modernize these operations.",
+                card1Dept: "All Departments | MSME/MIDC Data",
+                card2Title: "Citizen Services — Ready to Become Faster and Simpler",
+                card2Desc: "12 crore citizens, 358 talukas — reaching all of them simultaneously is now possible",
+                card2Dept: "Revenue | Health | Education",
+                card3Title: "Document Management — Digital Solution Is Ready",
+                card3Desc: "Time spent finding critical files can be reduced to seconds with AI.",
+                card3Dept: "Revenue | Municipal",
+                card4Title: "RTI Responses — The Capacity for Speed Now Exists",
+                card4Desc: "Average RTI response time is 22.8 days nationally — AI can bring this under 3 days",
+                card4Dept: "All Public Authorities | Report 2023",
+                card5Title: "Data-Driven Governance — Maharashtra's Next Step",
+                card5Desc: "Maharashtra's MARVEL AI is already live in policing — now expanding to all departments",
+                card5Dept: "Planning | Finance | Public Services",
+                wasteLabel: "Maharashtra Government expenditure 2024-25: ₹6,12,293 crore — AI can improve efficiency by 40-60%",
+                nextLink: "Maharashtra is ready. See how Ads4you makes it possible →"
+            }
+        };
+
+        // Initialize
+        let currentLang = localStorage.getItem('lang') || 'marathi';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        document.body.setAttribute('data-theme', currentTheme);
+        document.body.setAttribute('data-lang', currentLang === 'marathi' ? 'mr' : 'en');
+        document.documentElement.lang = currentLang === 'marathi' ? 'mr' : 'en';
+
+        // Cursor removed — using default browser cursor
+
+        // Language Toggle
+        function updateLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.body.setAttribute('data-lang', lang === 'marathi' ? 'mr' : 'en');
+            document.documentElement.lang = lang === 'marathi' ? 'mr' : 'en';
+
+            const langData = content[lang];
+            document.getElementById('sectionLabel').textContent = langData.sectionLabel;
+            document.getElementById('heroTitle').textContent = langData.heroTitle;
+            document.getElementById('heroAnalogy').textContent = langData.heroAnalogy;
+
+            document.getElementById('card1Title').textContent = langData.card1Title;
+            document.getElementById('card1Desc').textContent = langData.card1Desc;
+            document.getElementById('card1Dept').textContent = langData.card1Dept;
+            document.querySelector('[data-card="1"] .pain-stat').textContent = lang === 'marathi' ? '68%' : '68%';
+
+            document.getElementById('card2Title').textContent = langData.card2Title;
+            document.getElementById('card2Desc').textContent = langData.card2Desc;
+            document.getElementById('card2Dept').textContent = langData.card2Dept;
+            document.querySelector('[data-card="2"] .pain-stat').textContent = lang === 'marathi' ? '12 कोटी+' : '12 crore+';
+
+            document.getElementById('card3Title').textContent = langData.card3Title;
+            document.getElementById('card3Desc').textContent = langData.card3Desc;
+            document.getElementById('card3Dept').textContent = langData.card3Dept;
+            document.querySelector('[data-card="3"] .pain-stat').textContent = lang === 'marathi' ? '40+ तास' : '40+ hours';
+
+            document.getElementById('card4Title').textContent = langData.card4Title;
+            document.getElementById('card4Desc').textContent = langData.card4Desc;
+            document.getElementById('card4Dept').textContent = langData.card4Dept;
+            document.querySelector('[data-card="4"] .pain-stat').textContent = lang === 'marathi' ? '22.8 दिवस' : '22.8 days';
+
+            document.getElementById('card5Title').textContent = langData.card5Title;
+            document.getElementById('card5Desc').textContent = langData.card5Desc;
+            document.getElementById('card5Dept').textContent = langData.card5Dept;
+            document.querySelector('[data-card="5"] .pain-stat').textContent = '40-60%';
+
+            document.getElementById('wasteLabel').textContent = langData.wasteLabel;
+            document.getElementById('nextLink').textContent = langData.nextLink;
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.textContent = lang === 'marathi' ? link.dataset.mr : link.dataset.en;
+            });
+
+            document.getElementById('langToggle').textContent = lang === 'marathi' ? 'EN' : 'मराठी';
+            document.getElementById('wasteAmount').textContent = lang === 'marathi' ? '₹6,12,293 कोटी' : '₹6,12,293 crore';
+        }
+
+        // Theme Toggle
+        function updateTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // Event Listeners
+        document.getElementById('langToggle').addEventListener('click', () => {
+            updateLanguage(currentLang === 'marathi' ? 'english' : 'marathi');
+        });
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            updateTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+
+        // Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('load', () => {
+            updateLanguage(currentLang);
+            updateTheme(currentTheme);
+
+            // Hero fade in
+            gsap.to('.hero', {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+
+            // Pain cards stacking animation
+            const cards = gsap.utils.toArray('.pain-card');
+
+            cards.forEach((card, index) => {
+                gsap.set(card, { opacity: 0, scale: 0.8 });
+
+                ScrollTrigger.create({
+                    trigger: '.pain-section',
+                    start: `top+=${index * 20}% top`,
+                    end: `top+=${(index + 1) * 20}% top`,
+                    onEnter: () => {
+                        gsap.to(card, {
+                            opacity: 1,
+                            scale: 1,
+                            duration: 0.6,
+                            ease: "power2.out"
+                        });
+                    },
+                    onLeaveBack: () => {
+                        gsap.to(card, {
+                            opacity: 0,
+                            scale: 0.8,
+                            duration: 0.4
+                        });
+                    }
+                });
+            });
+
+            // Waste counter animation
+            ScrollTrigger.create({
+                trigger: '.waste-section',
+                start: 'top center',
+                onEnter: () => {
+                    gsap.to('#wasteAmount', {
+                        innerText: 612293,
+                        duration: 3,
+                        snap: { innerText: 1 },
+                        ease: "power2.out",
+                        onUpdate: function() {
+                            const val = Math.ceil(this.targets()[0].innerText);
+                            document.getElementById('wasteAmount').innerText = '₹' + val.toLocaleString('en-IN') + ' कोटी';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <script src="shared.js"></script>
+</body>
+</html>

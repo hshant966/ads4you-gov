@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>🤖</text></svg>" type="image/svg+xml">
+    <title>Ads4you — महाराष्ट्राचे भविष्य AI सोबत</title>
+    <meta name="description" content="AI Automation for Maharashtra Government - Ads4you">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg: #FAF7F2;
+            --bg-card: #F0EBE3;
+            --ink: #12141A;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #6B7280;
+            --border: rgba(201,168,76,0.2);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0B0C10;
+            --bg-card: #12141A;
+            --ink: #F5F3EE;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #8A8FA8;
+            --border: rgba(201,168,76,0.15);
+        }
+
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+            cursor: auto;
+        }
+
+        [lang="mr"] {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 12px;
+            height: 12px;
+            background: var(--saffron);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease;
+        }
+
+        .cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--saffron);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(250, 247, 242, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        [data-theme="dark"] nav {
+            background: rgba(11, 12, 16, 0.8);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-ads {
+            color: #FF6B00;
+        }
+
+        .logo-four {
+            color: #C9A84C;
+        }
+
+        .logo-you {
+            color: #FF6B00;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--mist);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--saffron);
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--ink);
+            transition: all 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background: var(--saffron);
+            color: white;
+            border-color: var(--saffron);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 3rem;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 1200px;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--ink);
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--mist);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 1.2rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .cta-primary {
+            background: var(--saffron);
+            color: white;
+            border: 2px solid var(--saffron);
+        }
+
+        .cta-primary:hover {
+            background: transparent;
+            color: var(--saffron);
+            transform: translateY(-2px);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 2px solid var(--border);
+        }
+
+        .cta-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4rem;
+            z-index: 1;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--saffron);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--mist);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: translateY(0); }
+            50% { opacity: 1; transform: translateY(10px); }
+        }
+
+        .scroll-text {
+            font-size: 0.7rem;
+            color: var(--mist);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Grain Texture */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 9997;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 0 1.5rem;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 1.5rem;
+                bottom: 8rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .cursor, .cursor-ring { display:none; }
+
+            body { cursor:auto; }
+
+            footer div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+        }
+
+        /* Loading Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+    <script>
+      (function(){
+        var theme=localStorage.getItem('theme')||'light';
+        var lang=localStorage.getItem('lang')||'marathi';
+        document.documentElement.classList.add('preflight');
+        document.documentElement.lang=lang==='marathi'?'mr':'en';
+      })();
+    </script>
+</head>
+<body data-theme="light" data-lang="mr">
+    <div class="mesh-bg"></div>
+    <div class="page-curtain"></div>
+    <!-- Custom Cursor -->
+        
+    <!-- Grain Texture -->
+    <div class="grain"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active" id="navHome" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a></li>
+            <li><a href="problem.html" id="navProblem" data-mr="समस्या" data-en="Problem">समस्या</a></li>
+            <li><a href="solution.html" id="navSolution" data-mr="उपाय" data-en="Solution">उपाय</a></li>
+            <li><a href="usecases.html" id="navUseCases" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a></li>
+            <li><a href="memory.html" id="navScience" data-mr="विज्ञान" data-en="Science">विज्ञान</a></li>
+            <li><a href="credentials.html" id="navTrust" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a></li>
+            <li><a href="contact.html" id="navContact" data-mr="संवाद" data-en="Contact">संवाद</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="toggle-btn" id="themeToggle">🌙</button>
+            <button class="toggle-btn" id="langToggle">EN</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg" id="particleCanvas"></div>
+
+        <div class="hero-content fade-in">
+            <h1 class="hero-title" id="heroTitle">महाराष्ट्राचे डिजिटल भविष्य</h1>
+            <p class="hero-subtitle" id="heroSubtitle">प्रगत महाराष्ट्र: स्वायत्त प्रशासनाचे स्वप्न</p>
+
+            <div class="hero-ctas">
+                <a href="problem.html" class="cta-btn cta-primary" id="ctaPrimary">प्रस्ताव पहा</a>
+                <a href="contact.html" class="cta-btn cta-secondary" id="ctaSecondary">संपर्क करा</a>
+            </div>
+        </div>
+
+        <div class="stats-bar fade-in">
+            <div class="stat">
+                <span class="stat-number" data-target="36">0</span>
+                <span class="stat-label" id="statLabel1">जिल्हे</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" data-target="12">0</span>
+                <span class="stat-label" id="statLabel2">१२+ कोटी जनता</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" data-target="7">0</span>
+                <span class="stat-label" id="statLabel3">AI सेवा</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" data-target="50">0</span>
+                <span class="stat-label" id="statLabel4">% खर्च कपात</span>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span class="scroll-text" id="scrollText">खाली स्क्रोल करा</span>
+        </div>
+    </section>
+
+    <script>
+        // Content Object
+        const content = {
+            marathi: {
+                heroTitle: "महाराष्ट्राचे डिजिटल भविष्य",
+                heroSubtitle: "प्रगत महाराष्ट्र: स्वायत्त प्रशासनाचे स्वप्न",
+                ctaPrimary: "प्रशासकीय प्रस्ताव",
+                ctaSecondary: "संवाद साधा",
+                statLabel1: "जिल्हे",
+                statLabel2: "१२+ कोटी जनता",
+                statLabel3: "AI सेवा",
+                statLabel4: "% खर्च कपात",
+                scrollText: "खाली स्क्रोल करा",
+                navHome: "मुख्यपृष्ठ",
+                navProblem: "समस्या",
+                navSolution: "उपाय",
+                navUseCases: "उपयोगिता",
+                navScience: "विज्ञान",
+                navTrust: "विश्वासार्हता",
+                navContact: "संवाद"
+            },
+            english: {
+                heroTitle: "Maharashtra's Digital Future",
+                heroSubtitle: "Through Advanced AI — Modernizing Administration",
+                ctaPrimary: "See Proposal",
+                ctaSecondary: "Contact Us",
+                statLabel1: "Districts",
+                statLabel2: "12Cr+ Citizens",
+                statLabel3: "AI Services",
+                statLabel4: "% Cost Cut",
+                scrollText: "Scroll Down",
+                navHome: "Home",
+                navProblem: "Problem",
+                navSolution: "Solution",
+                navUseCases: "Use Cases",
+                navScience: "Science",
+                navTrust: "Trust",
+                navContact: "Contact"
+            }
+        };
+
+        // Initialize
+        let currentLang = localStorage.getItem('lang') || 'marathi';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        document.body.setAttribute('data-theme', currentTheme);
+        document.body.setAttribute('data-lang', currentLang === 'marathi' ? 'mr' : 'en');
+        document.documentElement.lang = currentLang === 'marathi' ? 'mr' : 'en';
+
+        // Cursor removed — using default browser cursor
+
+        // Particle Background
+        function createParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const particleCount = 80;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                canvas.appendChild(particle);
+
+                gsap.to(particle, {
+                    y: Math.random() * 100 - 50,
+                    x: Math.random() * 100 - 50,
+                    duration: Math.random() * 10 + 10,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        }
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2;
+
+                gsap.to(counter, {
+                    innerText: target,
+                    duration: duration,
+                    snap: { innerText: 1 },
+                    ease: "power2.out",
+                    onUpdate: function() {
+                        counter.innerText = Math.ceil(counter.innerText);
+                    }
+                });
+            });
+        }
+
+        // Language Toggle
+        function updateLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.body.setAttribute('data-lang', lang === 'marathi' ? 'mr' : 'en');
+            document.documentElement.lang = lang === 'marathi' ? 'mr' : 'en';
+
+            const langData = content[lang];
+            document.getElementById('heroTitle').textContent = langData.heroTitle;
+            document.getElementById('heroSubtitle').textContent = langData.heroSubtitle;
+            document.getElementById('ctaPrimary').textContent = langData.ctaPrimary;
+            document.getElementById('ctaSecondary').textContent = langData.ctaSecondary;
+            document.getElementById('statLabel1').textContent = langData.statLabel1;
+            document.getElementById('statLabel2').textContent = langData.statLabel2;
+            document.getElementById('statLabel3').textContent = langData.statLabel3;
+            document.getElementById('statLabel4').textContent = langData.statLabel4;
+            document.getElementById('scrollText').textContent = langData.scrollText;
+
+            document.getElementById('navHome').textContent = langData.navHome;
+            document.getElementById('navProblem').textContent = langData.navProblem;
+            document.getElementById('navSolution').textContent = langData.navSolution;
+            document.getElementById('navUseCases').textContent = langData.navUseCases;
+            document.getElementById('navScience').textContent = langData.navScience;
+            document.getElementById('navTrust').textContent = langData.navTrust;
+            document.getElementById('navContact').textContent = langData.navContact;
+
+            document.getElementById('langToggle').textContent = lang === 'marathi' ? 'EN' : 'मराठी';
+        }
+
+        // Theme Toggle
+        function updateTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        // Event Listeners
+        document.getElementById('langToggle').addEventListener('click', () => {
+            updateLanguage(currentLang === 'marathi' ? 'english' : 'marathi');
+        });
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            updateTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+
+        // Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        window.addEventListener('load', () => {
+            // Initial language and theme
+            updateLanguage(currentLang);
+            updateTheme(currentTheme);
+
+            // Create particles
+            createParticles();
+
+            // Fade in hero content
+            gsap.to('.fade-in', {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                stagger: 0.2,
+                ease: "power3.out",
+                delay: 0.3
+            });
+
+            // Animate counters
+            setTimeout(animateCounters, 800);
+        });
+    <footer style="padding:2.5rem 3rem;background:var(--bg-card);border-top:1px solid var(--border);">
+      <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:start;">
+        <div>
+          <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+          <p style="color:var(--mist);line-height:1.8;margin-top:.8rem;">Ads4you — AI Automation Studio | पुणे, महाराष्ट्र<br>Ads4you@zohomail.com<br>UDYAM-MH-26-1092780</p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;justify-content:flex-end;">
+          <a href="index.html" style="color:var(--mist);text-decoration:none;" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a>
+          <a href="problem.html" style="color:var(--mist);text-decoration:none;" data-mr="समस्या" data-en="Problem">समस्या</a>
+          <a href="solution.html" style="color:var(--mist);text-decoration:none;" data-mr="उपाय" data-en="Solution">उपाय</a>
+          <a href="usecases.html" style="color:var(--mist);text-decoration:none;" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a>
+          <a href="memory.html" style="color:var(--mist);text-decoration:none;" data-mr="विज्ञान" data-en="Science">विज्ञान</a>
+          <a href="credentials.html" style="color:var(--mist);text-decoration:none;" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a>
+          <a href="contact.html" style="color:var(--mist);text-decoration:none;" data-mr="संवाद" data-en="Contact">संवाद</a>
+        </div>
+      </div>
+      <div style="max-width:1200px;margin:1.5rem auto 0;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--mist);font-size:.9rem;">© २०२६ Ads4you. महाराष्ट्रासाठी समर्पित.</div>
+    </footer>
+    </script>
+    <script src="shared.js"></script>
+</body>
+</html>

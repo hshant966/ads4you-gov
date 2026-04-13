@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>🤖</text></svg>" type="image/svg+xml">
+    <title>विभागनिहाय उपाय — Ads4you Maharashtra Government AI</title>
+    <meta name="description" content="Department-wise AI use cases for Maharashtra Government">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #FAF7F2;
+            --bg-card: #F0EBE3;
+            --ink: #12141A;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #6B7280;
+            --border: rgba(201,168,76,0.2);
+        }
+        [data-theme="dark"] {
+            --bg: #0B0C10;
+            --bg-card: #12141A;
+            --ink: #F5F3EE;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #8A8FA8;
+            --border: rgba(201,168,76,0.15);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { font-size:16px; }
+        body {
+            font-family:'Manrope',sans-serif;
+            background: linear-gradient(180deg, #FFF8F0 0%, var(--bg) 35%, var(--bg-card) 100%);
+            color: var(--ink);
+            overflow-x: hidden;
+            cursor: auto;
+        }
+        [data-theme="dark"] body {
+            background: linear-gradient(180deg, #12141A 0%, #0B0C10 35%, #151821 100%);
+        }
+        [lang="mr"] {
+            font-family:'Noto Sans Devanagari',sans-serif;
+            font-size:1.1em;
+            line-height:1.6;
+        }
+
+        .cursor {
+            width:12px;height:12px;background:var(--saffron);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:transform .2s ease;
+        }
+        .cursor-ring {
+            width:40px;height:40px;border:1px solid var(--saffron);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:transform .3s ease;
+        }
+
+        nav {
+            position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;
+            background:rgba(250,247,242,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
+        }
+        [data-theme="dark"] nav {
+            background:rgba(11,12,16,0.9);border-bottom:1px solid rgba(201,168,76,0.1);
+        }
+        .logo { font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700; }
+        .logo-ads { color:#FF6B00; }
+        .logo-four { color:#C9A84C; }
+        .logo-you { color:#FF6B00; }
+        .nav-links { display:flex;gap:2rem;list-style:none; }
+        .nav-links a { color:var(--mist);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .3s; }
+        .nav-links a:hover,.nav-links a.active { color:var(--saffron); }
+        .nav-controls { display:flex;gap:1rem; }
+        .toggle-btn { background:var(--bg-card);border:1px solid var(--border);padding:.5rem 1rem;border-radius:20px;cursor:pointer;font-size:.85rem;color:var(--ink);transition:all .3s; }
+        .toggle-btn:hover { background:var(--saffron);color:white;border-color:var(--saffron); }
+
+        .hero {
+            min-height:90vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8rem 3rem 4rem;text-align:center;
+        }
+        .section-label { font-size:.75rem;text-transform:uppercase;letter-spacing:3px;color:var(--gold);margin-bottom:2rem;opacity:.8; }
+        .hero-title { font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,5.5rem);font-weight:900;line-height:1.1;max-width:1000px;margin-bottom:1.5rem;color:var(--ink); }
+        .hero-subtitle { font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,2.2vw,1.8rem);max-width:900px;color:var(--mist);line-height:1.6; }
+
+        .filters-section { padding:0 3rem 3rem; }
+        .filter-tabs { display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;max-width:1100px;margin:0 auto; }
+        .filter-tab {
+            padding:.9rem 1.4rem;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--mist);cursor:pointer;font-weight:600;transition:all .3s;
+        }
+        .filter-tab.active { background:var(--saffron);color:#fff;border-color:var(--saffron); }
+        .filter-tab:hover { border-color:var(--gold);color:var(--ink); }
+
+        .cards-section { padding:2rem 3rem 5rem; }
+        .cards-grid { display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:2rem;max-width:1400px;margin:0 auto; }
+        .usecase-card {
+            background:rgba(255,255,255,.55);border:1px solid var(--border);border-radius:28px;padding:2rem;position:relative;overflow:hidden;backdrop-filter:blur(12px);transition:transform .4s, border-color .4s, box-shadow .4s;
+        }
+        [data-theme="dark"] .usecase-card { background:rgba(255,255,255,.03); }
+        .usecase-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(0,0,0,.08); }
+        .card-top { display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1.5rem; }
+        .dept-badge {
+            display:inline-flex;align-items:center;gap:.6rem;padding:.7rem 1rem;border-radius:999px;font-size:.82rem;font-weight:700;color:#fff;
+        }
+        .possible-tag {
+            font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);border:1px solid var(--border);padding:.55rem .8rem;border-radius:999px;white-space:nowrap;
+        }
+        .card-problem-title,.card-solution-title { font-size:.78rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;font-weight:700; }
+        .card-problem,.card-solution { font-size:1.02rem;line-height:1.65;color:var(--ink); }
+        .card-solution { margin-bottom:1.6rem; }
+        .card-divider { height:1px;background:var(--border);margin:1.4rem 0; }
+        .metrics-row { display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.4rem; }
+        .metric-box { background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:1rem;text-align:center; }
+        [data-theme="dark"] .metric-box { background:#10131A; }
+        .metric-number { font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--saffron);line-height:1; }
+        .metric-label { font-size:.78rem;color:var(--mist);line-height:1.4;margin-top:.45rem; }
+        .source-note { font-size:.8rem;color:var(--mist);line-height:1.5;border-left:2px solid var(--gold);padding-left:.9rem; }
+
+        .proof-section { padding:6rem 3rem;background:linear-gradient(180deg, transparent 0%, rgba(201,168,76,.08) 100%); }
+        .proof-heading { font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:700;text-align:center;color:var(--ink);max-width:900px;margin:0 auto 3rem; }
+        .proof-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:1200px;margin:0 auto; }
+        .proof-item { background:var(--bg);border:1px solid var(--border);border-radius:24px;padding:2rem; }
+        [data-theme="dark"] .proof-item { background:#10131A; }
+        .proof-icon { font-size:2rem;margin-bottom:1rem;display:block; }
+        .proof-text { font-size:1rem;line-height:1.7;color:var(--ink); }
+
+        .cta-section { min-height:50vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:4rem 3rem 6rem;text-align:center; }
+        .cta-heading { font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;max-width:860px;color:var(--ink);margin-bottom:2rem; }
+        .cta-btn { display:inline-block;padding:1.2rem 2.6rem;background:var(--saffron);color:#fff;text-decoration:none;border-radius:50px;font-weight:700;font-size:1.05rem;transition:all .35s; }
+        .cta-btn:hover { background:var(--gold);transform:translateY(-2px); }
+
+        .grain { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:.03;z-index:9997;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+        .fade-in { opacity:0; transform:translateY(28px); }
+        .hidden-card { display:none !important; }
+
+        @media (max-width: 980px) {
+            .cards-grid, .proof-grid { grid-template-columns:1fr; }
+        }
+        @media (max-width: 768px) {
+            nav { padding:1rem 1.5rem; }
+            .nav-links { display:none; }
+            .hero, .filters-section, .cards-section, .proof-section, .cta-section { padding-left:1.5rem; padding-right:1.5rem; }
+            .metrics-row { grid-template-columns:1fr; }
+            .cursor, .cursor-ring { display:none; }
+            body { cursor:auto; }
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+    <script>
+      (function(){
+        var theme=localStorage.getItem('theme')||'light';
+        var lang=localStorage.getItem('lang')||'marathi';
+        document.documentElement.classList.add('preflight');
+        document.documentElement.lang=lang==='marathi'?'mr':'en';
+      })();
+    </script>
+</head>
+<body data-theme="light" data-lang="mr">
+    <div class="mesh-bg"></div>
+    <div class="page-curtain"></div>
+            <div class="grain"></div>
+
+    <nav>
+        <a href="index.html" style="text-decoration:none;">
+            <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a></li>
+            <li><a href="problem.html" data-mr="समस्या" data-en="Problem">समस्या</a></li>
+            <li><a href="solution.html" data-mr="उपाय" data-en="Solution">उपाय</a></li>
+            <li><a href="usecases.html" class="active" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a></li>
+            <li><a href="memory.html" data-mr="विज्ञान" data-en="Science">विज्ञान</a></li>
+            <li><a href="credentials.html" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a></li>
+            <li><a href="contact.html" data-mr="संवाद" data-en="Contact">संवाद</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="toggle-btn" id="themeToggle">🌙</button>
+            <button class="toggle-btn" id="langToggle">EN</button>
+        </div>
+    </nav>
+
+    <section class="hero fade-in">
+        <div class="section-label" id="sectionLabel">विभागनिहाय उपयोगिता</div>
+        <h1 class="hero-title" id="heroTitle">प्रत्येक विभागासाठी — प्रशासकीयदृष्ट्या उपयुक्त आणि परिणामकारक उपाय</h1>
+        <p class="hero-subtitle" id="heroSubtitle">ही केवळ संकल्पना नाही; प्रशासकीय अंमलबजावणीसाठी सिद्ध झालेली दिशा आहे. महाराष्ट्र शासनासोबत जागतिक तंत्रज्ञान भागीदार आधीच कार्यरत आहेत. Ads4you हीच क्षमता तुमच्या विभागाच्या दैनंदिन कामकाजात उतरवतो.</p>
+    </section>
+
+    <section class="filters-section fade-in">
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" id="tabAll">सर्व / All</button>
+            <button class="filter-tab" data-filter="revenue" id="tabRevenue">महसूल / Revenue</button>
+            <button class="filter-tab" data-filter="agriculture" id="tabAgriculture">शेती / Agriculture</button>
+            <button class="filter-tab" data-filter="health" id="tabHealth">आरोग्य / Health</button>
+            <button class="filter-tab" data-filter="education" id="tabEducation">शिक्षण / Education</button>
+            <button class="filter-tab" data-filter="municipal" id="tabMunicipal">नगरपालिका / Municipal</button>
+        </div>
+    </section>
+
+    <section class="cards-section">
+        <div class="cards-grid">
+            <article class="usecase-card fade-in" data-category="revenue">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#FF6B00" id="dept1">महसूल विभाग</div>
+                    <div class="possible-tag" id="possible1">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle1">समस्या / Problem</div>
+                <p class="card-problem" id="problem1">मालमत्ता कर, थकबाकी आणि पावत्यांचे व्यवस्थापन — नागरिकांच्या वाढत्या तक्रारी आणि प्रलंबित कामे.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle1">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution1">AI-आधारित WhatsApp चॅटबॉट — कर भरणा, पावत्या आणि मालमत्तेचे नकाशे यांसारखी सर्व माहिती अवघ्या ६० सेकंदात उपलब्ध.</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number" data-count="80">0</div><div class="metric-label" id="m1a">प्रश्न संख्या कमी</div></div>
+                    <div class="metric-box"><div class="metric-number">24/7</div><div class="metric-label" id="m1b">उपलब्धता / Availability</div></div>
+                    <div class="metric-box"><div class="metric-number">60 sec</div><div class="metric-label" id="m1c">प्रतिसाद वेळ / Response time</div></div>
+                </div>
+                <p class="source-note" id="source1">संदर्भ: २०२४ मधील समांतर नागरी प्रशासन अंमलबजावणी</p>
+            </article>
+
+            <article class="usecase-card fade-in" data-category="agriculture">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#2D7D2D" id="dept2">कृषी विभाग</div>
+                    <div class="possible-tag" id="possible2">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle2">समस्या / Problem</div>
+                <p class="card-problem" id="problem2">४४ लाख शेतकरी — शासकीय योजना आणि पात्रतेबद्दल माहितीचा अभाव.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle2">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution2">फक्त आधार आणि पिकाची माहिती WhatsApp करा — पात्र योजनांची सविस्तर माहिती तत्काळ मराठीत मिळवा.</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number" data-count="44">0</div><div class="metric-label" id="m2a">शेतकऱ्यांपर्यंत पोहोच (लाख)</div></div>
+                    <div class="metric-box"><div class="metric-number">60 sec</div><div class="metric-label" id="m2b">पात्रता तपासणी वेळ</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="14761">0</div><div class="metric-label" id="m2c">₹ कोटी शासकीय तरतूद</div></div>
+                </div>
+                <p class="source-note" id="source2">संदर्भ: महाराष्ट्र अर्थसंकल्प २०२४-२५</p>
+            </article>
+
+            <article class="usecase-card fade-in" data-category="health">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#C0392B" id="dept3">आरोग्य विभाग</div>
+                    <div class="possible-tag" id="possible3">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle3">समस्या / Problem</div>
+                <p class="card-problem" id="problem3">OPD मधील रांगा आणि भेटीचे (Appointment) नियोजन — रुग्ण आणि कर्मचाऱ्यांची होणारी ओढाताण.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle3">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution3">WhatsApp द्वारे अपॉइंटमेंट बुकिंग, टोकन स्थिती आणि डॉक्टरांच्या उपलब्धतेची रियल-टाइम माहिती.</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number" data-count="60">0</div><div class="metric-label" id="m3a">प्रतीक्षा वेळ कमी</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="12">0</div><div class="metric-label" id="m3b">लाख लाभार्थी</div></div>
+                    <div class="metric-box"><div class="metric-number">24/7</div><div class="metric-label" id="m3c">बुकिंग सेवा</div></div>
+                </div>
+                <p class="source-note" id="source3">संदर्भ: नीति आयोग–महाराष्ट्र ICTAI सामंजस्य करार</p>
+            </article>
+
+            <article class="usecase-card fade-in" data-category="education">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#8E44AD" id="dept4">शिक्षण विभाग</div>
+                    <div class="possible-tag" id="possible4">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle4">समस्या / Problem</div>
+                <p class="card-problem" id="problem4">शिष्यवृत्ती अर्ज, आवश्यक कागदपत्रे आणि अर्जाची स्थिती याबद्दल विद्यार्थी आणि पालकांमध्ये असलेला गोंधळ.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle4">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution4">AI WhatsApp बोट — शिष्यवृत्ती पात्रता, अर्जाची स्थिती आणि कागदपत्रांची सूची मराठीत उपलब्ध.</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number" data-count="100">0</div><div class="metric-label" id="m4a">शुल्क प्रतिपूर्ती</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="40">0</div><div class="metric-label" id="m4b">प्रक्रिया वेळ बचत</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="30">0</div><div class="metric-label" id="m4c">अंमलबजावणी दिवस</div></div>
+                </div>
+                <p class="source-note" id="source4">संदर्भ: महाराष्ट्र अर्थसंकल्प २०२४-२५</p>
+            </article>
+
+            <article class="usecase-card fade-in" data-category="municipal">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#E67E22" id="dept5">सार्वजनिक बांधकाम विभाग (PWD)</div>
+                    <div class="possible-tag" id="possible5">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle5">समस्या / Problem</div>
+                <p class="card-problem" id="problem5">रस्ते, पूल आणि शासकीय इमारतींच्या तक्रारींचा मागोवा घेणे कठीण होते.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle5">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution5">WhatsApp द्वारे तक्रार नोंदणी — स्वयंचलित पोचपावती, स्थिती अपडेट आणि तक्रार निवारणाची तत्काळ सूचना.</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number" data-count="100">0</div><div class="metric-label" id="m5a">तक्रार ट्रॅकिंग</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="50">0</div><div class="metric-label" id="m5b">फॉलो-अप कॉल्समध्ये घट</div></div>
+                    <div class="metric-box"><div class="metric-number">Real-time</div><div class="metric-label" id="m5c">स्थिती अपडेट</div></div>
+                </div>
+                <p class="source-note" id="source5">संदर्भ: सार्वजनिक बांधकाम तक्रार स्वयंचलन कार्यप्रवाह</p>
+            </article>
+
+            <article class="usecase-card fade-in" data-category="municipal">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#1ABC9C" id="dept6">नगरपालिका / महानगरपालिका</div>
+                    <div class="possible-tag" id="possible6">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle6">समस्या / Problem</div>
+                <p class="card-problem" id="problem6">जन्म-मृत्यू प्रमाणपत्र आणि रहिवासी दाखल्यांसाठी कार्यालयांमध्ये लागणाऱ्या लांबच लांब रांगा.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle6">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution6">WhatsApp वरूनच अर्ज करणे, कागदपत्रे अपलोड करणे आणि प्रमाणपत्र डाऊनलोड करण्याची सुविधा.</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number" data-count="80">0</div><div class="metric-label" id="m6a">कार्यालयीन भेटीत घट</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="3">0</div><div class="metric-label" id="m6b">प्रमाणपत्र वितरण वेळ</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="12">0</div><div class="metric-label" id="m6c">कोटी नागरिक लाभ</div></div>
+                </div>
+                <p class="source-note" id="source6">संदर्भ: नागरिक-केंद्रित डिजिटल प्रमाणपत्र कार्यप्रवाह</p>
+            </article>
+
+            <article class="usecase-card fade-in" data-category="all police">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#2C3E50" id="dept7">पोलीस विभाग</div>
+                    <div class="possible-tag" id="possible7">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle7">समस्या / Problem</div>
+                <p class="card-problem" id="problem7">एफआयआर स्थिती आणि चारित्र्य प्रमाणपत्रासाठी नागरिकांना पोलीस ठाण्यात वारंवार जावे लागते.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle7">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution7">WhatsApp वरून एफआयआर स्थिती तपासणे आणि चारित्र्य प्रमाणपत्रासाठी अर्ज करणे (MARVEL AI च्या धर्तीवर).</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number">MARVEL</div><div class="metric-label" id="m7a">AI प्रणाली कार्यरत</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="70">0</div><div class="metric-label" id="m7b">अनावश्यक फेऱ्यांत घट</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="2024">0</div><div class="metric-label" id="m7c">सुरुवात वर्ष</div></div>
+                </div>
+                <p class="source-note" id="source7">संदर्भ: महाराष्ट्र शासन, MARVEL AI २०२४</p>
+            </article>
+
+            <article class="usecase-card fade-in" data-category="agriculture">
+                <div class="card-top">
+                    <div class="dept-badge" style="background:#3498DB" id="dept8">जलसंपदा विभाग</div>
+                    <div class="possible-tag" id="possible8">३० दिवसांत अंमलबजावणी शक्य</div>
+                </div>
+                <div class="card-problem-title" id="problemTitle8">समस्या / Problem</div>
+                <p class="card-problem" id="problem8">पाणी वाटप, कालव्याची स्थिती आणि तक्रारींबाबत शेतकऱ्यांपर्यंत वेळेत माहिती पोहोचत नाही.</p>
+                <div class="card-divider"></div>
+                <div class="card-solution-title" id="solutionTitle8">AI उपाय / AI Solution</div>
+                <p class="card-solution" id="solution8">पाण्याचे वेळापत्रक, कालव्याची सद्यस्थिती आणि तक्रार नोंदणीची सुविधा मराठीत WhatsApp वर उपलब्ध.</p>
+                <div class="metrics-row">
+                    <div class="metric-box"><div class="metric-number" data-count="2060">0</div><div class="metric-label" id="m8a">महावेध AI हवामान केंद्रे</div></div>
+                    <div class="metric-box"><div class="metric-number">Real-time</div><div class="metric-label" id="m8b">पाणी वेळापत्रक अपडेट्स</div></div>
+                    <div class="metric-box"><div class="metric-number" data-count="44">0</div><div class="metric-label" id="m8c">लाख शेतकरी लाभार्थी</div></div>
+                </div>
+                <p class="source-note" id="source8">संदर्भ: महाराष्ट्र महावेध AI नेटवर्क</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="proof-section">
+        <h2 class="proof-heading" id="proofHeading">महाराष्ट्र: AI क्रांतीच्या दिशेने अग्रेसर</h2>
+        <div class="proof-grid">
+            <div class="proof-item fade-in">
+                <span class="proof-icon">🤝</span>
+                <p class="proof-text" id="proof1">IBM आणि महाराष्ट्र शासन — एप्रिल २०२५ मध्ये नागरिक सेवांसाठी AI सामंजस्य करारावर स्वाक्षरी.</p>
+            </div>
+            <div class="proof-item fade-in">
+                <span class="proof-icon">🏢</span>
+                <p class="proof-text" id="proof2">Microsoft आणि महाराष्ट्र शासन — २०२५ मध्ये AI सेंटर ऑफ एक्सलन्सची स्थापना.</p>
+            </div>
+            <div class="proof-item fade-in">
+                <span class="proof-icon">🛡️</span>
+                <p class="proof-text" id="proof3">MARVEL AI — महाराष्ट्र पोलीस दलाची स्वदेशी AI प्रणाली, आता सर्व विभागांसाठी विस्तारत आहे.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2 class="cta-heading" id="ctaHeading">तुमच्या विभागासाठी ३० दिवसांचा 'AI पायलट' उपक्रम सुरू करूया</h2>
+        <a href="contact.html" class="cta-btn" id="ctaBtn">आमच्याशी संपर्क साधा →</a>
+    </section>
+
+    <script>
+        const content = {
+            marathi: {
+                sectionLabel:"विभागनिहाय उपयोगिता",
+                heroTitle:"प्रत्येक विभागासाठी — प्रशासकीयदृष्ट्या उपयुक्त आणि परिणामकारक उपाय",
+                heroSubtitle:"ही केवळ संकल्पना नाही; प्रशासकीय अंमलबजावणीसाठी सिद्ध झालेली दिशा आहे. महाराष्ट्र शासनासोबत जागतिक तंत्रज्ञान भागीदार आधीच कार्यरत आहेत. Ads4you हीच क्षमता तुमच्या विभागाच्या दैनंदिन कामकाजात उतरवतो.",
+                tabAll:"सर्व / All", tabRevenue:"महसूल / Revenue", tabAgriculture:"शेती / Agriculture", tabHealth:"आरोग्य / Health", tabEducation:"शिक्षण / Education", tabMunicipal:"नगरपालिका / Municipal",
+                dept1:"महसूल विभाग", possible1:"३० दिवसांत अंमलबजावणी शक्य", problemTitle1:"समस्या / Problem", problem1:"मालमत्ता कर, थकबाकी आणि पावत्यांचे व्यवस्थापन — नागरिकांच्या वाढत्या तक्रारी आणि प्रलंबित कामे.", solutionTitle1:"AI उपाय / AI Solution", solution1:"AI-आधारित WhatsApp चॅटबॉट — कर भरणा, पावत्या आणि मालमत्तेचे नकाशे यांसारखी सर्व माहिती अवघ्या ६० सेकंदात उपलब्ध.", m1a:"प्रश्न संख्या कमी", m1b:"उपलब्धता / Availability", m1c:"प्रतिसाद वेळ / Response time", source1:"संदर्भ: २०२४ मधील समांतर नागरी प्रशासन अंमलबजावणी",
+                dept2:"कृषी विभाग", possible2:"३० दिवसांत अंमलबजावणी शक्य", problemTitle2:"समस्या / Problem", problem2:"४४ लाख शेतकरी — शासकीय योजना आणि पात्रतेबद्दल माहितीचा अभाव.", solutionTitle2:"AI उपाय / AI Solution", solution2:"फक्त आधार आणि पिकाची माहिती WhatsApp करा — पात्र योजनांची सविस्तर माहिती तत्काळ मराठीत मिळवा.", m2a:"शेतकऱ्यांपर्यंत पोहोच (लाख)", m2b:"पात्रता तपासणी वेळ", m2c:"₹ कोटी शासकीय तरतूद", source2:"संदर्भ: महाराष्ट्र अर्थसंकल्प २०२४-२५",
+                dept3:"आरोग्य विभाग", possible3:"३० दिवसांत अंमलबजावणी शक्य", problemTitle3:"समस्या / Problem", problem3:"OPD मधील रांगा आणि भेटीचे (Appointment) नियोजन — रुग्ण आणि कर्मचाऱ्यांची होणारी ओढाताण.", solutionTitle3:"AI उपाय / AI Solution", solution3:"WhatsApp द्वारे अपॉइंटमेंट बुकिंग, टोकन स्थिती आणि डॉक्टरांच्या उपलब्धतेची रियल-टाइम माहिती.", m3a:"प्रतीक्षा वेळ कमी", m3b:"लाख लाभार्थी", m3c:"बुकिंग सेवा", source3:"संदर्भ: नीति आयोग–महाराष्ट्र ICTAI सामंजस्य करार",
+                dept4:"शिक्षण विभाग", possible4:"३० दिवसांत अंमलबजावणी शक्य", problemTitle4:"समस्या / Problem", problem4:"शिष्यवृत्ती अर्ज, आवश्यक कागदपत्रे आणि अर्जाची स्थिती याबद्दल विद्यार्थी आणि पालकांमध्ये असलेला गोंधळ.", solutionTitle4:"AI उपाय / AI Solution", solution4:"AI WhatsApp बोट — शिष्यवृत्ती पात्रता, अर्जाची स्थिती आणि कागदपत्रांची सूची मराठीत उपलब्ध.", m4a:"शुल्क प्रतिपूर्ती", m4b:"प्रक्रिया वेळ बचत", m4c:"अंमलबजावणी दिवस", source4:"संदर्भ: महाराष्ट्र अर्थसंकल्प २०२४-२५",
+                dept5:"सार्वजनिक बांधकाम विभाग (PWD)", possible5:"३० दिवसांत अंमलबजावणी शक्य", problemTitle5:"समस्या / Problem", problem5:"रस्ते, पूल आणि शासकीय इमारतींच्या तक्रारींचा मागोवा घेणे कठीण होते.", solutionTitle5:"AI उपाय / AI Solution", solution5:"WhatsApp द्वारे तक्रार नोंदणी — स्वयंचलित पोचपावती, स्थिती अपडेट आणि तक्रार निवारणाची तत्काळ सूचना.", m5a:"तक्रार ट्रॅकिंग", m5b:"फॉलो-अप कॉल्समध्ये घट", m5c:"स्थिती अपडेट", source5:"संदर्भ: सार्वजनिक बांधकाम तक्रार स्वयंचलन कार्यप्रवाह",
+                dept6:"नगरपालिका / महानगरपालिका", possible6:"३० दिवसांत अंमलबजावणी शक्य", problemTitle6:"समस्या / Problem", problem6:"जन्म-मृत्यू प्रमाणपत्र आणि रहिवासी दाखल्यांसाठी कार्यालयांमध्ये लागणाऱ्या लांबच लांब रांगा.", solutionTitle6:"AI उपाय / AI Solution", solution6:"WhatsApp वरूनच अर्ज करणे, कागदपत्रे अपलोड करणे आणि प्रमाणपत्र डाऊनलोड करण्याची सुविधा.", m6a:"कार्यालयीन भेटीत घट", m6b:"प्रमाणपत्र वितरण वेळ", m6c:"कोटी नागरिक लाभ", source6:"संदर्भ: नागरिक-केंद्रित डिजिटल प्रमाणपत्र कार्यप्रवाह",
+                dept7:"पोलीस विभाग", possible7:"३० दिवसांत अंमलबजावणी शक्य", problemTitle7:"समस्या / Problem", problem7:"एफआयआर स्थिती आणि चारित्र्य प्रमाणपत्रासाठी नागरिकांना पोलीस ठाण्यात वारंवार जावे लागते.", solutionTitle7:"AI उपाय / AI Solution", solution7:"WhatsApp वरून एफआयआर स्थिती तपासणे आणि चारित्र्य प्रमाणपत्रासाठी अर्ज करणे (MARVEL AI च्या धर्तीवर).", m7a:"महाराष्ट्र AI पोलीस प्रणाली २०२४ — कार्यरत", m7b:"अनावश्यक फेऱ्यांत घट", m7c:"MARVEL AI विस्तारत आहे", source7:"संदर्भ: महाराष्ट्र शासन, MARVEL AI २०२४",
+                dept8:"जलसंपदा विभाग", possible8:"३० दिवसांत अंमलबजावणी शक्य", problemTitle8:"समस्या / Problem", problem8:"पाणी वाटप, कालव्याची स्थिती आणि तक्रारींबाबत शेतकऱ्यांपर्यंत वेळेत माहिती पोहोचत नाही.", solutionTitle8:"AI उपाय / AI Solution", solution8:"पाण्याचे वेळापत्रक, कालव्याची सद्यस्थिती आणि तक्रार नोंदणीची सुविधा मराठीत WhatsApp वर उपलब्ध.", m8a:"महावेध AI हवामान केंद्रे", m8b:"पाणी वेळापत्रक अपडेट्स", m8c:"लाख शेतकरी लाभार्थी", source8:"संदर्भ: महाराष्ट्र महावेध AI नेटवर्क",
+                proofHeading:"महाराष्ट्र: AI क्रांतीच्या दिशेने अग्रेसर", proof1:"IBM आणि महाराष्ट्र शासन — एप्रिल २०२५ मध्ये नागरिक सेवांसाठी AI सामंजस्य करारावर स्वाक्षरी.", proof2:"Microsoft आणि महाराष्ट्र शासन — २०२५ मध्ये AI सेंटर ऑफ एक्सलन्सची स्थापना.", proof3:"MARVEL AI — महाराष्ट्र पोलीस दलाची स्वदेशी AI प्रणाली, आता सर्व विभागांसाठी विस्तारत आहे.",
+                ctaHeading:"तुमच्या विभागासाठी ३० दिवसांचा 'AI पायलट' उपक्रम सुरू करूया", ctaBtn:"आमच्याशी संपर्क साधा →"
+            },
+            english: {
+                sectionLabel:"Proof",
+                heroTitle:"For Every Department — Sustainable & Effective Solutions",
+                heroSubtitle:"This is not just a concept, but a reality. Global giants like IBM and Microsoft are already working with the Maharashtra Government. 'Ads4you' brings this advanced technology to your department.",
+                tabAll:"All", tabRevenue:"Revenue", tabAgriculture:"Agriculture", tabHealth:"Health", tabEducation:"Education", tabMunicipal:"Municipal",
+                dept1:"Revenue Department", possible1:"Implementation possible in 30 days", problemTitle1:"Problem", problem1:"Property tax, arrears, and receipt management — rising citizen queries and pending work.", solutionTitle1:"AI Solution", solution1:"AI-powered WhatsApp bot — tax payments, receipts, and property maps available in just 60 seconds.", m1a:"Query reduction", m1b:"Availability", m1c:"Response time", source1:"संदर्भ: २०२४ मधील समांतर नागरी प्रशासन अंमलबजावणी",
+                dept2:"Agriculture Department", possible2:"Implementation possible in 30 days", problemTitle2:"Problem", problem2:"44 lakh farmers — lack of awareness about schemes and eligibility.", solutionTitle2:"AI Solution", solution2:"WhatsApp Aadhaar + crop info — get detailed scheme information in Marathi instantly.", m2a:"Farmers reachable (Lakhs)", m2b:"Eligibility check time", m2c:"Government provision ₹ Cr", source2:"Source: Maharashtra Budget 2024-25",
+                dept3:"Public Health Department", possible3:"Implementation possible in 30 days", problemTitle3:"Problem", problem3:"OPD queues and appointment scheduling — exhaustion for both patients and staff.", solutionTitle3:"AI Solution", solution3:"Appointment booking, token status, and real-time doctor availability via WhatsApp.", m3a:"Wait time reduction", m3b:"Lakh beneficiaries", m3c:"Booking service", source3:"संदर्भ: नीति आयोग–महाराष्ट्र ICTAI सामंजस्य करार",
+                dept4:"Education Department", possible4:"Implementation possible in 30 days", problemTitle4:"Problem", problem4:"Confusion among students and parents regarding scholarship applications, documents, and status.", solutionTitle4:"AI Solution", solution4:"AI WhatsApp bot — scholarship eligibility, application status, and document list in Marathi.", m4a:"Fee reimbursement", m4b:"Process time saved", m4c:"Implementation days", source4:"Source: Maharashtra Budget 2024-25",
+                dept5:"Public Works Department", possible5:"Implementation possible in 30 days", problemTitle5:"Problem", problem5:"Difficulty in tracking complaints related to roads, bridges, and government buildings.", solutionTitle5:"AI Solution", solution5:"Complaint registration via WhatsApp — automated acknowledgment, status updates, and resolution alerts.", m5a:"Complaint tracking", m5b:"Reduction in follow-up calls", m5c:"Status updates", source5:"संदर्भ: सार्वजनिक बांधकाम तक्रार स्वयंचलन कार्यप्रवाह",
+                dept6:"Municipal Corporation", possible6:"Implementation possible in 30 days", problemTitle6:"Problem", problem6:"Long queues at offices for birth-death certificates and residence proof.", solutionTitle6:"AI Solution", solution6:"Facility to apply, upload documents, and download certificates directly from WhatsApp.", m6a:"Reduction in office visits", m6b:"Certificate delivery time", m6c:"Cr citizens benefited", source6:"संदर्भ: नागरिक-केंद्रित डिजिटल प्रमाणपत्र कार्यप्रवाह",
+                dept7:"Police Department", possible7:"Implementation possible in 30 days", problemTitle7:"Problem", problem7:"Citizens have to visit police stations repeatedly for FIR status and character certificates.", solutionTitle7:"AI Solution", solution7:"FIR status tracking and character certificate application via WhatsApp (inspired by MARVEL AI).", m7a:"MARVEL AI system operational", m7b:"Reduction in station visits", m7c:"MARVEL AI is expanding", source7:"संदर्भ: महाराष्ट्र शासन, MARVEL AI २०२४",
+                dept8:"Irrigation Department", possible8:"Implementation possible in 30 days", problemTitle8:"Problem", problem8:"Information about water allocation, canal status, and complaints doesn't reach farmers in time.", solutionTitle8:"AI Solution", solution8:"Water schedule, canal status, and complaint registration available in Marathi on WhatsApp.", m8a:"Mahavedh AI weather centres", m8b:"Water schedule updates", m8c:"Lakh farmer beneficiaries", source8:"संदर्भ: महाराष्ट्र महावेध AI नेटवर्क",
+                proofHeading:"Maharashtra: Leading the AI Revolution", proof1:"IBM & Maharashtra Govt — MoU signed in April 2025 for AI-powered citizen services.", proof2:"Microsoft & Maharashtra Govt — AI Center of Excellence established in 2025.", proof3:"MARVEL AI — Indigenous AI of Maharashtra Police, now expanding to all departments.",
+                ctaHeading:"Let's start a 30-day 'AI Pilot' initiative for your department", ctaBtn:"Contact Us →"
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'marathi';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', currentTheme);
+        document.documentElement.lang = currentLang === 'marathi' ? 'mr' : 'en';
+
+        // Cursor removed — using default browser cursor
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang === 'marathi' ? 'mr' : 'en';
+            const d = content[lang];
+            Object.keys(d).forEach(id => { const el = document.getElementById(id); if (el) el.textContent = d[id]; });
+            document.querySelectorAll('.nav-links a').forEach(a => { a.textContent = lang==='marathi' ? a.dataset.mr : a.dataset.en; });
+            document.getElementById('langToggle').textContent = lang==='marathi' ? 'EN' : 'मराठी';
+        }
+
+        function updateTheme(theme) {
+            currentTheme = theme;
+            localStorage.setItem('theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('themeToggle').textContent = theme==='light' ? '🌙' : '☀️';
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => updateLanguage(currentLang==='marathi'?'english':'marathi'));
+        document.getElementById('themeToggle').addEventListener('click', () => updateTheme(currentTheme==='light'?'dark':'light'));
+
+        const lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)), smooth:true });
+        function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+        window.addEventListener('load', () => {
+            updateLanguage(currentLang);
+            updateTheme(currentTheme);
+
+            gsap.to('.hero', { opacity:1, y:0, duration:1.2, ease:'power3.out' });
+            gsap.utils.toArray('.fade-in').forEach(el => {
+                gsap.to(el, { opacity:1, y:0, duration:.8, ease:'power2.out', scrollTrigger:{ trigger:el, start:'top 85%' } });
+            });
+
+            document.querySelectorAll('[data-count]').forEach(num => {
+                const target = parseInt(num.dataset.count, 10);
+                ScrollTrigger.create({
+                    trigger:num, start:'top 85%',
+                    onEnter:() => {
+                        gsap.to(num, {
+                            innerText:target,
+                            duration:target > 100 ? 2.4 : 1.6,
+                            snap:{ innerText:1 },
+                            ease:'power2.out',
+                            onUpdate(){
+                                const v = Math.ceil(parseFloat(num.innerText));
+                                num.textContent = v.toLocaleString('en-IN');
+                            }
+                        });
+                    }
+                });
+            });
+
+            const tabs = document.querySelectorAll('.filter-tab');
+            const cards = document.querySelectorAll('.usecase-card');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const filter = tab.dataset.filter;
+                    cards.forEach(card => {
+                        const match = filter === 'all' || card.dataset.category.split(' ').includes(filter);
+                        card.classList.toggle('hidden-card', !match);
+                    });
+                });
+            });
+        });
+    </script>
+    <script src="shared.js"></script>
+</body>
+</html>

@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='24' font-size='24'>🤖</text></svg>" type="image/svg+xml">
+    <title>उपाय — Ads4you Maharashtra Government AI</title>
+    <meta name="description" content="AI Solutions for Maharashtra Government - The Transformation">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@400;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #FAF7F2;
+            --bg-card: #F0EBE3;
+            --ink: #12141A;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #6B7280;
+            --border: rgba(201,168,76,0.2);
+        }
+        [data-theme="dark"] {
+            --bg: #0B0C10;
+            --bg-card: #12141A;
+            --ink: #F5F3EE;
+            --saffron: #FF6B00;
+            --gold: #C9A84C;
+            --mist: #8A8FA8;
+            --border: rgba(201,168,76,0.15);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { font-size:16px; }
+        body {
+            font-family:'Manrope',sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x:hidden;
+            cursor:auto;
+        }
+        [lang="mr"] {
+            font-family:'Noto Sans Devanagari',sans-serif;
+            font-size:1.1em;
+            line-height:1.6;
+        }
+
+        .cursor { width:12px; height:12px; background:var(--saffron); border-radius:50%; position:fixed; pointer-events:none; z-index:9999; mix-blend-mode:difference; transition:transform .2s; }
+        .cursor-ring { width:40px; height:40px; border:1px solid var(--saffron); border-radius:50%; position:fixed; pointer-events:none; z-index:9998; transition:transform .3s; }
+
+        /* Nav */
+        nav {
+            position:fixed; top:0; left:0; right:0; z-index:1000;
+            padding:1.5rem 3rem; display:flex; justify-content:space-between; align-items:center;
+            background:rgba(250,247,242,0.85); backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border);
+        }
+        [data-theme="dark"] nav {
+            background:rgba(11,12,16,0.9);
+            border-bottom:1px solid rgba(201,168,76,0.1);
+        }
+        .logo { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; }
+        .logo-ads { color:#FF6B00; } .logo-four { color:#C9A84C; } .logo-you { color:#FF6B00; }
+        .nav-links { display:flex; gap:2rem; list-style:none; }
+        .nav-links a { color:var(--mist); text-decoration:none; font-size:.9rem; font-weight:500; transition:color .3s; }
+        .nav-links a:hover, .nav-links a.active { color:var(--saffron); }
+        .nav-controls { display:flex; gap:1rem; }
+        .toggle-btn {
+            background:var(--bg-card); border:1px solid var(--border); padding:.5rem 1rem;
+            border-radius:20px; cursor:pointer; font-size:.85rem; color:var(--ink); transition:all .3s;
+        }
+        .toggle-btn:hover { background:var(--saffron); color:white; border-color:var(--saffron); }
+
+        /* Hero */
+        .hero {
+            min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+            padding:8rem 3rem 4rem;
+            background: linear-gradient(180deg, #1A1C24 0%, #2A2520 50%, var(--bg) 100%);
+            position:relative;
+        }
+        [data-theme="dark"] .hero {
+            background: linear-gradient(180deg, #060708 0%, #12141A 50%, #1A1C24 100%);
+        }
+        .section-label { font-size:.75rem; text-transform:uppercase; letter-spacing:3px; color:var(--gold); margin-bottom:2rem; opacity:.7; }
+        .hero-title {
+            font-family:'Playfair Display',serif; font-size:clamp(2.5rem,6vw,5rem); font-weight:900;
+            line-height:1.2; text-align:center; max-width:1000px; margin-bottom:2rem; color:#F5F3EE;
+        }
+        .hero-subtitle {
+            font-family:'Cormorant Garamond',serif; font-size:clamp(1.1rem,2vw,1.6rem);
+            color:var(--mist); text-align:center; max-width:800px; line-height:1.6;
+        }
+
+        /* Sliders Section */
+        .sliders-section { padding:6rem 3rem; background:var(--bg); }
+        .sliders-section .section-heading {
+            font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); font-weight:700;
+            text-align:center; margin-bottom:4rem; color:var(--ink);
+        }
+        .slider-container { max-width:900px; margin:0 auto 4rem; }
+        .slider-label { font-size:.85rem; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:1rem; font-weight:600; }
+        .ba-slider {
+            position:relative; width:100%; height:200px; border-radius:16px; overflow:hidden;
+            border:1px solid var(--border); user-select:none; touch-action:none;
+        }
+        .ba-side {
+            position:absolute; top:0; height:100%; padding:2rem; display:flex; flex-direction:column; justify-content:center;
+        }
+        .ba-before {
+            left:0; width:50%; background:#1A1C24; color:#8A8FA8; z-index:1;
+            clip-path:inset(0 50% 0 0);
+        }
+        .ba-after {
+            right:0; width:100%; background:linear-gradient(135deg, #FFF8F0, #FAF7F2); color:#12141A; z-index:0;
+        }
+        [data-theme="dark"] .ba-after { background:linear-gradient(135deg, #1A1815, #22201A); color:#F5F3EE; }
+        .ba-tag { font-size:.7rem; text-transform:uppercase; letter-spacing:2px; margin-bottom:.5rem; color:var(--gold); }
+        .ba-text { font-size:1rem; line-height:1.5; }
+        .ba-handle {
+            position:absolute; top:0; bottom:0; width:4px; background:var(--saffron);
+            left:50%; z-index:10; cursor:ew-resize;
+        }
+        .ba-handle::after {
+            content:'⟷'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+            width:40px; height:40px; border-radius:50%; background:var(--saffron); color:white;
+            display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+        }
+
+        /* Memory Science */
+        .memory-section { padding:6rem 3rem; background:var(--bg-card); }
+        .memory-section .section-heading {
+            font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); font-weight:700;
+            text-align:center; margin-bottom:1rem; color:var(--ink);
+        }
+        .memory-sub { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--mist); text-align:center; margin-bottom:4rem; }
+        .pillars-grid {
+            display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; max-width:1200px; margin:0 auto;
+        }
+        .pillar {
+            background:var(--bg); border:1px solid var(--border); border-radius:20px;
+            padding:2.5rem; transition:all .4s;
+        }
+        .pillar:hover { transform:translateY(-4px); border-color:var(--gold); }
+        .pillar-icon { font-size:2.5rem; margin-bottom:1rem; display:block; }
+        .pillar-title { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; margin-bottom:.8rem; color:var(--ink); }
+        .pillar-desc { font-size:.95rem; color:var(--mist); line-height:1.6; }
+
+        /* Timeline */
+        .timeline-section { padding:6rem 3rem; background:var(--bg); }
+        .timeline-section .section-heading {
+            font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); font-weight:700;
+            text-align:center; margin-bottom:4rem; color:var(--ink);
+        }
+        .timeline { display:flex; gap:0; max-width:1200px; margin:0 auto; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:2rem; }
+        .timeline-item {
+            min-width:280px; flex-shrink:0; scroll-snap-align:start;
+            background:var(--bg-card); border:1px solid var(--border); border-radius:20px;
+            padding:2rem; position:relative; margin-right:1.5rem;
+        }
+        .timeline-day { font-family:'Cormorant Garamond',serif; font-size:2.5rem; font-weight:700; color:var(--saffron); margin-bottom:.5rem; }
+        .timeline-title { font-weight:700; font-size:1.1rem; margin-bottom:.8rem; color:var(--ink); }
+        .timeline-desc { font-size:.95rem; color:var(--mist); line-height:1.5; }
+        .timeline-line { position:absolute; top:50%; right:-1.5rem; width:1.5rem; height:2px; background:var(--border); }
+
+        /* Impact Counters */
+        .impact-section { padding:6rem 3rem; background:linear-gradient(180deg, var(--bg-card), var(--bg)); }
+        .impact-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; max-width:1200px; margin:0 auto; }
+        .impact-item { text-align:center; padding:2rem; }
+        .impact-number { font-family:'Cormorant Garamond',serif; font-size:clamp(2.5rem,5vw,4rem); font-weight:700; color:var(--saffron); }
+        .impact-label { font-size:.95rem; color:var(--mist); margin-top:.5rem; line-height:1.4; }
+
+        /* CTA */
+        .cta-section {
+            min-height:60vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+            padding:4rem 3rem; background:var(--bg); text-align:center;
+        }
+        .cta-heading { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:var(--ink); margin-bottom:1.5rem; max-width:800px; }
+        .cta-btn {
+            display:inline-block; padding:1.2rem 2.5rem; background:var(--saffron); color:white;
+            text-decoration:none; border-radius:50px; font-weight:600; font-size:1.1rem; transition:all .4s;
+        }
+        .cta-btn:hover { background:var(--gold); transform:translateY(-2px); }
+
+        .grain { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; opacity:.03; z-index:9997; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+        .fade-in { opacity:0; transform:translateY(30px); }
+
+        @media (max-width:768px) {
+            nav { padding:1rem 1.5rem; }
+            .nav-links { display:none; }
+            .hero { padding:6rem 1.5rem 3rem; }
+            .pillars-grid { grid-template-columns:1fr; }
+            .impact-grid { grid-template-columns:repeat(2,1fr); }
+            .ba-slider { height:260px; }
+            .ba-side { padding:1.5rem; }
+            .cursor,.cursor-ring { display:none; }
+            body { cursor:auto; }
+        }
+    </style>
+    <link rel="stylesheet" href="shared.css">
+    <script>
+      (function(){
+        var theme=localStorage.getItem('theme')||'light';
+        var lang=localStorage.getItem('lang')||'marathi';
+        document.documentElement.classList.add('preflight');
+        document.documentElement.lang=lang==='marathi'?'mr':'en';
+      })();
+    </script>
+</head>
+<body data-theme="light" data-lang="mr">
+    <div class="mesh-bg"></div>
+    <div class="page-curtain"></div>
+            <div class="grain"></div>
+
+    <nav>
+        <a href="index.html" style="text-decoration:none;">
+            <div class="logo"><span class="logo-ads">ads</span><span class="logo-four">4</span><span class="logo-you">you</span></div>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" data-mr="मुख्यपृष्ठ" data-en="Home">मुख्यपृष्ठ</a></li>
+            <li><a href="problem.html" data-mr="समस्या" data-en="Problem">समस्या</a></li>
+            <li><a href="solution.html" class="active" data-mr="उपाय" data-en="Solution">उपाय</a></li>
+            <li><a href="usecases.html" data-mr="उपयोगिता" data-en="Use Cases">उपयोगिता</a></li>
+            <li><a href="memory.html" data-mr="विज्ञान" data-en="Science">विज्ञान</a></li>
+            <li><a href="credentials.html" data-mr="विश्वासार्हता" data-en="Trust">विश्वासार्हता</a></li>
+            <li><a href="contact.html" data-mr="संवाद" data-en="Contact">संवाद</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="toggle-btn" id="themeToggle">🌙</button>
+            <button class="toggle-btn" id="langToggle">EN</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero fade-in">
+        <div class="section-label" id="sectionLabel">प्रशासकीय परिवर्तन</div>
+        <h1 class="hero-title" id="heroTitle">छत्रपती शिवाजी महाराजांनी मावळ्यांमध्ये आत्मविश्वास जागवला —<br>आपण नागरिकांना तंत्रज्ञानाद्वारे सक्षम करूया</h1>
+        <p class="hero-subtitle" id="heroSubtitle">AI म्हणजे शासकीय अधिकाऱ्यांची जागा घेणे नव्हे, तर त्यांची कार्यक्षमता कैक पटीने वाढवणे होय. ज्याप्रमाणे महाराजांनी निष्ठावान मावळ्यांच्या बळावर हिंदवी स्वराज्याची स्थापना केली, त्याचप्रमाणे आपणही आधुनिक तंत्रज्ञानाच्या साहाय्याने लोकाभिमुख प्रशासन उभे करू शकतो.</p>
+    </section>
+
+    <!-- Before/After Sliders -->
+    <section class="sliders-section">
+      <h2 class="section-heading" id="slidersHeading">प्रशासकीय कार्यक्षमता: आज आणि उद्या</h2>
+
+        <div class="slider-container fade-in">
+            <div class="slider-label" id="sl1Label">माहिती संकलन (Data Entry)</div>
+            <div class="ba-slider" data-slider="1">
+                <div class="ba-side ba-before"><div class="ba-tag" id="sl1Btag">सध्याची स्थिती</div><p class="ba-text" id="sl1Btxt">दैनंदिन ८+ तास केवळ माहिती संकलनात (Data Entry) खर्च होतात</p></div>
+                <div class="ba-side ba-after"><div class="ba-tag" id="sl1Atag">AI च्या साहाय्याने</div><p class="ba-text" id="sl1Atxt">तुलना: ८ तास विरुद्ध ८ मिनिटे — कर्मचारी आता लोकसेवेसाठी सदैव उपलब्ध.</p></div>
+                <div class="ba-handle"></div>
+            </div>
+        </div>
+
+        <div class="slider-container fade-in">
+            <div class="slider-label" id="sl2Label">नागरिक सेवा</div>
+            <div class="ba-slider" data-slider="2">
+                <div class="ba-side ba-before"><div class="ba-tag" id="sl2Btag">सध्याची स्थिती</div><p class="ba-text" id="sl2Btxt">साध्या चौकशीसाठी नागरिकांना शासकीय कार्यालयात प्रत्यक्ष उपस्थित राहावे लागते</p></div>
+                <div class="ba-side ba-after"><div class="ba-tag" id="sl2Atag">AI च्या साहाय्याने</div><p class="ba-text" id="sl2Atxt">WhatsApp द्वारे अवघ्या ६० सेकंदात प्रतिसाद — अगदी मध्यरात्रीही.</p></div>
+                <div class="ba-handle"></div>
+            </div>
+        </div>
+
+        <div class="slider-container fade-in">
+            <div class="slider-label" id="sl3Label">अभिलेख (Document) ट्रॅकिंग</div>
+            <div class="ba-slider" data-slider="3">
+                <div class="ba-side ba-before"><div class="ba-tag" id="sl3Btag">सध्याची स्थिती</div><p class="ba-text" id="sl3Btxt">विशिष्ट नस्ती (File) शोधण्यासाठी कित्येक तास किंवा दिवस खर्ची पडतात</p></div>
+                <div class="ba-side ba-after"><div class="ba-tag" id="sl3Atag">AI च्या साहाय्याने</div><p class="ba-text" id="sl3Atxt">AI प्रणाली केवळ १० सेकंदात कोणतीही फाईल शोधून काढते</p></div>
+                <div class="ba-handle"></div>
+            </div>
+        </div>
+
+        <div class="slider-container fade-in">
+            <div class="slider-label" id="sl4Label">माहितीचा अधिकार (RTI)</div>
+            <div class="ba-slider" data-slider="4">
+                <div class="ba-side ba-before"><div class="ba-tag" id="sl4Btag">सध्याची स्थिती</div><p class="ba-text" id="sl4Btxt">RTI प्रतिसाद: सरासरी २२.८ दिवस (राष्ट्रीय सरासरीनुसार)</p></div>
+                <div class="ba-side ba-after"><div class="ba-tag" id="sl4Atag">AI च्या साहाय्याने</div><p class="ba-text" id="sl4Atxt">AI च्या मदतीने: अवघ्या ३ दिवसांपेक्षा कमी कालावधीत</p></div>
+                <div class="ba-handle"></div>
+            </div>
+        </div>
+
+        <div class="slider-container fade-in">
+            <div class="slider-label" id="sl5Label">माहिती-आधारित निर्णय प्रक्रिया</div>
+            <div class="ba-slider" data-slider="5">
+                <div class="ba-side ba-before"><div class="ba-tag" id="sl5Btag">सध्याची स्थिती</div><p class="ba-text" id="sl5Btxt">केवळ अनुभवावर आधारित निर्णय — ठोस डेटाचा अभाव</p></div>
+                <div class="ba-side ba-after"><div class="ba-tag" id="sl5Atag">AI च्या साहाय्याने</div><p class="ba-text" id="sl5Atxt">रिअल-टाइम डॅशबोर्ड — प्रत्येक निर्णय अचूक डेटावर आधारित</p></div>
+                <div class="ba-handle"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memory Science -->
+    <section class="memory-section">
+        <h2 class="section-heading" id="memoryHeading">AI: जे एकदा आत्मसात करते, ते कधीच विसरत नाही</h2>
+        <p class="memory-sub" id="memorySub">AI विसरत नाही आणि थकतही नाही — हे प्रशासनासाठी एक वरदान आहे</p>
+        <div class="pillars-grid">
+            <div class="pillar fade-in">
+                <span class="pillar-icon">🔄</span>
+                <h3 class="pillar-title" id="p1Title">दैनंदिन वापर — प्रशासकीय सवय</h3>
+                <p class="pillar-desc" id="p1Desc">एकदा AI प्रणाली वापरात आली की ती प्रशासकीय कामकाजाचा अविभाज्य भाग बनते.</p>
+            </div>
+            <div class="pillar fade-in">
+                <span class="pillar-icon">❤️</span>
+                <h3 class="pillar-title" id="p2Title">लोकसंवाद — विश्वासाचे नाते</h3>
+                <p class="pillar-desc" id="p2Desc">विदर्भातील शेतकऱ्याला मध्यरात्री पीक विम्याची माहिती मिळाली, तर त्यातून निर्माण होणारा विश्वास कोणत्याही औपचारिक प्रशिक्षणापेक्षा श्रेष्ठ आहे.</p>
+            </div>
+            <div class="pillar fade-in">
+                <span class="pillar-icon">🔗</span>
+                <h3 class="pillar-title" id="p3Title">सुलभ एकत्रीकरण</h3>
+                <p class="pillar-desc" id="p3Desc">आम्ही AI ला WhatsApp, Excel आणि Outlook सारख्या परिचित साधनांशी जोडतो, जेणेकरून कोणालाही नवीन प्रशिक्षणाची गरज पडणार नाही.</p>
+            </div>
+            <div class="pillar fade-in">
+                <span class="pillar-icon">📦</span>
+                <h3 class="pillar-title" id="p4Title">३० दिवसांत प्रत्यक्ष परिणाम</h3>
+                <p class="pillar-desc" id="p4Desc">कित्येक वर्षांचे मोठे प्रकल्प करण्यापेक्षा, एका महिन्यात एका विभागाचे काम करून आम्ही आमची कार्यक्षमता सिद्ध करतो.</p>
+            </div>
+            <div class="pillar fade-in">
+                <span class="pillar-icon">📊</span>
+                <h3 class="pillar-title" id="p5Title">पारदर्शक प्रशासन</h3>
+                <p class="pillar-desc" id="p5Desc">प्रलंबित फाईल्स, तक्रारींचे मुख्य विषय आणि विलंबाची कारणे — डॅशबोर्डवर सर्वकाही स्पष्ट दिसते.</p>
+            </div>
+            <div class="pillar fade-in">
+                <span class="pillar-icon">🏆</span>
+                <h3 class="pillar-title" id="p6Title">यशाचा आनंद</h3>
+                <p class="pillar-desc" id="p6Desc">वेळेत मिळालेली प्रमाणपत्रे आणि नागरिकांचे समाधान हेच आमचे खरे यश आहे.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline-section">
+        <h2 class="section-heading" id="timelineHeading">३० दिवसांत परिवर्तन</h2>
+        <div class="timeline">
+            <div class="timeline-item fade-in">
+                <div class="timeline-day" id="td1Day">दिवस १-७</div>
+                <h3 class="timeline-title" id="td1Title">आवश्यकतांचे विश्लेषण</h3>
+                <p class="timeline-desc" id="td1Desc">विभागाच्या गरजा समजून घेऊन योग्य AI साधनाची निवड करणे.</p>
+                <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-day" id="td2Day">दिवस ८-१४</div>
+                <h3 class="timeline-title" id="td2Title">प्रणाली स्थापना व एकत्रीकरण</h3>
+                <p class="timeline-desc" id="td2Desc">विद्यमान पोर्टलशी जोडणी आणि कर्मचाऱ्यांना ओळखीचे सराव सत्र.</p>
+                <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-day" id="td3Day">दिवस १५-२१</div>
+                <h3 class="timeline-title" id="td3Title">प्रत्यक्ष अंमलबजावणी (Live Pilot)</h3>
+                <p class="timeline-desc" id="td3Desc">नागरिकांचे प्रत्यक्ष प्रश्न आणि AI द्वारे तत्काळ प्रतिसादाचा सराव.</p>
+                <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-day" id="td4Day">दिवस २२-३०</div>
+                <h3 class="timeline-title" id="td4Title">कार्यक्षमता मूल्यमापन</h3>
+                <p class="timeline-desc" id="td4Desc">कार्यक्षमतेत झालेली वाढ आणि वाचलेला वेळ यांचे अचूक मोजमाप.</p>
+                <div class="timeline-line"></div>
+            </div>
+            <div class="timeline-item fade-in">
+                <div class="timeline-day" id="td5Day">दिवस ३०+</div>
+                <h3 class="timeline-title" id="td5Title">विस्तार (Scale-up)</h3>
+                <p class="timeline-desc" id="td5Desc">यशस्वी परिणामांनंतर पुढच्या टप्प्यासाठी किंवा इतर विभागांसाठी नियोजन.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Counters -->
+    <section class="impact-section">
+        <div class="impact-grid">
+            <div class="impact-item fade-in">
+                <div class="impact-number" data-target="60" data-prefix="" data-suffix="%">0</div>
+                <p class="impact-label" id="imp1">कार्यक्षमतेत सुधारणा / Efficiency improvement — संदर्भ: World Bank</p>
+            </div>
+            <div class="impact-item fade-in">
+                <div class="impact-number" data-target="3" data-prefix="22.8 → " data-suffix="">0</div>
+                <p class="impact-label" id="imp2">RTI प्रतिसाद वेळ (दिवस) / RTI response days</p>
+            </div>
+            <div class="impact-item fade-in">
+                <div class="impact-number" data-target="24" data-prefix="" data-suffix="/7">0</div>
+                <p class="impact-label" id="imp3">नागरिक सेवा उपलब्धता / Citizen service availability</p>
+            </div>
+            <div class="impact-item fade-in">
+                <div class="impact-number" data-target="12" data-prefix="" data-suffix=" कोटी+">0</div>
+                <p class="impact-label" id="imp4">AI मुळे पोहोचता येणारी नागरिक संख्या</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 class="cta-heading" id="ctaHeading">छत्रपती शिवाजी महाराजांनी अल्प साधनांच्या बळावर अचाट कार्य करून दाखवले. आज आपल्याकडे प्रगत तंत्रज्ञान उपलब्ध आहे. समृद्ध महाराष्ट्रासाठी फक्त एक सकारात्मक पाऊल उचलण्याची गरज आहे.</h2>
+        <a href="usecases.html" class="cta-btn" id="ctaBtn">विभागांसाठी उपलब्ध उपाय पहा →</a>
+    </section>
+
+    <script>
+        const content = {
+            marathi: {
+                sectionLabel: "प्रशासकीय परिवर्तन",
+                heroTitle: "छत्रपती शिवाजी महाराजांनी मावळ्यांमध्ये आत्मविश्वास जागवला —\nआपण नागरिकांना तंत्रज्ञानाद्वारे सक्षम करूया",
+                heroSubtitle: "AI म्हणजे शासकीय अधिकाऱ्यांची जागा घेणे नव्हे, तर त्यांची कार्यक्षमता कैक पटीने वाढवणे होय. ज्याप्रमाणे महाराजांनी निष्ठावान मावळ्यांच्या बळावर हिंदवी स्वराज्याची स्थापना केली, त्याचप्रमाणे आपणही आधुनिक तंत्रज्ञानाच्या साहाय्याने लोकाभिमुख प्रशासन उभे करू शकतो.",
+                slidersHeading: "प्रशासकीय कार्यक्षमता: आज आणि उद्या",
+                sl1Label:"माहिती संकलन (Data Entry)", sl1Btag:"सध्याची स्थिती", sl1Atag:"AI च्या साहाय्याने",
+                sl1Btxt:"दैनंदिन ८+ तास केवळ माहिती संकलनात (Data Entry) खर्च होतात",
+                sl1Atxt:"तुलना: ८ तास विरुद्ध ८ मिनिटे — कर्मचारी आता लोकसेवेसाठी सदैव उपलब्ध.",
+                sl2Label:"नागरिक सेवा", sl2Btag:"सध्याची स्थिती", sl2Atag:"AI च्या साहाय्याने",
+                sl2Btxt:"साध्या चौकशीसाठी नागरिकांना शासकीय कार्यालयात प्रत्यक्ष उपस्थित राहावे लागते",
+                sl2Atxt:"WhatsApp द्वारे अवघ्या ६० सेकंदात प्रतिसाद — अगदी मध्यरात्रीही.",
+                sl3Label:"अभिलेख (Document) ट्रॅकिंग", sl3Btag:"सध्याची स्थिती", sl3Atag:"AI च्या साहाय्याने",
+                sl3Btxt:"विशिष्ट नस्ती (File) शोधण्यासाठी कित्येक तास किंवा दिवस खर्ची पडतात",
+                sl3Atxt:"AI प्रणाली केवळ १० सेकंदात कोणतीही फाईल शोधून काढते",
+                sl4Label:"माहितीचा अधिकार (RTI)", sl4Btag:"सध्याची स्थिती", sl4Atag:"AI च्या साहाय्याने",
+                sl4Btxt:"RTI प्रतिसाद: सरासरी २२.८ दिवस (राष्ट्रीय सरासरीनुसार)",
+                sl4Atxt:"AI च्या मदतीने: अवघ्या ३ दिवसांपेक्षा कमी कालावधीत",
+                sl5Label:"माहिती-आधारित निर्णय प्रक्रिया", sl5Btag:"सध्याची स्थिती", sl5Atag:"AI च्या साहाय्याने",
+                sl5Btxt:"केवळ अनुभवावर आधारित निर्णय — ठोस डेटाचा अभाव",
+                sl5Atxt:"रिअल-टाइम डॅशबोर्ड — प्रत्येक निर्णय अचूक डेटावर आधारित",
+                memoryHeading:"AI: जे एकदा आत्मसात करते, ते कधीच विसरत नाही",
+                memorySub:"AI विसरत नाही आणि थकतही नाही — हे प्रशासनासाठी एक वरदान आहे",
+                p1Title:"दैनंदिन वापर — प्रशासकीय सवय", p1Desc:"एकदा AI प्रणाली वापरात आली की ती प्रशासकीय कामकाजाचा अविभाज्य भाग बनते.",
+                p2Title:"लोकसंवाद — विश्वासाचे नाते", p2Desc:"विदर्भातील शेतकऱ्याला मध्यरात्री पीक विम्याची माहिती मिळाली, तर त्यातून निर्माण होणारा विश्वास कोणत्याही औपचारिक प्रशिक्षणापेक्षा श्रेष्ठ आहे.",
+                p3Title:"सुलभ एकत्रीकरण", p3Desc:"आम्ही AI ला WhatsApp, Excel आणि Outlook सारख्या परिचित साधनांशी जोडतो, जेणेकरून कोणालाही नवीन प्रशिक्षणाची गरज पडणार नाही.",
+                p4Title:"३० दिवसांत प्रत्यक्ष परिणाम", p4Desc:"कित्येक वर्षांचे मोठे प्रकल्प करण्यापेक्षा, एका महिन्यात एका विभागाचे काम करून आम्ही आमची कार्यक्षमता सिद्ध करतो.",
+                p5Title:"पारदर्शक प्रशासन", p5Desc:"प्रलंबित फाईल्स, तक्रारींचे मुख्य विषय आणि विलंबाची कारणे — डॅशबोर्डवर सर्वकाही स्पष्ट दिसते.",
+                p6Title:"यशाचा आनंद", p6Desc:"वेळेत मिळालेली प्रमाणपत्रे आणि नागरिकांचे समाधान हेच आमचे खरे यश आहे.",
+                timelineHeading:"३० दिवसांत परिवर्तन",
+                td1Day:"दिवस १-७", td1Title:"आवश्यकतांचे विश्लेषण", td1Desc:"विभागाच्या गरजा समजून घेऊन योग्य AI साधनाची निवड करणे.",
+                td2Day:"दिवस ८-१४", td2Title:"प्रणाली स्थापना व एकत्रीकरण", td2Desc:"विद्यमान पोर्टलशी जोडणी आणि कर्मचाऱ्यांना ओळखीचे सराव सत्र.",
+                td3Day:"दिवस १५-२१", td3Title:"प्रत्यक्ष अंमलबजावणी (Live Pilot)", td3Desc:"नागरिकांचे प्रत्यक्ष प्रश्न आणि AI द्वारे तत्काळ प्रतिसादाचा सराव.",
+                td4Day:"दिवस २२-३०", td4Title:"कार्यक्षमता मूल्यमापन", td4Desc:"कार्यक्षमतेत झालेली वाढ आणि वाचलेला वेळ यांचे अचूक मोजमाप.",
+                td5Day:"दिवस ३०+", td5Title:"विस्तार (Scale-up)", td5Desc:"यशस्वी परिणामांनंतर पुढच्या टप्प्यासाठी किंवा इतर विभागांसाठी नियोजन.",
+                imp1:"कार्यक्षमतेत सुधारणा / Efficiency improvement — संदर्भ: World Bank", imp2:"RTI प्रतिसाद वेळ (दिवस) / RTI response days", imp3:"नागरिक सेवा उपलब्धता / Citizen service availability", imp4:"AI मुळे पोहोचता येणारी नागरिक संख्या",
+                ctaHeading:"छत्रपती शिवाजी महाराजांनी अल्प साधनांच्या बळावर अचाट कार्य करून दाखवले. आज आपल्याकडे प्रगत तंत्रज्ञान उपलब्ध आहे. समृद्ध महाराष्ट्रासाठी फक्त एक सकारात्मक पाऊल उचलण्याची गरज आहे.",
+                ctaBtn:"विभागांसाठी उपलब्ध उपाय पहा →"
+            },
+            english: {
+                sectionLabel: "The Transformation",
+                heroTitle: "Shivaji Maharaj empowered his people —\nLet us empower our citizens",
+                heroSubtitle: "AI doesn't replace officers — it gives each officer the power to serve 10x more citizens. Just as Shivaji built an empire with a small, empowered force.",
+                slidersHeading: "Administrative Efficiency: Today and Tomorrow",
+                sl1Label:"Data Entry", sl1Btag:"Today", sl1Atag:"With AI",
+                sl1Btxt:"8+ hours daily in data entry",
+                sl1Atxt:"Comparison: 8 hours vs 8 minutes — staff available for citizens",
+                sl2Label:"Citizen Services", sl2Btag:"Today", sl2Atag:"With AI",
+                sl2Btxt:"Citizen must visit office for simple queries",
+                sl2Atxt:"WhatsApp answer in 60 seconds — even at 2 AM",
+                sl3Label:"Document Tracking", sl3Btag:"Today", sl3Atag:"With AI",
+                sl3Btxt:"Days or months to find right document",
+                sl3Atxt:"AI finds any file in 10 seconds",
+                sl4Label:"RTI Response", sl4Btag:"Today", sl4Atag:"With AI",
+                sl4Btxt:"RTI response: average 22.8 days nationally",
+                sl4Atxt:"With AI assistance: under 3 days",
+                sl5Label:"Data-Driven Decisions", sl5Btag:"Today", sl5Atag:"With AI",
+                sl5Btxt:"Decisions based on experience — no data",
+                sl5Atxt:"Real-time dashboard — every decision data-backed",
+                memoryHeading:"What AI learns once, it never forgets",
+                memorySub:"What AI learns once, it never forgets — and what never forgets, never tires",
+                p1Title:"Daily Use — Institutional Habit", p1Desc:"Once an AI tool enters daily use, it becomes muscle memory for the department — no training needed",
+                p2Title:"Emotion — The Most Powerful Teacher", p2Desc:"A Vidarbha farmer got crop insurance info at 9 PM on WhatsApp — that emotion creates demand no training course can match",
+                p3Title:"Connect to the Familiar", p3Desc:"We attach AI to WhatsApp, Excel, Outlook — officers learn nothing new, they just work smarter",
+                p4Title:"One Department. One Tool. 30 Days.", p4Desc:"No 3-year megaprojects — proven results in one month, then the next department",
+                p5Title:"Making the Invisible Visible", p5Desc:"Pending files, complaint hotspots, processing delays — visible in one glance",
+                p6Title:"Celebrate Every Win", p6Desc:"Faster certificates, resolved complaints, hours saved — every number a reason for pride",
+                timelineHeading:"Transformation in 30 Days",
+                td1Day:"Day 1-7", td1Title:"Needs Assessment", td1Desc:"Needs assessment + right AI tool selection",
+                td2Day:"Day 8-14", td2Title:"Setup, Integration, Orientation", td2Desc:"Setup, integration, staff orientation (2 hours, not 2 weeks)",
+                td3Day:"Day 15-21", td3Title:"Live Pilot", td3Desc:"Live pilot — real queries, real responses, real results",
+                td4Day:"Day 22-30", td4Title:"Metrics Review", td4Desc:"Metrics review — efficiency gains documented",
+                td5Day:"Day 30+", td5Title:"Scale", td5Desc:"Scale to next department or expand",
+                imp1:"Efficiency improvement — Source: World Bank", imp2:"RTI response days — Source: OnlineRTI.com 2023", imp3:"Citizen service availability", imp4:"Citizens AI can reach",
+                ctaHeading:"Shivaji Maharaj built an extraordinary empire with limited tools.\nToday we have tools far more powerful.\nMaharashtra is ready. Only the first step remains.",
+                ctaBtn:"See solutions for every department →"
+            }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'marathi';
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', currentTheme);
+        document.documentElement.lang = currentLang === 'marathi' ? 'mr' : 'en';
+
+        // Cursor removed — using default browser cursor
+
+        function updateLanguage(lang) {
+            currentLang = lang; localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang === 'marathi' ? 'mr' : 'en';
+            const d = content[lang];
+            const ids = Object.keys(d);
+            ids.forEach(id => { const el = document.getElementById(id); if(el) el.textContent = d[id]; });
+            document.querySelectorAll('.nav-links a').forEach(a => { a.textContent = lang==='marathi' ? a.dataset.mr : a.dataset.en; });
+            document.getElementById('langToggle').textContent = lang==='marathi' ? 'EN' : 'मराठी';
+        }
+
+        function updateTheme(theme) {
+            currentTheme = theme; localStorage.setItem('theme', theme);
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('themeToggle').textContent = theme==='light' ? '🌙' : '☀️';
+        }
+
+        document.getElementById('langToggle').addEventListener('click', () => updateLanguage(currentLang==='marathi'?'english':'marathi'));
+        document.getElementById('themeToggle').addEventListener('click', () => updateTheme(currentTheme==='light'?'dark':'light'));
+
+        // Lenis
+        const lenis = new Lenis({ duration:1.2, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)), smooth:true });
+        function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Before/After Slider
+        document.querySelectorAll('.ba-slider').forEach(slider => {
+            const handle = slider.querySelector('.ba-handle');
+            const before = slider.querySelector('.ba-before');
+            let isDragging = false;
+
+            function setPosition(x) {
+                const rect = slider.getBoundingClientRect();
+                let pct = ((x - rect.left) / rect.width) * 100;
+                pct = Math.max(5, Math.min(95, pct));
+                handle.style.left = pct + '%';
+                before.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+            }
+
+            handle.addEventListener('mousedown', () => isDragging = true);
+            handle.addEventListener('touchstart', () => isDragging = true, {passive:true});
+            document.addEventListener('mouseup', () => isDragging = false);
+            document.addEventListener('touchend', () => isDragging = false);
+            document.addEventListener('mousemove', e => { if(isDragging) setPosition(e.clientX); });
+            document.addEventListener('touchmove', e => { if(isDragging) setPosition(e.touches[0].clientX); }, {passive:true});
+            slider.addEventListener('click', e => setPosition(e.clientX));
+        });
+
+        // GSAP
+        gsap.registerPlugin(ScrollTrigger);
+        window.addEventListener('load', () => {
+            updateLanguage(currentLang); updateTheme(currentTheme);
+
+            gsap.to('.hero', { opacity:1, y:0, duration:1.2, ease:'power3.out' });
+            gsap.utils.toArray('.fade-in').forEach((el,i) => {
+                gsap.to(el, { opacity:1, y:0, duration:0.8, ease:'power2.out',
+                    scrollTrigger:{ trigger:el, start:'top 85%' }
+                });
+            });
+
+            // Impact counters
+            document.querySelectorAll('.impact-number').forEach(num => {
+                const target = parseInt(num.dataset.target);
+                const prefix = num.dataset.prefix || '';
+                const suffix = num.dataset.suffix || '';
+                ScrollTrigger.create({
+                    trigger: num, start:'top 85%',
+                    onEnter: () => {
+                        gsap.to(num, {
+                            innerText: target, duration: target > 1000 ? 3 : 2, snap:{innerText:1}, ease:'power2.out',
+                            onUpdate(){ num.textContent = prefix + Math.ceil(parseFloat(num.innerText)).toLocaleString('en-IN') + suffix; }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="shared.js"></script>
+</body>
+</html>
