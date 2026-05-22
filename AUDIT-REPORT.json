@@ -1,0 +1,115 @@
+{
+  "timestamp": "2026-05-22T18:36:55.088322",
+  "file": "/home/pranav/ads4you-gov/index.html",
+  "overall_score": 96.8,
+  "agents": [
+    {
+      "agent": "lang",
+      "total_mr_tagged": 74,
+      "missing_en": 0,
+      "empty": 5,
+      "has_toggle_btn": true,
+      "has_toggle_logic": true,
+      "score": 85,
+      "findings": [
+        "line ~234: empty mr/en value",
+        "line ~273: empty mr/en value",
+        "line ~312: empty mr/en value",
+        "line ~356: empty mr/en value",
+        "line ~413: empty mr/en value"
+      ],
+      "_time_ms": 2
+    },
+    {
+      "agent": "blueprint",
+      "forbidden_hits": 0,
+      "missing_required": 0,
+      "score": 100,
+      "findings": [],
+      "_time_ms": 38
+    },
+    {
+      "agent": "a11y",
+      "headings": [
+        "h1",
+        "h2",
+        "h3",
+        "h3",
+        "h3",
+        "h3",
+        "h2",
+        "h3",
+        "h3",
+        "h3",
+        "h3",
+        "h2",
+        "h2",
+        "h2"
+      ],
+      "duplicate_ids": [],
+      "images_checked": 0,
+      "score": 100,
+      "findings": [],
+      "_time_ms": 5
+    },
+    {
+      "agent": "links",
+      "total_hrefs": 14,
+      "placeholder": 0,
+      "broken_anchors": 0,
+      "tel_links": 0,
+      "anchor_ids_found": [
+        "approach",
+        "capabilities",
+        "contact",
+        "context",
+        "hero-h1",
+        "langBtn",
+        "main",
+        "trust"
+      ],
+      "score": 100,
+      "findings": [],
+      "_time_ms": 3
+    },
+    {
+      "agent": "perf",
+      "size_kb": 44.5,
+      "external_requests": 5,
+      "cdn_scripts": 2,
+      "font_requests": 3,
+      "render_blocking": 0,
+      "inline_js_bytes": 3186,
+      "score": 100,
+      "findings": [
+        "INFO: 2 external JS/CSS: ['https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js', 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js']"
+      ],
+      "_time_ms": 6
+    },
+    {
+      "agent": "html",
+      "has_doctype": true,
+      "has_title": true,
+      "semantic_tags_found": [
+        "nav",
+        "main",
+        "section",
+        "footer",
+        "aside"
+      ],
+      "score": 96,
+      "findings": [
+        "INFO: no <article> element found",
+        "INFO: no <header> element found"
+      ],
+      "_time_ms": 2
+    }
+  ],
+  "fails": [],
+  "warns": [],
+  "infos": [
+    "[PERF] INFO: 2 external JS/CSS: ['https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js', 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js']",
+    "[HTML] INFO: no <article> element found",
+    "[HTML] INFO: no <header> element found"
+  ]
+}

@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1520">
+<meta name="description" content="Ads4you — Maharashtra departmental AI implementation. Pilot-first, Marathi-first, accountable.">
+<title data-lang-mr="Ads4you — विभागीय AI अंमलबजावणी" data-lang-en="Ads4you — Departmental AI Implementation">Ads4you — विभागीय AI अंमलबजावणी</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230b1520'/%3E%3Ctext x='16' y='23' font-family='serif' font-size='20' font-weight='700' text-anchor='middle' fill='%23b8922f'%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,300;9..144,0,400;9..144,0,500;9..144,1,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<style>
+:root{
+  --bg:#0b1520;
+  --bg1:#101e30;
+  --bg2:#142440;
+  --ink:#e8e0cc;
+  --ink2:#9a9080;
+  --ink3:#5a5446;
+  --gold:#b8922f;
+  --gold2:#8a6d1e;
+  --line:rgba(184,146,47,.15);
+  --line2:rgba(232,224,204,.07);
+  --max:1280px;
+  --f-display:'Fraunces',Georgia,serif;
+  --f-body:'DM Sans',system-ui,sans-serif;
+  --f-mono:'DM Mono','Courier New',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--gold);color:#0b1520}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+
+/* skip */
+.skip{position:absolute;left:-9999px;top:8px;background:var(--gold);color:#0b1520;padding:8px 16px;font-family:var(--f-body);font-size:13px;font-weight:500}
+.skip:focus{left:20px;z-index:999}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2);background:rgba(11,21,32,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.nav-brand{font-family:var(--f-display);font-size:17px;font-weight:400;letter-spacing:.02em;color:var(--ink);display:flex;align-items:center;gap:12px}
+.nav-brand::before{content:"A";width:26px;height:26px;background:var(--gold2);color:#0b1520;display:grid;place-items:center;font-weight:700;font-size:14px;flex-shrink:0}
+.nav-links{display:flex;gap:36px;list-style:none}
+.nav-links a{font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);font-weight:400;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.lang-toggle{background:none;border:1px solid var(--line);color:var(--ink2);padding:5px 14px;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;cursor:pointer;transition:all .2s}
+.lang-toggle:hover{border-color:var(--gold2);color:var(--gold)}
+@media(max-width:768px){nav{padding:0 20px}.nav-links{display:none}}
+
+/* HERO — asymmetric, left-aligned, NOT centered */
+.hero{min-height:100dvh;display:grid;grid-template-columns:1fr 340px;align-items:end;padding:0 40px 80px;padding-top:64px;position:relative;border-bottom:1px solid var(--line2)}
+.hero::before{content:"";position:absolute;top:64px;right:0;width:1px;height:calc(100% - 64px);background:var(--line2)}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:100px 20px 60px}.hero::before{display:none}}
+
+.hero-main{}
+.hero-overline{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:48px;display:flex;align-items:center;gap:16px}
+.hero-overline::before{content:"";width:32px;height:1px;background:var(--gold)}
+
+h1{font-family:var(--f-display);font-size:clamp(42px,6.5vw,88px);font-weight:300;line-height:1.05;letter-spacing:-.02em;color:var(--ink);max-width:820px}
+h1 em{font-style:italic;font-weight:300;color:var(--gold)}
+
+.hero-sub{margin-top:40px;max-width:540px;font-size:16px;color:var(--ink2);line-height:1.75;font-weight:300}
+.hero-cta{margin-top:48px;display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:#0b1520;padding:14px 28px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--f-body);font-weight:500;display:inline-flex;align-items:center;gap:12px;transition:background .2s}
+.btn-primary:hover{background:#d4a93a}
+.btn-ghost{border:1px solid var(--line);color:var(--ink2);padding:14px 28px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--f-body);font-weight:400;display:inline-flex;align-items:center;gap:12px;transition:all .2s}
+.btn-ghost:hover{border-color:var(--gold2);color:var(--ink)}
+
+/* hero sidebar */
+.hero-side{padding:0 0 0 48px;display:flex;flex-direction:column;justify-content:flex-end;gap:40px}
+@media(max-width:900px){.hero-side{padding:48px 0 0;flex-direction:row;flex-wrap:wrap;gap:24px}}
+.hero-stat{}
+.hero-stat-label{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.hero-stat-value{font-family:var(--f-display);font-size:15px;color:var(--ink2);font-weight:400;letter-spacing:.01em}
+.hero-stat-value strong{display:block;color:var(--ink);font-size:22px;font-weight:500;letter-spacing:-.01em}
+
+/* SECTION BASE */
+section{padding:100px 40px;border-bottom:1px solid var(--line2)}
+@media(max-width:768px){section{padding:64px 20px}}
+.section-inner{max-width:var(--max);margin:0 auto}
+
+.section-head{display:grid;grid-template-columns:180px 1fr;gap:40px;margin-bottom:72px;align-items:start}
+@media(max-width:768px){.section-head{grid-template-columns:1fr;gap:16px;margin-bottom:48px}}
+.section-num{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;color:var(--ink3);padding-top:8px}
+h2{font-family:var(--f-display);font-size:clamp(28px,3.5vw,46px);font-weight:300;line-height:1.15;letter-spacing:-.01em;color:var(--ink)}
+h2 em{font-style:italic;color:var(--gold)}
+.section-desc{font-size:15px;color:var(--ink2);line-height:1.8;max-width:600px;font-weight:300;margin-top:16px}
+
+/* PROBLEM — definition list style */
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line2)}
+@media(max-width:700px){.problem-grid{grid-template-columns:1fr}}
+.problem-item{padding:40px;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.problem-item:nth-child(2n){border-right:0}
+@media(max-width:700px){.problem-item{border-right:0}}
+.problem-item:nth-last-child(-n+2){border-bottom:0}
+@media(max-width:700px){.problem-item:last-child{border-bottom:0}.problem-item{border-bottom:1px solid var(--line2)}}
+.problem-num{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;color:var(--gold2);margin-bottom:20px}
+.problem-item h3{font-family:var(--f-display);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:12px;line-height:1.25}
+.problem-item p{font-size:14px;color:var(--ink2);line-height:1.75;font-weight:300}
+
+/* APPROACH — horizontal numbered steps */
+.approach-steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line2)}
+@media(max-width:900px){.approach-steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.approach-steps{grid-template-columns:1fr}}
+.step{padding:36px 32px;border-right:1px solid var(--line2);position:relative}
+.step:last-child{border-right:0}
+@media(max-width:900px){.step:nth-child(2){border-right:0}.step:nth-child(3){border-top:1px solid var(--line2)}.step:nth-child(4){border-right:0;border-top:1px solid var(--line2)}}
+.step-num{font-family:var(--f-mono);font-size:32px;font-weight:400;color:var(--line);margin-bottom:24px;letter-spacing:-.02em;line-height:1}
+.step h3{font-family:var(--f-display);font-size:18px;font-weight:400;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.step p{font-size:13.5px;color:var(--ink2);line-height:1.7;font-weight:300}
+
+/* CAPABILITIES — editorial list */
+.cap-table{width:100%;border-collapse:collapse}
+.cap-row{display:grid;grid-template-columns:56px 1fr 1.2fr;gap:0;border-top:1px solid var(--line2);padding:36px 0;align-items:start;transition:background .2s}
+.cap-row:hover{background:rgba(255,255,255,.015)}
+@media(max-width:700px){.cap-row{grid-template-columns:1fr;gap:8px;padding:24px 0}}
+.cap-row:last-child{border-bottom:1px solid var(--line2)}
+.cap-n{font-family:var(--f-mono);font-size:11px;color:var(--gold2);padding-top:5px;letter-spacing:.06em}
+.cap-title{font-family:var(--f-display);font-size:21px;font-weight:400;color:var(--ink);line-height:1.2;padding-right:32px}
+.cap-desc{font-size:14px;color:var(--ink2);line-height:1.8;font-weight:300}
+
+/* TRUST — two col */
+.trust-layout{display:grid;grid-template-columns:1fr 360px;gap:80px;align-items:start}
+@media(max-width:900px){.trust-layout{grid-template-columns:1fr;gap:48px}}
+
+.trust-points{display:flex;flex-direction:column;gap:0}
+.trust-point{display:grid;grid-template-columns:24px 1fr;gap:20px;padding:28px 0;border-bottom:1px solid var(--line2);align-items:start}
+.trust-point:first-child{border-top:1px solid var(--line2)}
+.trust-check{color:var(--gold);font-size:13px;padding-top:3px}
+.trust-point-body{}
+.trust-point-title{font-family:var(--f-display);font-size:17px;font-weight:400;color:var(--ink);margin-bottom:6px}
+.trust-point-desc{font-size:13.5px;color:var(--ink2);line-height:1.7;font-weight:300}
+
+/* Registration card */
+.reg-card{border:1px solid var(--line);padding:36px}
+.reg-card-label{font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:28px}
+.reg-table{width:100%;border-collapse:collapse}
+.reg-table tr{border-bottom:1px solid var(--line2)}
+.reg-table tr:last-child{border-bottom:0}
+.reg-table td{padding:12px 0;font-size:13px;vertical-align:top}
+.reg-table td:first-child{color:var(--ink3);font-weight:300;width:120px;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em}
+.reg-table td:last-child{color:var(--ink);font-weight:400}
+
+/* CONTACT */
+.contact-section{text-align:center}
+.contact-inner{max-width:640px;margin:0 auto}
+.contact-divider{width:1px;height:64px;background:var(--line);margin:0 auto 48px}
+.contact-email{display:inline-flex;align-items:center;gap:14px;padding:20px 36px;background:var(--gold);color:#0b1520;font-size:15px;font-family:var(--f-body);font-weight:500;letter-spacing:.02em;transition:background .2s;margin:32px 0}
+.contact-email:hover{background:#d4a93a}
+.contact-note{font-size:12px;color:var(--ink3);letter-spacing:.06em;font-family:var(--f-mono)}
+
+/* FOOTER */
+footer{padding:32px 40px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink3);font-family:var(--f-mono);letter-spacing:.06em;flex-wrap:wrap;gap:16px}
+@media(max-width:768px){footer{padding:32px 20px;flex-direction:column;align-items:flex-start;gap:8px}}
+
+/* REVEAL — pre-animation states */
+.reveal{opacity:0;transform:translateY(24px)}
+.reveal-left{opacity:0;transform:translateX(-20px)}
+.reveal-line{opacity:0}
+@media(prefers-reduced-motion:reduce){.reveal,.reveal-left,.reveal-line{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip" data-lang-mr="मुख्य मजकुरावर जा" data-lang-en="Skip to main">मुख्य मजकुरावर जा</a>
+
+<nav aria-label="Primary navigation">
+  <a href="#main" class="nav-brand">Ads4you</a>
+  <ul class="nav-links" role="list">
+    <li><a href="#context" data-lang-mr="संदर्भ" data-lang-en="Context">संदर्भ</a></li>
+    <li><a href="#approach" data-lang-mr="पद्धत" data-lang-en="Approach">पद्धत</a></li>
+    <li><a href="#capabilities" data-lang-mr="क्षमता" data-lang-en="Capabilities">क्षमता</a></li>
+    <li><a href="#trust" data-lang-mr="विश्वास" data-lang-en="Trust">विश्वास</a></li>
+    <li><a href="#contact" data-lang-mr="संपर्क" data-lang-en="Contact">संपर्क</a></li>
+  </ul>
+  <button class="lang-toggle" id="langBtn" aria-label="Switch to English">EN</button>
+</nav>
+
+<main id="main">
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="hero-main">
+    <p class="hero-overline reveal" data-lang-mr="महाराष्ट्र · विभागीय अंमलबजावणी" data-lang-en="Maharashtra · Departmental Implementation">महाराष्ट्र · विभागीय अंमलबजावणी</p>
+    <h1 id="hero-h1" class="reveal">
+      <span data-lang-mr="शासकीय कामकाजासाठी" data-lang-en="Built for government">शासकीय कामकाजासाठी</span><br>
+      <em data-lang-mr="AI सहाय्य —" data-lang-en="AI assistance —">AI सहाय्य —</em><br>
+      <span data-lang-mr="मराठीत, जबाबदारीने." data-lang-en="in Marathi, responsibly.">मराठीत, जबाबदारीने.</span>
+    </h1>
+    <p class="hero-sub reveal"
+       data-lang-mr="नागरिक तक्रार व्यवस्थापन, दस्तऐवज वहन, भाषिक सहाय्य व अधिकारी-सहाय्य कार्यप्रणाली यासाठी प्रायोगिक प्रकल्प. विभागाच्या कार्यप्रवाहात सहज बसणारी रचना — कर्मचारी-पर्यायी नव्हे."
+       data-lang-en="Pilot implementations for citizen grievance handling, document routing, language access, and officer-assist workflows. Designed to fit inside departmental processes — not replace staff.">
+      नागरिक तक्रार व्यवस्थापन, दस्तऐवज वहन, भाषिक सहाय्य व अधिकारी-सहाय्य कार्यप्रणाली यासाठी प्रायोगिक प्रकल्प. विभागाच्या कार्यप्रवाहात सहज बसणारी रचना — कर्मचारी-पर्यायी नव्हे.
+    </p>
+    <div class="hero-cta reveal">
+      <a href="mailto:ads4you@zohomail.in?subject=विभागीय%20बैठक%20विनंती" class="btn-primary"
+         data-lang-mr="बैठकीची विनंती ↗" data-lang-en="Request a meeting ↗">बैठकीची विनंती ↗</a>
+      <a href="#approach" class="btn-ghost"
+         data-lang-mr="पद्धत पाहा" data-lang-en="View approach">पद्धत पाहा</a>
+    </div>
+  </div>
+  <aside class="hero-side" aria-label="Key details">
+    <div class="hero-stat reveal">
+      <div class="hero-stat-label" data-lang-mr="नोंदणी" data-lang-en="Registration">नोंदणी</div>
+      <div class="hero-stat-value"><strong>UDYAM</strong>MH-26-1092780</div>
+    </div>
+    <div class="hero-stat reveal">
+      <div class="hero-stat-label" data-lang-mr="स्थान" data-lang-en="Location">स्थान</div>
+      <div class="hero-stat-value"><strong data-lang-mr="वाकड, पुणे" data-lang-en="Wakad, Pune">वाकड, पुणे</strong>महाराष्ट्र</div>
+    </div>
+    <div class="hero-stat reveal">
+      <div class="hero-stat-label" data-lang-mr="स्वरूप" data-lang-en="Model">स्वरूप</div>
+      <div class="hero-stat-value">
+        <strong data-lang-mr="प्रायोगिक प्रथम" data-lang-en="Pilot-first">प्रायोगिक प्रथम</strong>
+        <span data-lang-mr="मोजमाप · टप्प्याटप्प्याने" data-lang-en="Measured · Phased">मोजमाप · टप्प्याटप्प्याने</span>
+      </div>
+    </div>
+    <div class="hero-stat reveal">
+      <div class="hero-stat-label" data-lang-mr="संपर्क" data-lang-en="Contact">संपर्क</div>
+      <div class="hero-stat-value"><strong style="font-size:13px;letter-spacing:0">ads4you@zohomail.in</strong></div>
+    </div>
+  </aside>
+</section>
+
+<!-- ═══ PROBLEM ═══ -->
+<section id="context">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="section-num">01 ——</div>
+      <div>
+        <h2 data-lang-mr="विभागांसमोरील<br><em>कार्यप्रणाली अडचणी</em>" data-lang-en="Operational frictions<br><em>in departments</em>">विभागांसमोरील<br><em>कार्यप्रणाली अडचणी</em></h2>
+        <p class="section-desc"
+           data-lang-mr="संपूर्ण व्यवस्था बदलण्याची भाषा नाही — नेमक्या अडचणी ओळखून, मर्यादित प्रायोगिक टप्प्यात तंत्रज्ञान सहाय्य."
+           data-lang-en="Not about replacing entire systems — identifying specific frictions and offering technology as a supporting layer in a bounded pilot.">
+          संपूर्ण व्यवस्था बदलण्याची भाषा नाही — नेमक्या अडचणी ओळखून, मर्यादित प्रायोगिक टप्प्यात तंत्रज्ञान सहाय्य.
+        </p>
+      </div>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-item">
+        <div class="problem-num">01</div>
+        <h3 data-lang-mr="नागरिक चौकशी अनुशेष" data-lang-en="Citizen query backlog">नागरिक चौकशी अनुशेष</h3>
+        <p data-lang-mr="पुनरावृत्ती होणाऱ्या सामान्य प्रश्नांमुळे कर्मचाऱ्यांची वेळ वाया जाते; गंभीर प्रश्नांना उशीर होतो." data-lang-en="Repetitive routine queries consume staff time; critical issues face delay as a result.">पुनरावृत्ती होणाऱ्या सामान्य प्रश्नांमुळे कर्मचाऱ्यांची वेळ वाया जाते; गंभीर प्रश्नांना उशीर होतो.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">02</div>
+        <h3 data-lang-mr="नस्ती मार्गक्रमण पारदर्शकता" data-lang-en="File routing visibility">नस्ती मार्गक्रमण पारदर्शकता</h3>
+        <p data-lang-mr="नस्तीची सद्यस्थिती, मंजुरी टप्पे व विभागांतर्गत हस्तांतरण यांची माहिती मिळवणे कठीण असते." data-lang-en="Knowing the current status of files, approval stages, and internal handoffs is often difficult.">नस्तीची सद्यस्थिती, मंजुरी टप्पे व विभागांतर्गत हस्तांतरण यांची माहिती मिळवणे कठीण असते.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">03</div>
+        <h3 data-lang-mr="भाषिक प्रवेश मर्यादा" data-lang-en="Language access gap">भाषिक प्रवेश मर्यादा</h3>
+        <p data-lang-mr="बहुतांश नागरिक मराठीत सोयीस्कर असतात; इंग्रजी-केंद्रित प्रणाली सेवा प्रवेश संकुचित करते." data-lang-en="Most citizens are comfortable in Marathi; English-centric systems narrow effective service access.">बहुतांश नागरिक मराठीत सोयीस्कर असतात; इंग्रजी-केंद्रित प्रणाली सेवा प्रवेश संकुचित करते.</p>
+      </div>
+      <div class="problem-item">
+        <div class="problem-num">04</div>
+        <h3 data-lang-mr="अधिकारी-स्तरीय वेळ व्यवस्थापन" data-lang-en="Officer time on routine tasks">अधिकारी-स्तरीय वेळ व्यवस्थापन</h3>
+        <p data-lang-mr="GR शोधणे, सारांश तयार करणे व नित्य अहवालन यात अधिकाऱ्यांचा महत्त्वाचा वेळ जातो." data-lang-en="Locating GRs, preparing summaries, and routine reporting takes significant officer time.">GR शोधणे, सारांश तयार करणे व नित्य अहवालन यात अधिकाऱ्यांचा महत्त्वाचा वेळ जातो.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ APPROACH ═══ -->
+<section id="approach">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="section-num">02 ——</div>
+      <div>
+        <h2 data-lang-mr="सावध,<br><em>टप्प्याटप्प्याची पद्धत</em>" data-lang-en="Cautious,<br><em>phased approach</em>">सावध,<br><em>टप्प्याटप्प्याची पद्धत</em></h2>
+        <p class="section-desc"
+           data-lang-mr="मोठ्या प्रमाणात अंमलबजावणीआधी मर्यादित प्रायोगिक टप्पा. कोणत्याही टप्प्यावर थांबवण्याचा अधिकार विभागाकडे."
+           data-lang-en="A bounded pilot precedes any scaled rollout. The department retains the right to halt at any stage.">
+          मोठ्या प्रमाणात अंमलबजावणीआधी मर्यादित प्रायोगिक टप्पा. कोणत्याही टप्प्यावर थांबवण्याचा अधिकार विभागाकडे.
+        </p>
+      </div>
+    </div>
+    <div class="approach-steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3 data-lang-mr="गरज नोंदणी" data-lang-en="Requirement capture">गरज नोंदणी</h3>
+        <p data-lang-mr="विभागाशी थेट संवाद, सध्याचा कार्यप्रवाह समजून घेणे, वस्तुनिष्ठ कार्यक्षेत्र निश्चित करणे." data-lang-en="Direct discussion with the department, mapping existing workflow, defining concrete scope.">विभागाशी थेट संवाद, सध्याचा कार्यप्रवाह समजून घेणे, वस्तुनिष्ठ कार्यक्षेत्र निश्चित करणे.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3 data-lang-mr="प्रायोगिक अंमलबजावणी" data-lang-en="Pilot implementation">प्रायोगिक अंमलबजावणी</h3>
+        <p data-lang-mr="मर्यादित व्याप्तीत तैनाती; मोजता येण्याजोगे निकष आगाऊ निश्चित केलेले." data-lang-en="Deployment in limited scope; measurable criteria defined upfront.">मर्यादित व्याप्तीत तैनाती; मोजता येण्याजोगे निकष आगाऊ निश्चित केलेले.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3 data-lang-mr="आढावा व समायोजन" data-lang-en="Evaluate and adjust">आढावा व समायोजन</h3>
+        <p data-lang-mr="विभाग-स्तरीय पुनरावलोकन, अधिकाऱ्यांचा अभिप्राय व आवश्यक समायोजन." data-lang-en="Department-level evaluation, officer feedback, and necessary adjustments.">विभाग-स्तरीय पुनरावलोकन, अधिकाऱ्यांचा अभिप्राय व आवश्यक समायोजन.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <h3 data-lang-mr="टप्प्याटप्प्याने विस्तार" data-lang-en="Phased expansion">टप्प्याटप्प्याने विस्तार</h3>
+        <p data-lang-mr="निकष पूर्ण झाल्यासच पुढील टप्पा; अन्यथा विराम किंवा समाप्ती — विभागाच्या विवेकाधीन." data-lang-en="Next phase only on meeting criteria; otherwise pause or close-out — at the department's discretion.">निकष पूर्ण झाल्यासच पुढील टप्पा; अन्यथा विराम किंवा समाप्ती — विभागाच्या विवेकाधीन.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CAPABILITIES ═══ -->
+<section id="capabilities">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="section-num">03 ——</div>
+      <div>
+        <h2 data-lang-mr="अंमलबजावणी क्षेत्रे —<br><em>सहाय्यभूत स्वरूपात</em>" data-lang-en="Implementation areas —<br><em>as a support layer</em>">अंमलबजावणी क्षेत्रे —<br><em>सहाय्यभूत स्वरूपात</em></h2>
+        <p class="section-desc"
+           data-lang-mr="कर्मचाऱ्यांच्या जागी नव्हे — त्यांच्या कामास सहाय्यभूत. अधिकाऱ्यांचा अंतिम निर्णय अबाधित."
+           data-lang-en="Not in place of staff — in support of their work. Officer final authority remains intact.">
+          कर्मचाऱ्यांच्या जागी नव्हे — त्यांच्या कामास सहाय्यभूत. अधिकाऱ्यांचा अंतिम निर्णय अबाधित.
+        </p>
+      </div>
+    </div>
+    <div role="list">
+      <div class="cap-row reveal" role="listitem">
+        <div class="cap-n">01</div>
+        <div class="cap-title" data-lang-mr="नागरिक चौकशी सहाय्य" data-lang-en="Citizen query assistance">नागरिक चौकशी सहाय्य</div>
+        <div class="cap-desc" data-lang-mr="मराठीत प्रश्नोत्तरे, योजना माहिती, अर्ज मार्गदर्शन — विभागाने पुरविलेल्या अधिकृत मजकुरावर आधारित. बाहेरील डेटा नाही." data-lang-en="Marathi Q&A, scheme information, application guidance — based strictly on department-provided authoritative material. No external data.">मराठीत प्रश्नोत्तरे, योजना माहिती, अर्ज मार्गदर्शन — विभागाने पुरविलेल्या अधिकृत मजकुरावर आधारित. बाहेरील डेटा नाही.</div>
+      </div>
+      <div class="cap-row reveal" role="listitem">
+        <div class="cap-n">02</div>
+        <div class="cap-title" data-lang-mr="दस्तऐवज सारांश व शोध" data-lang-en="Document summary and search">दस्तऐवज सारांश व शोध</div>
+        <div class="cap-desc" data-lang-mr="GR, परिपत्रके, नस्तींमधून मराठी व इंग्रजी सारांश; संरचित शोध. अधिकाऱ्यांचा वेळ वाचवण्यासाठी — निर्णय नव्हे." data-lang-en="Marathi and English summaries from GRs, circulars, files; structured search. Saves officer time — not replacing decisions.">GR, परिपत्रके, नस्तींमधून मराठी व इंग्रजी सारांश; संरचित शोध. अधिकाऱ्यांचा वेळ वाचवण्यासाठी — निर्णय नव्हे.</div>
+      </div>
+      <div class="cap-row reveal" role="listitem">
+        <div class="cap-n">03</div>
+        <div class="cap-title" data-lang-mr="मराठी ध्वनी-आधारित सहाय्य" data-lang-en="Marathi voice assistance">मराठी ध्वनी-आधारित सहाय्य</div>
+        <div class="cap-desc" data-lang-mr="लेखन-आधारित संवाद कठीण असलेल्या नागरिकांसाठी मराठी ध्वनी-इंटरफेस. भाषिक अडथळा कमी करण्यासाठी." data-lang-en="Marathi voice interface for citizens for whom written interaction is difficult. Reduces language barriers to service access.">लेखन-आधारित संवाद कठीण असलेल्या नागरिकांसाठी मराठी ध्वनी-इंटरफेस. भाषिक अडथळा कमी करण्यासाठी.</div>
+      </div>
+      <div class="cap-row reveal" role="listitem">
+        <div class="cap-n">04</div>
+        <div class="cap-title" data-lang-mr="अधिकारी-सहाय्य कार्यप्रवाह" data-lang-en="Officer-assist workflows">अधिकारी-सहाय्य कार्यप्रवाह</div>
+        <div class="cap-desc" data-lang-mr="दैनंदिन अहवाल, सारांश-तयारी, संदर्भ-शोध — सहाय्यभूत; अधिकाऱ्यांची मंजुरी अंतिम. AI निर्णय घेत नाही." data-lang-en="Daily reports, summary preparation, reference lookup — supportive; officer approval is final. AI does not decide.">दैनंदिन अहवाल, सारांश-तयारी, संदर्भ-शोध — सहाय्यभूत; अधिकाऱ्यांची मंजुरी अंतिम. AI निर्णय घेत नाही.</div>
+      </div>
+      <div class="cap-row reveal" role="listitem">
+        <div class="cap-n">05</div>
+        <div class="cap-title" data-lang-mr="स्थानिक तैनातीचा पर्याय" data-lang-en="On-premise deployment option">स्थानिक तैनातीचा पर्याय</div>
+        <div class="cap-desc" data-lang-mr="संवेदनशील डेटासाठी विभागाच्याच पायाभूत सुविधेवर तैनाती शक्य. तृतीय-पक्ष क्लाउडवर अवलंबित्व शून्य." data-lang-en="Deployment on the department's own infrastructure for sensitive data. Zero dependency on third-party cloud.">संवेदनशील डेटासाठी विभागाच्याच पायाभूत सुविधेवर तैनाती शक्य. तृतीय-पक्ष क्लाउडवर अवलंबित्व शून्य.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST ═══ -->
+<section id="trust">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <div class="section-num">04 ——</div>
+      <div>
+        <h2 data-lang-mr="स्थानिक उपस्थिती,<br><em>उत्तरदायित्वपूर्ण अंमलबजावणी</em>" data-lang-en="Local presence,<br><em>accountable execution</em>">स्थानिक उपस्थिती,<br><em>उत्तरदायित्वपूर्ण अंमलबजावणी</em></h2>
+      </div>
+    </div>
+    <div class="trust-layout">
+      <div class="trust-points">
+        <div class="trust-point reveal">
+          <div class="trust-check" aria-hidden="true">✓</div>
+          <div class="trust-point-body">
+            <div class="trust-point-title" data-lang-mr="महाराष्ट्र-स्थानिक भागीदार" data-lang-en="Maharashtra-local partner">महाराष्ट्र-स्थानिक भागीदार</div>
+            <div class="trust-point-desc" data-lang-mr="वाकड, पुणे-स्थित; विभागांशी प्रत्यक्ष समन्वय शक्य. दूरस्थ विक्रेत्याची समस्या नाही." data-lang-en="Based in Wakad, Pune; direct in-person coordination with departments is possible. Not a distant vendor.">वाकड, पुणे-स्थित; विभागांशी प्रत्यक्ष समन्वय शक्य. दूरस्थ विक्रेत्याची समस्या नाही.</div>
+          </div>
+        </div>
+        <div class="trust-point reveal">
+          <div class="trust-check" aria-hidden="true">✓</div>
+          <div class="trust-point-body">
+            <div class="trust-point-title" data-lang-mr="मराठी-मूळ रचना" data-lang-en="Marathi-native by design">मराठी-मूळ रचना</div>
+            <div class="trust-point-desc" data-lang-mr="नंतर अनुवादित केलेले नाही — मूळ रचनेपासूनच मराठी. भाषिक गुणवत्ता अधिक विश्वासार्ह." data-lang-en="Not translated later — Marathi from the foundation. Language quality is more reliable as a result.">नंतर अनुवादित केलेले नाही — मूळ रचनेपासूनच मराठी. भाषिक गुणवत्ता अधिक विश्वासार्ह.</div>
+          </div>
+        </div>
+        <div class="trust-point reveal">
+          <div class="trust-check" aria-hidden="true">✓</div>
+          <div class="trust-point-body">
+            <div class="trust-point-title" data-lang-mr="मर्यादित प्रायोगिक टप्पा प्रथम" data-lang-en="Bounded pilot first">मर्यादित प्रायोगिक टप्पा प्रथम</div>
+            <div class="trust-point-desc" data-lang-mr="मोठा करार आगाऊ नाही. प्रायोगिक टप्पा, आढावा, त्यानंतरच पुढे — किंवा थांबा." data-lang-en="No large upfront contract. Pilot, assess, then forward — or stop. The department controls the pace.">मोठा करार आगाऊ नाही. प्रायोगिक टप्पा, आढावा, त्यानंतरच पुढे — किंवा थांबा.</div>
+          </div>
+        </div>
+        <div class="trust-point reveal">
+          <div class="trust-check" aria-hidden="true">✓</div>
+          <div class="trust-point-body">
+            <div class="trust-point-title" data-lang-mr="विक्रेता-निर्भरता मर्यादित" data-lang-en="Limited vendor lock-in">विक्रेता-निर्भरता मर्यादित</div>
+            <div class="trust-point-desc" data-lang-mr="मानक तंत्रज्ञान, हस्तांतरणीय दस्तऐवज. प्रकल्प संपल्यावर विभागाकडे नियंत्रण." data-lang-en="Standard technologies, transferable documentation. Control returns to the department at project close.">मानक तंत्रज्ञान, हस्तांतरणीय दस्तऐवज. प्रकल्प संपल्यावर विभागाकडे नियंत्रण.</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="reg-card reveal" aria-label="Registration details">
+        <div class="reg-card-label" data-lang-mr="नोंदणी तपशील" data-lang-en="Registration details">नोंदणी तपशील</div>
+        <table class="reg-table" aria-label="Company registration">
+          <tbody>
+            <tr><td data-lang-mr="आस्थापना" data-lang-en="Entity">आस्थापना</td><td>Ads4you</td></tr>
+            <tr><td data-lang-mr="संस्थापक" data-lang-en="Founder">संस्थापक</td><td>Prashant Ashokrao Handge</td></tr>
+            <tr><td>UDYAM</td><td>UDYAM-MH-26-1092780</td></tr>
+            <tr><td data-lang-mr="श्रेणी" data-lang-en="Category">श्रेणी</td><td>MSME — Micro</td></tr>
+            <tr><td data-lang-mr="स्थान" data-lang-en="Location">स्थान</td><td data-lang-mr="वाकड, पुणे, महाराष्ट्र" data-lang-en="Wakad, Pune, Maharashtra">वाकड, पुणे, महाराष्ट्र</td></tr>
+            <tr><td data-lang-mr="संपर्क" data-lang-en="Contact">संपर्क</td><td>ads4you@zohomail.in</td></tr>
+          </tbody>
+        </table>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="section-inner contact-section">
+    <div class="contact-inner">
+      <div class="section-num reveal" style="text-align:center;margin-bottom:24px">05 ——</div>
+      <h2 class="reveal" data-lang-mr="विभागीय बैठक वा<br><em>सादरीकरणासाठी विनंती</em>" data-lang-en="Request a departmental<br><em>meeting or presentation</em>">विभागीय बैठक वा<br><em>सादरीकरणासाठी विनंती</em></h2>
+      <p style="margin-top:24px;color:var(--ink2);font-size:15px;line-height:1.8;font-weight:300" class="reveal"
+         data-lang-mr="विभाग, संपर्क अधिकारी, संक्षिप्त संदर्भ व सोयीस्कर तारीख ईमेलमध्ये नमूद करा. प्रतिसाद कार्यालयीन दिवशी दिला जाईल."
+         data-lang-en="Include department, contact officer, brief context, and a convenient date. A response will be sent on a working day.">
+        विभाग, संपर्क अधिकारी, संक्षिप्त संदर्भ व सोयीस्कर तारीख ईमेलमध्ये नमूद करा. प्रतिसाद कार्यालयीन दिवशी दिला जाईल.
+      </p>
+      <div class="contact-divider reveal"></div>
+      <a href="mailto:ads4you@zohomail.in?subject=विभागीय%20बैठक%20विनंती%20—%20Ads4you" class="contact-email reveal">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        ads4you@zohomail.in
+      </a>
+      <p class="contact-note reveal"
+         data-lang-mr="अधिकृत संपर्क केवळ ईमेलद्वारे — इतर माध्यमांद्वारे प्रतिनिधित्व केले जात नाही"
+         data-lang-en="Official contact via email only — representation through other channels is not conducted">
+        अधिकृत संपर्क केवळ ईमेलद्वारे — इतर माध्यमांद्वारे प्रतिनिधित्व केले जात नाही
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span data-lang-mr="© 2026 Ads4you · वाकड, पुणे · UDYAM-MH-26-1092780" data-lang-en="© 2026 Ads4you · Wakad, Pune · UDYAM-MH-26-1092780">© 2026 Ads4you · वाकड, पुणे · UDYAM-MH-26-1092780</span>
+  <span data-lang-mr="क्षमता-सादरीकरण · अधिकृत प्रस्ताव बैठकीत सादर" data-lang-en="Capability presentation · Formal proposals in meeting">क्षमता-सादरीकरण · अधिकृत प्रस्ताव बैठकीत सादर</span>
+</footer>
+
+<script>
+(function(){
+  /* ── Lang toggle ── */
+  var html = document.documentElement;
+  var btn  = document.getElementById('langBtn');
+  function setLang(l){
+    html.setAttribute('lang', l);
+    document.querySelectorAll('[data-lang-mr]').forEach(function(el){
+      var v = el.getAttribute('data-lang-' + l);
+      if(v == null) return;
+      if(el.tagName === 'H2' || el.tagName === 'H1'){
+        el.innerHTML = v;
+      } else {
+        el.textContent = v;
+      }
+    });
+    btn.textContent = l === 'mr' ? 'EN' : 'मर';
+    btn.setAttribute('aria-label', l === 'mr' ? 'Switch to English' : 'मराठीत बदला');
+    try{ localStorage.setItem('a4y_lang', l); }catch(e){}
+  }
+  var saved; try{ saved = localStorage.getItem('a4y_lang'); }catch(e){}
+  if(saved === 'en') setLang('en');
+  btn.addEventListener('click', function(){ setLang(html.getAttribute('lang') === 'mr' ? 'en' : 'mr'); });
+
+  /* ── GSAP scroll reveals ── */
+  function initGSAP(){
+    if(typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // hero stagger
+    gsap.fromTo('.hero-main .reveal',
+      {opacity:0, y:28},
+      {opacity:1, y:0, duration:1, ease:'power3.out', stagger:.12, delay:.1}
+    );
+    gsap.fromTo('.hero-side .reveal',
+      {opacity:0, x:20},
+      {opacity:1, x:0, duration:.9, ease:'power2.out', stagger:.1, delay:.4}
+    );
+
+    // scroll reveals — batch
+    ScrollTrigger.batch('.section-head.reveal, .section-inner .reveal', {
+      onEnter: function(els){
+        gsap.fromTo(els,
+          {opacity:0, y:22},
+          {opacity:1, y:0, duration:.75, ease:'power2.out', stagger:.08}
+        );
+      },
+      start: 'top 88%',
+      once: true,
+    });
+
+    // capability rows — left slide
+    document.querySelectorAll('.cap-row.reveal').forEach(function(el, i){
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 90%',
+        once: true,
+        onEnter: function(){
+          gsap.fromTo(el, {opacity:0, x:-16}, {opacity:1, x:0, duration:.6, ease:'power2.out', delay: i * .05});
+        }
+      });
+    });
+  }
+
+  /* wait for GSAP defer load */
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+      setTimeout(initGSAP, 50);
+    });
+  } else {
+    setTimeout(initGSAP, 50);
+  }
+
+  /* fallback if GSAP never loads */
+  window.addEventListener('load', function(){
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-line').forEach(function(el){
+      if(getComputedStyle(el).opacity < .5) el.style.opacity = '1';
+    });
+  });
+
+  /* IntersectionObserver fallback for no-GSAP */
+  if(!window.gsap && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.style.opacity='1';
+          e.target.style.transform='none';
+          e.target.style.transition='opacity .7s ease, transform .7s ease';
+          io.unobserve(e.target);
+        }
+      });
+    }, {threshold:.1, rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal,.reveal-left,.reveal-line').forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
